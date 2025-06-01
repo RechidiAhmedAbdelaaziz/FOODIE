@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../flavors.dart';
+import '../core/flavors/flavors.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});

@@ -37,6 +37,7 @@ dependencies:
     webview_flutter: ^4.13.0
     flutter_native_splash: ^2.4.6
     rename_app: ^1.6.3
+    go_router: ^15.1.2
 
 dev_dependencies:
     flutter_test:
