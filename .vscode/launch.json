@@ -1,0 +1,26 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "CLIENT",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "client"]
+		},
+		{
+			"name": "OWNER",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "owner"]
+		},
+		{
+			"name": "SERVER",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "server"]
+		}
+	]
+}

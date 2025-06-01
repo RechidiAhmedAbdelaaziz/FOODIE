@@ -2,6 +2,7 @@ flavors:
     client:
         app:
             name: "FOODIE"
+            icon: "assets/logo/logo.png"
 
         android:
             applicationId: "top.foodie.client"
@@ -9,7 +10,7 @@ flavors:
     owner:
         app:
             name: "FOODIE OWNER"
-            icon 
+            icon: "assets/logo/logo-owner.png"
 
         android:
             applicationId: "top.foodie.owner"
@@ -17,6 +18,7 @@ flavors:
     server:
         app:
             name: "FOODIE SERVER"
+            icon: "assets/logo/logo-server.png"
 
         android:
             applicationId: "top.foodie.server"
