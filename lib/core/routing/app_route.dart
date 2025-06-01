@@ -1,13 +1,17 @@
-class AppNavigator {
+import 'package:go_router/go_router.dart';
+
+abstract class AppRoute<TParams> {
   final String _path;
   final Map<String, String> pathParams;
   final Map<String, String> queryParams;
 
-  AppNavigator(
+  const AppRoute(
     String path, {
     this.pathParams = const {},
     this.queryParams = const {},
   }) : _path = path;
+
+  GoRoute get route;
 
   String get path =>
       _path.replaceAllMapped(
