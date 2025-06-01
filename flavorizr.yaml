@@ -1,0 +1,22 @@
+flavors:
+    client:
+        app:
+            name: "FOODIE"
+
+        android:
+            applicationId: "top.foodie.client"
+
+    owner:
+        app:
+            name: "FOODIE OWNER"
+            icon 
+
+        android:
+            applicationId: "top.foodie.owner"
+
+    server:
+        app:
+            name: "FOODIE SERVER"
+
+        android:
+            applicationId: "top.foodie.server"
