@@ -1,8 +1,4 @@
-enum Flavor {
-  client,
-  owner,
-  server,
-}
+enum Flavor { client, owner, server }
 
 class F {
   static late final Flavor appFlavor;
@@ -19,5 +15,4 @@ class F {
         return 'FOODIE SERVER';
     }
   }
-
 }

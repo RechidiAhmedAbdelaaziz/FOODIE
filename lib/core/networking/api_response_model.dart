@@ -1,3 +1,4 @@
+import 'package:app/core/shared/models/pagination_result.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'api_response_model.g.dart';
@@ -6,12 +7,12 @@ abstract class ApiResponseModel {
   final bool? success;
   final int? statusCode;
 
-  ApiResponseModel({this.success, this.statusCode});
+  const ApiResponseModel({this.success, this.statusCode});
 }
 
 @JsonSerializable(createToJson: false)
 class VoidApiResponse extends ApiResponseModel {
-  VoidApiResponse({super.success, super.statusCode});
+  const VoidApiResponse({super.success, super.statusCode});
 
   factory VoidApiResponse.fromJson(Map<String, dynamic> json) =>
       _$VoidApiResponseFromJson(json);
@@ -21,7 +22,7 @@ class VoidApiResponse extends ApiResponseModel {
 class DataApiResponse extends ApiResponseModel {
   final Map<String, dynamic> data;
 
-  DataApiResponse({
+  const DataApiResponse({
     required this.data,
     super.success,
     super.statusCode,
@@ -34,9 +35,11 @@ class DataApiResponse extends ApiResponseModel {
 @JsonSerializable(createToJson: false)
 class MultiDataApiResponse extends ApiResponseModel {
   final List<Map<String, dynamic>> data;
+  final PaginationModel? pagination;
 
-  MultiDataApiResponse({
+  const MultiDataApiResponse({
     required this.data,
+    this.pagination,
     super.success,
     super.statusCode,
   });
@@ -50,7 +53,7 @@ class MultiDataApiResponse extends ApiResponseModel {
 class ErrorApiResponse extends ApiResponseModel {
   final String message;
 
-  ErrorApiResponse({
+  const ErrorApiResponse({
     this.message = 'Oops! Something went wrong',
     super.success,
     super.statusCode,
