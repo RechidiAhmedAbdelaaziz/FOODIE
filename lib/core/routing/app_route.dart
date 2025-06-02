@@ -22,7 +22,7 @@ abstract class AppRoute<TParams> {
             : '');
   }
 
-  Map<String, String> toPathParams(TParams params);
+  Map<String, String> toPathParams(TParams params) => {};
 
-  Map<String, String> toQueryParams(TParams params);
+  Map<String, String> toQueryParams(TParams params) => {};
 }
