@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-mixin FormDto {
+mixin FormDTO {
   final formKey = GlobalKey<FormState>();
 
   bool get isValid => formKey.currentState?.validate() ?? false;

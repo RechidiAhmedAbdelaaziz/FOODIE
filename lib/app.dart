@@ -60,7 +60,7 @@ class _MaterialApp extends StatelessWidget {
             locale.languageCode,
           );
         }
-        
+
         // If the current device locale is not supported, use the first one
         locator<LocalizationCubit>().changeLanguage(
           supportedLocales.first.languageCode,

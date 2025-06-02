@@ -3,7 +3,7 @@ import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:app/core/shared/editioncontollers/number_editingcontroller.dart';
 import 'package:flutter/material.dart';
 
-class PaginationDto with FormDto {
+class PaginationDto with FormDTO {
   final IntEditingcontroller pageController;
   final IntEditingcontroller limitController;
   final TextEditingController keywordController;

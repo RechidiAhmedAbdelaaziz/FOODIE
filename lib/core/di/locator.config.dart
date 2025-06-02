@@ -18,6 +18,10 @@ import 'package:app/core/services/cloudstorage/cloud_storage.service.dart'
     as _i489;
 import 'package:app/core/services/cloudstorage/cloudinary.service.dart' as _i87;
 import 'package:app/core/services/filepicker/file_picker_service.dart' as _i133;
+import 'package:app/features/auth/data/repository/auth_repository.dart'
+    as _i719;
+import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
+import 'package:app/features/auth/data/source/auth_cache.dart' as _i1035;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -46,14 +50,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i935.FlavorConfig>(
       () => flavorConfigs.provideFlavorConfig(),
     );
+    gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
     gh.lazySingleton<_i489.PdfCloudStorageService>(
       () => _i87.PdfCloudinaryService(),
     );
+    gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
+    );
+    gh.lazySingleton<_i1035.AuthCache>(
+      () => _i1035.AuthCache(gh<_i962.CacheService>()),
     );
     return this;
   }
