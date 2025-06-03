@@ -12,10 +12,15 @@ abstract class AuthApi {
   factory AuthApi(Dio dio) = _AuthApi;
 
   @POST('/auth/login')
-  Future<DataApiResponse> login(@Body() Map<String, dynamic> body);
+  Future<VoidApiResponse> login(@Body() Map<String, dynamic> body);
 
   @GET('/auth/refresh-token')
   Future<DataApiResponse> refreshToken({
     @Query('refresh_token') required String refreshToken,
+  });
+
+  @POST('/auth/verify-code')
+  Future<DataApiResponse> verifyCode({
+    @Body() required Map<String, dynamic> body,
   });
 }

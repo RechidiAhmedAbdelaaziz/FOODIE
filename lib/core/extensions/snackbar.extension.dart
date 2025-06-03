@@ -21,7 +21,6 @@ extension SnackbarExtension on BuildContext {
             Expanded(
               child: Text(
                 message,
-                overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: textColor),
               ),
             ),

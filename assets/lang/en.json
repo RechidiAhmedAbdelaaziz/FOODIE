@@ -9,5 +9,8 @@
     "Phone number must be 11 digits": "Phone number must be 11 digits",
     "With Email": "With Email",
     "With Phone": "With Phone",
-    "Continue": "Continue"
+    "Continue": "Continue",
+    "Verification Code": "Verification Code",
+    "Enter the code sent to": "Enter the code sent to",
+    "Code is required": "Code is required"
 }

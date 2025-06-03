@@ -2,7 +2,6 @@ import 'package:app/core/di/locator.dart';
 import 'package:app/core/shared/types/cubit_error_state.dart';
 import 'package:app/features/auth/data/dto/login_dto.dart';
 import 'package:app/features/auth/data/repository/auth_repository.dart';
-import 'package:app/features/auth/logic/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,10 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
     final result = await _authRepo.login(dto);
 
     result.when(
-      success: (tokens) async {
-        await locator<AuthCubit>().authenticate(tokens);
-        emit(state._success());
-      },
+      success: (_) => emit(state._success()),
       error: (error) => emit(state._failure(error.message)),
     );
   }

@@ -17,6 +17,10 @@ class LoginDTO with FormDTO {
     phoneController.dispose();
   }
 
+  String get login => loginWithEmailController.value
+      ? emailController.text
+      : phoneController.text;
+
   @override
   Map<String, dynamic> toMap() {
     return {

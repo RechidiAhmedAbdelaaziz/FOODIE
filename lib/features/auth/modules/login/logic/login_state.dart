@@ -40,9 +40,9 @@ class LoginState with CubitErrorHandling {
     return _copyWith(error: error, status: _LoginStatus.failure);
   }
 
-  void onSuccess(VoidCallback callback) {
+  void onSuccess(ValueChanged<String> callback) {
     if (_status == _LoginStatus.success) {
-      callback();
+      callback(_dto.login);
     }
   }
 }
