@@ -12,7 +12,7 @@ abstract class AppThemes {
 
     //theme of status bar
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.black,
+      // backgroundColor: AppColors.black,
       color: AppColors.black,
       elevation: 0,
     ),

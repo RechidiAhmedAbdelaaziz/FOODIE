@@ -24,6 +24,8 @@ import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
 import 'package:app/features/auth/data/source/auth_cache.dart' as _i1035;
 import 'package:app/features/auth/logic/auth_cubit.dart' as _i571;
 import 'package:app/features/auth/modules/login/ui/login_route.dart' as _i1000;
+import 'package:app/features/auth/modules/verifycode/ui/verify_code_route.dart'
+    as _i1055;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -41,6 +43,9 @@ extension GetItInjectableX on _i174.GetIt {
     final filePickersModule = _$FilePickersModule();
     final dioModule = _$DioModule();
     final flavorConfigs = _$FlavorConfigs();
+    gh.lazySingleton<_i1055.VerifyCodeRoute>(() => _i1055.VerifyCodeRoute());
+    gh.lazySingleton<_i1000.LoginRoute>(() => _i1000.LoginRoute());
+    gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
     gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
     gh.lazySingleton<_i962.CacheService>(() => _i962.CacheService());
     gh.lazySingleton<_i183.ImagePicker>(() => filePickersModule.imagePicker);
@@ -52,8 +57,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i935.FlavorConfig>(
       () => flavorConfigs.provideFlavorConfig(),
     );
-    gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
-    gh.lazySingleton<_i1000.LoginRoute>(() => _i1000.LoginRoute());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
