@@ -1,6 +1,6 @@
 import 'package:app/core/localization/localization_cubit.dart';
 import 'package:app/core/routing/routers/router.dart';
-import 'package:app/core/themes/colors.dart';
+import 'package:app/core/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/locator.dart';
 import 'core/localization/app_localization.dart';
-import 'gen/fonts.gen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -38,10 +37,7 @@ class _MaterialApp extends StatelessWidget {
 
     return MaterialApp.router(
       routerConfig: router.router,
-      theme: ThemeData(
-        fontFamily: FontFamily.poppins,
-        scaffoldBackgroundColor: AppColors.black,
-      ),
+      theme: AppThemes.theme,
       supportedLocales: [
         Locale('en'), // English
         Locale('fr'), // French
