@@ -4,8 +4,7 @@ class OwnerRouter extends AppRouter {
   @override
   String get initialRoute => '/';
 
-  @override
-  List<RouteBase> get routes => [];
+  OwnerRouter() : super([AppRoutes.login]);
 
   @override
   FutureOr<String?> handelRedirect(

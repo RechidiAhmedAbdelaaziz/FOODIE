@@ -4,8 +4,7 @@ class ServerRouter extends AppRouter {
   @override
   String get initialRoute => '/';
 
-  @override
-  List<RouteBase> get routes => [];
+  ServerRouter() : super([AppRoutes.login]);
 
   @override
   FutureOr<String?> handelRedirect(
