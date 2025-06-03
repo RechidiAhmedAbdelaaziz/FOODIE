@@ -16,6 +16,9 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._authRepo, this._authCache)
     : super(AuthState.initial());
 
+  bool get isAuthenticated =>
+      state.status == _AuthStatus.authenticated;
+
   Future<void> authenticate(AuthTokens tokens) async {
     await _authCache.saveTokens(tokens);
     emit(state._authenticated());

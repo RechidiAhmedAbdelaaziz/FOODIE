@@ -9,9 +9,6 @@ import 'core/flavors/flavors.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //Run the app in a specific flavor
-  locator<FlavorConfig>();
-
   // Set the preferred orientations
   F.appFlavor = Flavor.values.firstWhere(
     (element) => element.name == appFlavor,
@@ -19,6 +16,9 @@ void main() async {
 
   // Initialize the dependency injection locator
   await setupLocator();
+
+  //Run the app in a specific flavor
+  locator<FlavorConfig>();
 
   runApp(const App());
 }

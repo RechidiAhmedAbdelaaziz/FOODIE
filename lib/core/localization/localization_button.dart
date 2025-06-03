@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import 'localization_cubit.dart';
 
 class LocalizationButton extends StatelessWidget {
@@ -71,7 +70,7 @@ class LocalizationButton extends StatelessWidget {
           vertical: 6.h,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          color: isSelected ? AppColors.green : Colors.transparent,
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Text(

@@ -15,6 +15,8 @@ class LoginCubit extends Cubit<LoginState> {
   LoginDTO get dto => state._dto;
 
   void login() async {
+    if (state.isLoading || !dto.isValid) return;
+
     emit(state._loading());
 
     final result = await _authRepo.login(dto);

@@ -1,5 +1,6 @@
 import 'package:app/core/localization/localization_cubit.dart';
 import 'package:app/core/routing/routers/router.dart';
+import 'package:app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +16,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1440, 1024),
+      designSize: const Size(390, 844),
       builder: (_, __) {
         return BlocProvider(
           create: (context) => locator<LocalizationCubit>(),
@@ -37,7 +38,10 @@ class _MaterialApp extends StatelessWidget {
 
     return MaterialApp.router(
       routerConfig: router.router,
-      theme: ThemeData(fontFamily: FontFamily.poppins),
+      theme: ThemeData(
+        fontFamily: FontFamily.poppins,
+        scaffoldBackgroundColor: AppColors.black,
+      ),
       supportedLocales: [
         Locale('en'), // English
         Locale('fr'), // French

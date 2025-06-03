@@ -37,7 +37,7 @@ class FormFieldLabel extends StatelessWidget {
     this.isRequired = false,
     TextStyle? style,
     this.onAdd,
-  }) : style = style ?? AppTextStyles.large;
+  }) : style = style ?? AppTextStyles.medium;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class FormFieldLabel extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: label,
-              style: style,
+              style: style.copyWith(color: AppColors.white),
               children: [
                 if (isRequired)
                   TextSpan(

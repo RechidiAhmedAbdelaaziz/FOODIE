@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/app_routes.dart';
+import 'package:app/features/auth/logic/auth_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

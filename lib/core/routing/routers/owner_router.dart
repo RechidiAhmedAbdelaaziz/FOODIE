@@ -11,8 +11,10 @@ class OwnerRouter extends AppRouter {
     BuildContext context,
     GoRouterState state,
   ) {
-    // Implement any owner-side redirection logic here
-    // For example, redirect to setup profile if not completed
-    return null; // No redirection by default
+    if (!locator<AuthCubit>().isAuthenticated) {
+      return AppRoutes.login.getPath();
+    } else {
+      return null;
+    }
   }
 }

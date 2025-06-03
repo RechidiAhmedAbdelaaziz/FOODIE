@@ -22,6 +22,8 @@ import 'package:app/features/auth/data/repository/auth_repository.dart'
     as _i719;
 import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
 import 'package:app/features/auth/data/source/auth_cache.dart' as _i1035;
+import 'package:app/features/auth/logic/auth_cubit.dart' as _i571;
+import 'package:app/features/auth/modules/login/ui/login_route.dart' as _i1000;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -51,6 +53,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => flavorConfigs.provideFlavorConfig(),
     );
     gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
+    gh.lazySingleton<_i1000.LoginRoute>(() => _i1000.LoginRoute());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -63,6 +66,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1035.AuthCache>(
       () => _i1035.AuthCache(gh<_i962.CacheService>()),
+    );
+    gh.lazySingleton<_i571.AuthCubit>(
+      () => _i571.AuthCubit(gh<_i719.AuthRepo>(), gh<_i1035.AuthCache>()),
     );
     return this;
   }
