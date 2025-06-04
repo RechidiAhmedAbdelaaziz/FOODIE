@@ -33,6 +33,7 @@ class UpdateStaffForm extends StatelessWidget {
             final dto = context.read<UpdateStaffFormCubit>().dto;
 
             return StaffFormView(
+              formKey: dto.formKey,
               nameController: dto.nameController,
               loginController: dto.loginController,
               onSave: context.read<UpdateStaffFormCubit>().save,

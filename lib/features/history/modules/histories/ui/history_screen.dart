@@ -1,5 +1,6 @@
 import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/router/router.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
@@ -37,13 +38,13 @@ class HistoryScreen extends StatelessWidget {
             icon: const Icon(Symbols.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: const Text('History'),
+          title: Text('History'.tr(context)),
         ),
         body: PaginationBuilder(
           items: (ctx) =>
               ctx.select((HistoryCubit cubit) => cubit.histories),
 
-          itemBuilder: (ctx, item) => _buildHistoryCard(item),
+          itemBuilder: _buildHistoryCard,
 
           isLoading: (ctx) => ctx.select(
             (HistoryCubit cubit) => cubit.state.isLoading,
@@ -61,7 +62,7 @@ class HistoryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHistoryCard(HistoryModel item) {
+  Widget _buildHistoryCard(BuildContext context, HistoryModel item) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
       margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.w),
@@ -94,7 +95,7 @@ class HistoryScreen extends StatelessWidget {
           ),
           widthSpace(2),
           Text(
-            ' DZD',
+            'DZD'.tr(context),
             style: AppTextStyles.small.copyWith(
               color: AppColors.white,
             ),

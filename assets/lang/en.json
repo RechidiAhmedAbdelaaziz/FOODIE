@@ -12,5 +12,19 @@
     "Continue": "Continue",
     "Verification Code": "Verification Code",
     "Enter the code sent to": "Enter the code sent to",
-    "Code is required": "Code is required"
+    "No items found": "No items found",
+    "No history found": "No history found",
+    "History": "History",
+    "DZD": "DZD",
+    "Today Income": "Today Income",
+    "Code is required": "Code is required",
+    "Name": "Name",
+    "Enter staff name": "Enter staff name",
+    "Name is required": "Name is required",
+    "Contact": "Contact",
+    "Enter staff Email or Phone": "Enter staff Email or Phone",
+    "Contact is required": "Contact is required",
+    "Enter a valid email or phone number": "Enter a valid email or phone number",
+    "Cancel": "Cancel",
+    "Save": "Save"
 }

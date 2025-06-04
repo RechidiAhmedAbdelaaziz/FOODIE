@@ -1,3 +1,4 @@
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,8 @@ class PaginationBuilder<T> extends StatefulWidget {
   });
 
   @override
-  State<PaginationBuilder<T>> createState() => _PaginationBuilderState<T>();
+  State<PaginationBuilder<T>> createState() =>
+      _PaginationBuilderState<T>();
 }
 
 class _PaginationBuilderState<T> extends State<PaginationBuilder<T>> {
@@ -42,8 +44,10 @@ class _PaginationBuilderState<T> extends State<PaginationBuilder<T>> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
-      if (widget.onLoadMore != null && !(widget.isLoading?.call(context) ?? false)) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 100) {
+      if (widget.onLoadMore != null &&
+          !(widget.isLoading?.call(context) ?? false)) {
         widget.onLoadMore!();
       }
     }
@@ -71,7 +75,11 @@ class _PaginationBuilderState<T> extends State<PaginationBuilder<T>> {
     }
 
     if (itemList.isEmpty) {
-      return Center(child: Text(widget.emptyText ?? 'No items found.'));
+      return Center(
+        child: Text(
+          widget.emptyText?.tr(context) ?? 'No items found'.tr(context),
+        ),
+      );
     }
 
     Widget listView = ListView.builder(
@@ -79,7 +87,8 @@ class _PaginationBuilderState<T> extends State<PaginationBuilder<T>> {
       shrinkWrap: widget.shrinkWrap,
       scrollDirection: widget.scrollDirection,
       itemCount: itemList.length,
-      itemBuilder: (context, index) => widget.itemBuilder(context, itemList[index]),
+      itemBuilder: (context, index) =>
+          widget.itemBuilder(context, itemList[index]),
     );
 
     if (widget.onRefresh != null) {

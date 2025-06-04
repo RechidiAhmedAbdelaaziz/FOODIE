@@ -1,4 +1,5 @@
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
@@ -45,7 +46,7 @@ class _TodayHistoryState extends State<TodayHistory> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Today Income',
+            'Today Income'.tr(context),
             style: AppTextStyles.medium.copyWith(
               color: AppColors.white,
             ),
@@ -72,7 +73,7 @@ class _TodayHistoryState extends State<TodayHistory> {
                     ),
                     widthSpace(4),
                     Text(
-                      'DZD',
+                      'DZD'.tr(context),
                       style: AppTextStyles.normal.copyWith(
                         color: AppColors.greenLight,
                       ),

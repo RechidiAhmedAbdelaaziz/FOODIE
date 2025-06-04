@@ -15,12 +15,15 @@ class StaffFormView extends StatelessWidget {
 
   final bool isLoading;
 
+  final GlobalKey<FormState> formKey;
+
   const StaffFormView({
     super.key,
     required this.nameController,
     required this.loginController,
     required this.onSave,
     required this.isLoading,
+    required this.formKey,
   });
 
   @override
@@ -37,66 +40,69 @@ class StaffFormView extends StatelessWidget {
               height: 4.h,
               child: LinearProgressIndicator(color: AppColors.green),
             )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Symbols.person_apron_rounded),
-                heightSpace(16),
+          : Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Symbols.person_apron_rounded),
+                  heightSpace(16),
 
-                AppTextField(
-                  controller: nameController,
-                  label: 'Name',
-                  hintText: 'Enter staff name',
-                  prefixIcon: Symbols.person,
-                  keyboardType: TextInputType.name,
-                  isRequired: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Name is required';
-                    }
-                    return null;
-                  },
-                ),
-                heightSpace(12),
+                  AppTextField(
+                    controller: nameController,
+                    label: 'Name',
+                    hintText: 'Enter staff name',
+                    prefixIcon: Symbols.person,
+                    keyboardType: TextInputType.name,
+                    isRequired: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Name is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  heightSpace(12),
 
-                AppTextField(
-                  controller: loginController,
-                  label: 'Contact',
-                  hintText: 'Enter staff Email or Phone',
-                  prefixIcon: Symbols.login,
-                  keyboardType: TextInputType.text,
-                  isRequired: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Contact is required';
-                    }
-                    if (!RegExp(
-                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                        ).hasMatch(value) &&
-                        !RegExp(r'^\d{10}$').hasMatch(value)) {
-                      return 'Enter a valid email or phone number';
-                    }
-                    return null;
-                  },
-                ),
+                  AppTextField(
+                    controller: loginController,
+                    label: 'Contact',
+                    hintText: 'Enter staff Email or Phone',
+                    prefixIcon: Symbols.login,
+                    keyboardType: TextInputType.text,
+                    isRequired: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Contact is required';
+                      }
+                      if (!RegExp(
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          ).hasMatch(value) &&
+                          !RegExp(r'^\d{10}$').hasMatch(value)) {
+                        return 'Enter a valid email or phone number';
+                      }
+                      return null;
+                    },
+                  ),
 
-                heightSpace(16),
+                  heightSpace(16),
 
-                Row(
-                  spacing: 16.w,
-                  children: [
-                    AppButton.secondary(
-                      text: 'Cancel',
-                      onPressed: () => context.back(),
-                    ),
+                  Row(
+                    spacing: 16.w,
+                    children: [
+                      AppButton.secondary(
+                        text: 'Cancel',
+                        onPressed: () => context.back(),
+                      ),
 
-                    AppButton.primary(
-                      text: 'Save',
-                      onPressed: onSave,
-                    ),
-                  ],
-                ),
-              ],
+                      AppButton.primary(
+                        text: 'Save',
+                        onPressed: onSave,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
     );
   }
