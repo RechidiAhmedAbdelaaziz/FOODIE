@@ -6,7 +6,6 @@ import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/staff/data/model/staff_model.dart';
-
 import 'package:app/features/staff/modules/staffs/logic/staffs_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,58 +17,68 @@ class SelectableStaffls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      height: 600.h,
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        spacing: 16.h,
-        children: [
-          Text(
-            'Select Staffs',
-            style: AppTextStyles.large.copyWith(
-              color: AppColors.white,
+    return BlocProvider(
+      create: (context) => StaffsCubit()..fetchStaffs(),
+      child: Builder(
+        builder: (context) {
+          return Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 8.h,
             ),
-          ),
-
-          Expanded(
-            child: PaginationBuilder(
-              items: (ctx) => ctx.select(
-                (StaffsCubit cubit) => cubit.state.staffs,
-              ),
-              itemBuilder: _buildStaffCard,
-
-              isLoading: (ctx) => ctx.select(
-                (StaffsCubit cubit) => cubit.state.isLoading,
-              ),
-
-              onLoadMore: () =>
-                  context.read<StaffsCubit>().fetchStaffs(),
-
-              onRefresh: () async =>
-                  context.read<StaffsCubit>().clearAndFetch(),
-
-              emptyText: 'No staffs found',
+            height: 600.h,
+            decoration: BoxDecoration(
+              color: AppColors.black,
+              borderRadius: BorderRadius.circular(12.r),
             ),
-          ),
+            child: Column(
+              spacing: 16.h,
+              children: [
+                Text(
+                  'Select Staffs',
+                  style: AppTextStyles.large.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
 
-          Row(
-            spacing: 16.w,
-            children: [
-              AppButton.secondary(
-                onPressed: context.back,
-                text: 'Cancel',
-              ),
-              AppButton.primary(
-                onPressed: () => context.back(selected),
-                text: 'Select',
-              ),
-            ],
-          ),
-        ],
+                Expanded(
+                  child: PaginationBuilder(
+                    items: (ctx) => ctx.select(
+                      (StaffsCubit cubit) => cubit.state.staffs,
+                    ),
+                    itemBuilder: _buildStaffCard,
+
+                    isLoading: (ctx) => ctx.select(
+                      (StaffsCubit cubit) => cubit.state.isLoading,
+                    ),
+
+                    onLoadMore: () =>
+                        context.read<StaffsCubit>().fetchStaffs(),
+
+                    onRefresh: () async =>
+                        context.read<StaffsCubit>().clearAndFetch(),
+
+                    emptyText: 'No staffs found',
+                  ),
+                ),
+
+                Row(
+                  spacing: 16.w,
+                  children: [
+                    AppButton.secondary(
+                      onPressed: context.back,
+                      text: 'Cancel',
+                    ),
+                    AppButton.primary(
+                      onPressed: () => context.back(selected),
+                      text: 'Select',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

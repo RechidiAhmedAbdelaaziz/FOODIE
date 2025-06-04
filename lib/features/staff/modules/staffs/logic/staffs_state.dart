@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of 'staffs_cubit.dart';
 
 enum _StaffsStatus { initial, loading, loaded, error }
