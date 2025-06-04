@@ -27,7 +27,7 @@ extension ListExtension<T> on List<T> {
 
   List<T> withAllUnique(List<T> items) {
     items.forEach(addUnique);
-    return List.from(this);
+    return [...this];
   }
 
   void replace(T item) {

@@ -4,7 +4,8 @@ part of 'router.dart';
 
 enum AppRoutes<T extends RouteParams?> {
   login('/login', isGuarded: false),
-  home('/home');
+  home('/home'),
+  history('/history');
 
   final String path;
   final bool isGuarded;
