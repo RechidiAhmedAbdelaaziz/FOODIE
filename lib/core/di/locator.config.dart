@@ -26,6 +26,9 @@ import 'package:app/features/auth/logic/auth_cubit.dart' as _i571;
 import 'package:app/features/auth/modules/login/ui/login_route.dart' as _i1000;
 import 'package:app/features/auth/modules/verifycode/ui/verify_code_route.dart'
     as _i1055;
+import 'package:app/features/banners/data/repository/banners_repository.dart'
+    as _i288;
+import 'package:app/features/banners/data/source/banners_api.dart' as _i4;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -57,6 +60,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i935.FlavorConfig>(
       () => flavorConfigs.provideFlavorConfig(),
     );
+    gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -64,6 +68,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i87.PdfCloudinaryService(),
     );
     gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );
