@@ -29,6 +29,9 @@ import 'package:app/features/banners/data/source/banners_api.dart' as _i4;
 import 'package:app/features/history/data/repository/history_repository.dart'
     as _i883;
 import 'package:app/features/history/data/source/history_api.dart' as _i892;
+import 'package:app/features/staff/data/repository/staff_repository.dart'
+    as _i798;
+import 'package:app/features/staff/data/source/staff_api.dart' as _i850;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -58,6 +61,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
     gh.lazySingleton<_i815.AppRouter>(() => _i815.AppRouter());
+    gh.lazySingleton<_i798.StaffRepo>(() => _i798.StaffRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -67,6 +71,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i892.HistoryApi>(() => _i892.HistoryApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i850.StaffApi>(() => _i850.StaffApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );

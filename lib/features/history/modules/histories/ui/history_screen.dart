@@ -1,4 +1,5 @@
 import 'package:app/core/extensions/date_formatter.dart';
+import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/router/router.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
@@ -26,29 +27,36 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+    return BlocListener<HistoryCubit, HistoryState>(
+      listener: (context, state) {
+        state.onError(context.showErrorSnackbar);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Symbols.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: const Text('History'),
         ),
-        title: const Text('History'),
-      ),
-      body: PaginationBuilder(
-        items: (ctx) =>
-            ctx.select((HistoryCubit cubit) => cubit.histories),
+        body: PaginationBuilder(
+          items: (ctx) =>
+              ctx.select((HistoryCubit cubit) => cubit.histories),
 
-        itemBuilder: (ctx, item) => _buildHistoryCard(item),
+          itemBuilder: (ctx, item) => _buildHistoryCard(item),
 
-        isLoading: (ctx) =>
-            ctx.select((HistoryCubit cubit) => cubit.state.isLoading),
+          isLoading: (ctx) => ctx.select(
+            (HistoryCubit cubit) => cubit.state.isLoading,
+          ),
 
-        onLoadMore: () => context.read<HistoryCubit>().fetchHistory(),
+          onLoadMore: () =>
+              context.read<HistoryCubit>().fetchHistory(),
 
-        onRefresh: () async =>
-            context.read<HistoryCubit>().clearAndFetchHistory(),
+          onRefresh: () async =>
+              context.read<HistoryCubit>().clearAndFetchHistory(),
 
-        emptyText: 'No history found',
+          emptyText: 'No history found',
+        ),
       ),
     );
   }
