@@ -1,18 +1,31 @@
-enum Flavor { client, owner, server }
+import 'package:flutter_flavor/flutter_flavor.dart';
+import 'package:injectable/injectable.dart';
 
-class F {
+enum Flavor {
+  client('FOODIE'),
+  owner('FOODIE OWNER'),
+  server('FOODIE SERVER');
+
+  final String title;
+  const Flavor(this.title);
+}
+
+abstract class F {
   static late final Flavor appFlavor;
 
   static String get name => appFlavor.name;
+}
 
-  static String get title {
-    switch (appFlavor) {
-      case Flavor.client:
-        return 'FOODIE';
-      case Flavor.owner:
-        return 'FOODIE OWNER';
-      case Flavor.server:
-        return 'FOODIE SERVER';
-    }
+@module
+abstract class FlavorConfigModule {
+  @lazySingleton
+  FlavorConfig get config {
+    return FlavorConfig(
+      name: F.name,
+      variables: {
+        //TODO: Replace with actual base URL
+        'baseUrl': 'https://api.foodie.com',
+      },
+    );
   }
 }

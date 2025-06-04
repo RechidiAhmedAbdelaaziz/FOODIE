@@ -9,10 +9,10 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:app/core/flavors/flavors_router.dart' as _i60;
+import 'package:app/core/flavors/flavors.dart' as _i600;
 import 'package:app/core/localization/localization_cubit.dart' as _i224;
 import 'package:app/core/networking/dio/dio.service.dart' as _i634;
-import 'package:app/core/routing/routers/router.dart' as _i53;
+import 'package:app/core/router/router.dart' as _i815;
 import 'package:app/core/services/cache/cache_service.dart' as _i962;
 import 'package:app/core/services/cloudstorage/cloud_storage.service.dart'
     as _i489;
@@ -23,12 +23,12 @@ import 'package:app/features/auth/data/repository/auth_repository.dart'
 import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
 import 'package:app/features/auth/data/source/auth_cache.dart' as _i1035;
 import 'package:app/features/auth/logic/auth_cubit.dart' as _i571;
-import 'package:app/features/auth/modules/login/ui/login_route.dart' as _i1000;
-import 'package:app/features/auth/modules/verifycode/ui/verify_code_route.dart'
-    as _i1055;
 import 'package:app/features/banners/data/repository/banners_repository.dart'
     as _i288;
 import 'package:app/features/banners/data/source/banners_api.dart' as _i4;
+import 'package:app/features/history/data/repository/history_repository.dart'
+    as _i883;
+import 'package:app/features/history/data/source/history_api.dart' as _i892;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -45,9 +45,9 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final filePickersModule = _$FilePickersModule();
     final dioModule = _$DioModule();
-    final flavorConfigs = _$FlavorConfigs();
-    gh.lazySingleton<_i1055.VerifyCodeRoute>(() => _i1055.VerifyCodeRoute());
-    gh.lazySingleton<_i1000.LoginRoute>(() => _i1000.LoginRoute());
+    final flavorConfigModule = _$FlavorConfigModule();
+    gh.lazySingleton<_i883.HistoryRepo>(() => _i883.HistoryRepo());
+    gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
     gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
     gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
     gh.lazySingleton<_i962.CacheService>(() => _i962.CacheService());
@@ -56,19 +56,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i133.ImageFilePicker>(() => _i133.ImageFilePicker());
     gh.lazySingleton<_i133.VideoFilePicker>(() => _i133.VideoFilePicker());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
-    gh.lazySingleton<_i53.AppRouter>(() => flavorConfigs.provideAppRouter());
-    gh.lazySingleton<_i935.FlavorConfig>(
-      () => flavorConfigs.provideFlavorConfig(),
-    );
-    gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
+    gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
+    gh.lazySingleton<_i815.AppRouter>(() => _i815.AppRouter());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
     gh.lazySingleton<_i489.PdfCloudStorageService>(
       () => _i87.PdfCloudinaryService(),
     );
-    gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i892.HistoryApi>(() => _i892.HistoryApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );
@@ -76,7 +74,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1035.AuthCache(gh<_i962.CacheService>()),
     );
     gh.lazySingleton<_i571.AuthCubit>(
-      () => _i571.AuthCubit(gh<_i719.AuthRepo>(), gh<_i1035.AuthCache>()),
+      () =>
+          _i571.AuthCubit(gh<_i719.AuthRepo>(), gh<_i1035.AuthCache>())..init(),
     );
     return this;
   }
@@ -86,4 +85,4 @@ class _$FilePickersModule extends _i133.FilePickersModule {}
 
 class _$DioModule extends _i634.DioModule {}
 
-class _$FlavorConfigs extends _i60.FlavorConfigs {}
+class _$FlavorConfigModule extends _i600.FlavorConfigModule {}

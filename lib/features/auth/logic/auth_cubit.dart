@@ -1,5 +1,5 @@
 import 'package:app/core/di/locator.dart';
-import 'package:app/core/routing/routers/router.dart';
+import 'package:app/core/router/router.dart';
 import 'package:app/features/auth/data/model/auth_tokens.dart';
 import 'package:app/features/auth/data/repository/auth_repository.dart';
 import 'package:app/features/auth/data/source/auth_cache.dart';
@@ -16,11 +16,16 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._authRepo, this._authCache)
     : super(AuthState.initial());
 
+  @postConstruct
+  void init() => _authCache.accessToken != null
+      ? emit(state._authenticated())
+      : emit(state._unauthenticated());
+
   bool get isAuthenticated =>
       state.status == _AuthStatus.authenticated;
 
-  Future<void> authenticate(AuthTokens tokens) async {
-    await _authCache.saveTokens(tokens);
+  Future<void> authenticate([AuthTokens? tokens]) async {
+    if (tokens != null) await _authCache.saveTokens(tokens);
     emit(state._authenticated());
   }
 

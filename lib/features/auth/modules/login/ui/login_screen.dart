@@ -1,5 +1,4 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
-import 'package:app/core/routing/app_routes.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_loading_widget.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 part 'widget/login_form.dart';
@@ -30,10 +28,7 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
-        state.onSuccess(
-          (login) =>
-              context.push(AppRoutes.verifyCode.getPath(login)),
-        );
+        // state.onSuccess((login) => HomeRoute().push(context));
       },
       child: Scaffold(
         body: isLoading

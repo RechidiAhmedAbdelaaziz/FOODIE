@@ -78,6 +78,7 @@ dev_dependencies:
     flutter_gen_runner: ^5.10.0
     change_app_package_name: ^1.5.0
     retrofit_generator: ^9.2.0
+    go_router_builder: ^2.9.0
     
 
 

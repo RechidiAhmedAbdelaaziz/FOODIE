@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'app_route.dart';
+import 'router.dart';
+
+extension RoutingExtension on BuildContext {
+  String _getPath(AppRoutes route, RouteParams? params) {
+    return params == null ? route.path : params.getPath(route.path);
+  }
+
+  void to<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
+    T route,
+    D params, {
+    void Function(TResutl result)? onResult,
+  }) async {
+    final result = await push<TResutl>(_getPath(route, params));
+    if (result != null) onResult?.call(result);
+  }
+
+  void off<D extends RouteParams?, T extends AppRoutes<D>>(
+    T route,
+    D params,
+  ) {
+    pushReplacement(_getPath(route, params));
+  }
+
+  void offAll<D extends RouteParams?, T extends AppRoutes<D>>(
+    T route,
+    D params,
+  ) {
+    go(_getPath(route, params));
+  }
+
+  void back<T>([T? result]) => Navigator.of(this).pop(result);
+
+  void refresh() => GoRouter.of(
+    this,
+  ).pushReplacement(GoRouter.of(this).state.matchedLocation);
+}
