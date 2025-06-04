@@ -23,6 +23,11 @@ extension ListExtension<T> on List<T> {
     return List.from(this);
   }
 
+  List<T> withUniqueFirst(T item) {
+    addUniqueFirst(item);
+    return List.from(this);
+  }
+
   void addAllUnique(List<T> items) => items.forEach(addUnique);
 
   List<T> withAllUnique(List<T> items) {
