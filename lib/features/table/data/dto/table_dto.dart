@@ -13,7 +13,7 @@ class TableDTO with FormDTO {
   final ListEditingController<StaffModel> staffController;
   final BooleanEditingController forAllStaffController;
 
-  TableDTO(this._table)
+  TableDTO([this._table])
     : nameController = TextEditingController(text: _table?.name),
       staffController = ListEditingController<StaffModel>(
         _table?.staff,
