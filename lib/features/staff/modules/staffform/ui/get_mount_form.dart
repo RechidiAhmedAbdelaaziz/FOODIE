@@ -1,5 +1,5 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
-import 'package:app/core/router/routing_extension.dart';
+import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
 import 'package:app/core/themes/colors.dart';

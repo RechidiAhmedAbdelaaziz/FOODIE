@@ -1,4 +1,4 @@
-import 'package:app/core/router/router.dart';
+import 'package:app/core/routing/router.dart';
 import 'package:app/features/home/ui/home_screen.dart';
 import 'package:go_router/go_router.dart';
 

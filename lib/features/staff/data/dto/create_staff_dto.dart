@@ -1,3 +1,4 @@
+import 'package:app/core/extensions/map_extension.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,7 +15,7 @@ class CreateStaffDTO with FormDTO {
     return {
       'name': nameController.text,
       'login': loginController.text,
-    };
+    }.withoutNullsOrEmpty();
   }
 
   @override

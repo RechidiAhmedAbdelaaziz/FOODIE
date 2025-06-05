@@ -5,6 +5,7 @@ part 'staff_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class StaffModel extends Equatable {
+  @JsonKey(name: '_id')
   final String? id;
   final int? amount;
   final String? name;

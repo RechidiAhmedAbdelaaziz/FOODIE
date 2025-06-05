@@ -1,5 +1,5 @@
 import 'package:app/core/di/locator.dart';
-import 'package:app/core/router/router.dart';
+import 'package:app/core/routing/router.dart';
 import 'package:app/features/auth/data/model/auth_tokens.dart';
 import 'package:app/features/auth/data/repository/auth_repository.dart';
 import 'package:app/features/auth/data/source/auth_cache.dart';

@@ -1,5 +1,5 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
-import 'package:app/core/router/routing_extension.dart';
+import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/features/staff/modules/staffform/logic/staff_form_cubit.dart';
 import 'package:app/features/staff/modules/staffform/ui/widget/staff_form_view.dart';

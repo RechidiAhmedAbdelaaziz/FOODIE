@@ -1,4 +1,4 @@
-import 'package:app/core/router/router.dart';
+import 'package:app/core/routing/router.dart';
 import 'package:app/features/auth/modules/login/logic/login_cubit.dart';
 import 'package:app/features/auth/modules/login/ui/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

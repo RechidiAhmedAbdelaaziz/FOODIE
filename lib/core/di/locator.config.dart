@@ -12,7 +12,7 @@
 import 'package:app/core/flavors/flavors.dart' as _i600;
 import 'package:app/core/localization/localization_cubit.dart' as _i224;
 import 'package:app/core/networking/dio/dio.service.dart' as _i634;
-import 'package:app/core/router/router.dart' as _i815;
+import 'package:app/core/routing/router.dart' as _i421;
 import 'package:app/core/services/cache/cache_service.dart' as _i962;
 import 'package:app/core/services/cloudstorage/cloud_storage.service.dart'
     as _i489;
@@ -32,6 +32,9 @@ import 'package:app/features/history/data/source/history_api.dart' as _i892;
 import 'package:app/features/staff/data/repository/staff_repository.dart'
     as _i798;
 import 'package:app/features/staff/data/source/staff_api.dart' as _i850;
+import 'package:app/features/table/data/repository/table_repository.dart'
+    as _i729;
+import 'package:app/features/table/data/source/table_api.dart' as _i611;
 import 'package:dio/dio.dart' as _i361;
 import 'package:file_picker/file_picker.dart' as _i388;
 import 'package:flutter_flavor/flutter_flavor.dart' as _i935;
@@ -60,8 +63,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i133.VideoFilePicker>(() => _i133.VideoFilePicker());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
-    gh.lazySingleton<_i815.AppRouter>(() => _i815.AppRouter());
     gh.lazySingleton<_i798.StaffRepo>(() => _i798.StaffRepo());
+    gh.lazySingleton<_i729.TableRepo>(() => _i729.TableRepo());
+    gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -72,6 +76,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i850.StaffApi>(() => _i850.StaffApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );

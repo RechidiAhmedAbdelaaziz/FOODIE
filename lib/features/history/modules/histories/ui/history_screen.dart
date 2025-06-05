@@ -1,7 +1,7 @@
 import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
-import 'package:app/core/router/router.dart';
+import 'package:app/core/routing/router.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
@@ -88,7 +88,7 @@ class HistoryScreen extends StatelessWidget {
           ),
 
           Text(
-            item.amount ?? '0.00',
+            item.amount?.toString() ?? '0',
             style: AppTextStyles.normal.copyWith(
               fontWeight: FontWeight.bold,
             ),

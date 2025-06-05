@@ -4,7 +4,7 @@ part 'history_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class HistoryModel {
-  final String? amount;
+  final int? amount;
   final DateTime? date;
 
   HistoryModel({this.amount, this.date});

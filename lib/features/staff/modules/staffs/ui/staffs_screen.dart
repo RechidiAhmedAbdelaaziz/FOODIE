@@ -1,7 +1,7 @@
 import 'package:app/core/extensions/popup_extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
-import 'package:app/core/router/router.dart';
-import 'package:app/core/router/routing_extension.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';

@@ -1,3 +1,4 @@
+import 'package:app/core/extensions/map_extension.dart';
 import 'package:app/features/staff/data/dto/create_staff_dto.dart';
 import 'package:app/features/staff/data/model/staff_model.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,6 @@ class UpdateStaffDTO extends CreateStaffDTO {
 
       if (mountGottenController.text != '')
         'amount': int.tryParse(mountGottenController.text) ?? 0,
-    };
+    }.withoutNullsOrEmpty();
   }
 }

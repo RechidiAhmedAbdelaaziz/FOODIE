@@ -64,7 +64,7 @@ class _TodayHistoryState extends State<TodayHistory> {
                   children: [
                     Expanded(
                       child: Text(
-                        _history!.amount ?? '0.00',
+                        _history!.amount?.toString() ?? '0',
                         style: AppTextStyles.large.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.greenLight,
