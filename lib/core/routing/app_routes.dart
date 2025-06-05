@@ -5,8 +5,14 @@ part of 'router.dart';
 enum AppRoutes<T extends RouteParams?> {
   login('/login', isGuarded: false),
   home('/home'),
+
   history('/history'),
+
   tables('/table'),
+
+  createFood('/food-form'),
+  updateFood('/food-form/:id'),
+
   staffs('/staff');
 
   final String path;

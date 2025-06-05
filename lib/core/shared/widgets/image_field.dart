@@ -1,0 +1,120 @@
+import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/services/filepicker/file_picker_service.dart';
+import 'package:app/core/shared/dto/filesdto/file_dto.dart';
+import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
+import 'package:app/core/shared/widgets/form_field_props.dart';
+import 'package:app/core/themes/colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
+
+class FileField<T extends FileDTO> extends StatelessWidget {
+  final EditingController<T> controller;
+  final FilePickerService<T> picker;
+
+  final bool isRequired;
+
+  final double height;
+  final double width;
+  final double borderRadius;
+
+  final String? lable;
+  final String errorText;
+
+  const FileField({
+    super.key,
+    required this.controller,
+    required this.height,
+    required this.width,
+    required this.borderRadius,
+    required this.errorText,
+    required this.picker,
+    this.lable,
+    this.isRequired = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FormField(
+      validator: (_) =>
+          isRequired && controller.value == null ? errorText : null,
+      builder: (state) {
+        return Column(
+          spacing: 8.h,
+          children: [
+            if (lable != null)
+              FormFieldLabel(lable!, isRequired: isRequired),
+
+            ValueListenableBuilder(
+              valueListenable: controller,
+              builder: (context, file, child) {
+                return SizedBox(
+                  height: height + 16.h,
+                  width: width + 16.w,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      file != null
+                          ? file.build(width: width, height: height)
+                          : Container(
+                              height: height,
+                              width: width,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(
+                                  borderRadius,
+                                ),
+                              ),
+                            ),
+
+                      Align(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        child: IconButton(
+                          onPressed: () async {
+                            final file = await picker.pickFile();
+                            if (file != null) {
+                              controller.setValue(file);
+                            }
+                          },
+                          icon: const Icon(
+                            Symbols.upload,
+                            color: Colors.white,
+                          ),
+                          style: IconButton.styleFrom(
+                            backgroundColor: AppColors.green,
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.all(4.r),
+                          ),
+                        ),
+                      ),
+
+                      if (file != null && !isRequired)
+                        Align(
+                          alignment: AlignmentDirectional.topEnd,
+                          child: IconButton(
+                            onPressed: controller.clear,
+                            icon: const Icon(
+                              Symbols.close,
+                              color: Colors.white,
+                            ),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              shape: const CircleBorder(),
+                              padding: EdgeInsets.all(4.r),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
+            if (state.hasError)
+              FormFieldError(state.errorText!.tr(context)),
+          ],
+        );
+      },
+    );
+  }
+}
