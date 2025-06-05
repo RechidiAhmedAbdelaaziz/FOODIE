@@ -4,6 +4,7 @@ import 'package:app/features/auth/configs/auth_routes.dart';
 import 'package:app/features/history/modules/histories/ui/history_screen.dart';
 import 'package:app/features/home/configs/home_routes.dart';
 import 'package:app/features/staff/modules/staffs/ui/staffs_screen.dart';
+import 'package:app/features/table/modules/tables/ui/tables_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +22,7 @@ class AppRouter {
       ...HomeRoutes.routes,
       HistoryScreen.route,
       StaffsScreen.route,
+      TablesScreen.route,
     ],
     debugLogDiagnostics: true,
 

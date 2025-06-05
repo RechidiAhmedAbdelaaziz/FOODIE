@@ -2,18 +2,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'cloud_storage.service.dart';
 
 mixin CloudinaryConfig {
-  //TODO : use dotenv package to load these values
-  final String cloudName = "deljic9sr";
-  final String uploadPreset = 'learn_flutter';
+  final String cloudName = dotenv.env['CLOUDINARY_CLOUD_NAME'] ?? '';
+  final String uploadPreset =
+      dotenv.env['CLOUDINARY_UPLOAD_PRESET'] ?? '';
 
   Uri get uploadUrl;
 
-  Future<String> upload(Uint8List fileBytes, [String? fileName]) async {
+  Future<String> upload(
+    Uint8List fileBytes, [
+    String? fileName,
+  ]) async {
     // Prepare the data for the request
     final request = http.MultipartRequest("POST", uploadUrl)
       ..fields['upload_preset'] = uploadPreset;

@@ -21,7 +21,7 @@ class StaffsScreen extends StatelessWidget {
   const StaffsScreen({super.key});
 
   static RouteBase get route => GoRoute(
-    path: AppRoutes.staff.path,
+    path: AppRoutes.staffs.path,
     builder: (context, state) {
       return BlocProvider(
         create: (context) => StaffsCubit()..fetchStaffs(),

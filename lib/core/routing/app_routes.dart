@@ -6,7 +6,8 @@ enum AppRoutes<T extends RouteParams?> {
   login('/login', isGuarded: false),
   home('/home'),
   history('/history'),
-  staff('/staff');
+  tables('/table'),
+  staffs('/staff');
 
   final String path;
   final bool isGuarded;

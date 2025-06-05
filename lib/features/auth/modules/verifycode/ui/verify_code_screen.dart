@@ -1,5 +1,7 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_loading_widget.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
@@ -26,7 +28,7 @@ class VerifyCodeScreen extends StatelessWidget {
     return BlocListener<VerifyCodeCubit, VerifyCodeState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
-        //TODO onSuccess go to next screen
+        state.onSuccess(() => context.to(AppRoutes.home));
       },
       child: Scaffold(
         body: isLoading

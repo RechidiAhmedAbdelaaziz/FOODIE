@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:injectable/injectable.dart';
 
@@ -24,7 +25,7 @@ abstract class FlavorConfigModule {
       name: F.name,
       variables: {
         //TODO: Replace with actual base URL
-        'baseUrl': 'https://api.foodie.com',
+        'baseUrl': dotenv.env['API_BASE_URL']!,
       },
     );
   }
