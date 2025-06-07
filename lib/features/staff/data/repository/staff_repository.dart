@@ -46,6 +46,13 @@ class StaffRepo extends NetworkRepository {
     );
   }
 
+  RepoResult<int> getStaffMoney() async {
+    return tryApiCall(
+      apiCall: () async => _staffApi.getStaffMoney(),
+      onResult: (response) => response.data['total'] as int,
+    );
+  }
+
   RepoResult<void> deleteStaff(String id) async {
     return tryApiCall(
       apiCall: () async => _staffApi.deleteStaff(id),

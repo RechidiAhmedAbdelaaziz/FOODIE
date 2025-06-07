@@ -165,7 +165,6 @@ class _FoodItem extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                
                 Row(
                   spacing: 2.w,
                   children: [

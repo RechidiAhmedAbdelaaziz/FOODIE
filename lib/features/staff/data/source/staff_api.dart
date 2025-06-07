@@ -19,6 +19,9 @@ abstract class StaffApi {
   @GET('/staffs/{id}')
   Future<DataApiResponse> getStaffById(@Path('id') String id);
 
+  @GET('/staffs/money')
+  Future<DataApiResponse> getStaffMoney();
+
   @POST('/staffs')
   Future<DataApiResponse> createStaff(
     @Body() Map<String, dynamic> body,
