@@ -5,6 +5,22 @@ import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller
 import 'package:app/features/food/data/model/food_model.dart';
 import 'package:flutter/widgets.dart';
 
+class FoodAvailabilityDTO with FormDTO {
+  final FoodModel _food;
+
+  FoodAvailabilityDTO(this._food);
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {'isAvailable': !(_food.isAvailable ?? false)};
+  }
+
+  String get id => _food.id!;
+
+  @override
+  void dispose() {}
+}
+
 class FoodDTO with AsyncFormDTO {
   final FoodModel? _food;
 

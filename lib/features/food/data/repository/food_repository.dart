@@ -44,10 +44,19 @@ class FoodRepo extends NetworkRepository {
     );
   }
 
+  RepoResult<FoodModel> updateFoodAvailability(
+    FoodAvailabilityDTO dto,
+  ) {
+    return tryApiCall(
+      apiCall: () async => _foodApi.updateFood(dto.id, dto.toMap()),
+      onResult: (response) => FoodModel.fromJson(response.data),
+    );
+  }
+
   RepoResult<void> deleteFood(String id) {
     return tryApiCall(
       apiCall: () async => _foodApi.deleteFood(id),
-      onResult: (response) {},
+      onResult: (_) {},
     );
   }
 }

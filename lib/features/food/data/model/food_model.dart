@@ -3,6 +3,18 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'food_model.g.dart';
 
+enum FoodModelFields {
+  client(
+    'name addOns category image price description',
+  ),
+  owner(
+    'name addOns category image price isAvailable description',
+  );
+
+  final String value;
+  const FoodModelFields(this.value);
+}
+
 @JsonSerializable(createToJson: false)
 class FoodModel extends Equatable {
   @JsonKey(name: '_id')
