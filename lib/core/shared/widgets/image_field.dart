@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-class FileField<T extends FileDTO> extends StatelessWidget {
+class AppFileField<T extends FileDTO> extends StatelessWidget {
   final EditingController<T> controller;
   final FilePickerService<T> picker;
 
@@ -21,7 +21,7 @@ class FileField<T extends FileDTO> extends StatelessWidget {
   final String? lable;
   final String errorText;
 
-  const FileField({
+  const AppFileField({
     super.key,
     required this.controller,
     required this.height,
