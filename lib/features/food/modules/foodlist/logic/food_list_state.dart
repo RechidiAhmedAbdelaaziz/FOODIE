@@ -6,17 +6,14 @@ enum _FoodListStatus { initial, loading, loaded, error }
 
 class FoodListState with CubitErrorHandling {
   final List<FoodModel> _foods;
-  final List<String> _categories;
   final _FoodListStatus _status;
   final String? _errorMessage;
 
   FoodListState({
     List<FoodModel> foods = const [],
-    List<String> categories = const [],
     _FoodListStatus status = _FoodListStatus.initial,
     String? errorMessage,
   }) : _foods = foods,
-       _categories = categories,
        _status = status,
        _errorMessage = errorMessage;
 
@@ -29,13 +26,11 @@ class FoodListState with CubitErrorHandling {
   // Copy with method
   FoodListState _copyWith({
     List<FoodModel>? foods,
-    List<String>? categories,
     _FoodListStatus? status,
     String? errorMessage,
   }) {
     return FoodListState(
       foods: foods ?? _foods,
-      categories: categories ?? _categories,
       status: status ?? _status,
       errorMessage: errorMessage,
     );
@@ -51,10 +46,6 @@ class FoodListState with CubitErrorHandling {
   FoodListState _loaded(List<FoodModel> foods) {
     return _copyWith(
       foods: foods,
-      categories: foods
-          .map((food) => food.category ?? '')
-          .toSet()
-          .toList(),
       status: _FoodListStatus.loaded,
     );
   }
@@ -62,7 +53,6 @@ class FoodListState with CubitErrorHandling {
   FoodListState _added(FoodModel food) {
     return _copyWith(
       foods: _foods.withUniqueFirst(food),
-      categories: _categories.withUnique(food.category ?? ''),
       status: _FoodListStatus.loaded,
     );
   }
@@ -70,7 +60,6 @@ class FoodListState with CubitErrorHandling {
   FoodListState _updated(FoodModel food) {
     return _copyWith(
       foods: _foods.withReplace(food),
-      categories: _categories.withUnique(food.category ?? ''),
       status: _FoodListStatus.loaded,
     );
   }
@@ -98,7 +87,6 @@ class _UpdateingState extends FoodListState {
   _UpdateingState(this._food, FoodListState state)
     : super(
         foods: state._foods,
-        categories: state._categories,
         status: state._status,
         errorMessage: state.error,
       );

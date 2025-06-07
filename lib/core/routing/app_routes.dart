@@ -11,7 +11,9 @@ enum AppRoutes<T extends RouteParams?> {
   tables('/table'),
 
   createFood('/food-form'),
-  updateFood('/food-form/:id'),
+  updateFood<UpdateFoodFormParams>('/food-form/:id'),
+
+  foodMenu('/food-menu'),
 
   staffs('/staff');
 

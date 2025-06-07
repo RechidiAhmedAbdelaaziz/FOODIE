@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/features/auth/configs/auth_routes.dart';
 import 'package:app/features/food/modules/foodform/ui/food_form_screen.dart';
+import 'package:app/features/food/modules/foodlist/ui/food_menu_screen.dart';
 import 'package:app/features/history/modules/histories/ui/history_screen.dart';
 import 'package:app/features/home/configs/home_routes.dart';
 import 'package:app/features/staff/modules/staffs/ui/staffs_screen.dart';
@@ -25,6 +26,7 @@ class AppRouter {
       StaffsScreen.route,
       TablesScreen.route,
       ...FoodFormScreen.routes,
+      FoodMenuScreen.route,
     ],
     debugLogDiagnostics: true,
 

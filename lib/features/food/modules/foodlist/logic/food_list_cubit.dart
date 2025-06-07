@@ -18,6 +18,10 @@ class FoodListCubit extends Cubit<FoodListState> {
 
   final FoodFilterDTO _filter;
 
+  List<FoodModel> get foods => state._foods;
+  List<String> get categories =>
+      foods.map((food) => food.category ?? '').toSet().toList();
+
   void fetchFoods() async {
     if (state.isLoading) return;
 
