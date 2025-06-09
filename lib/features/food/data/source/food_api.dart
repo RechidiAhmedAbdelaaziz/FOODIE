@@ -24,7 +24,7 @@ abstract class FoodApi {
     @Body() Map<String, dynamic> body,
   );
 
-  @PUT('/foods/{id}')
+  @PATCH('/foods/{id}')
   Future<DataApiResponse> updateFood(
     @Path('id') String id,
     @Body() Map<String, dynamic> body,

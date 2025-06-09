@@ -22,7 +22,7 @@ abstract class TableApi {
     @Body() Map<String, dynamic> tableData,
   );
 
-  @PUT('/tables/{id}')
+  @PATCH('/tables/{id}')
   Future<DataApiResponse> updateTable(
     @Path('id') String id,
     @Body() Map<String, dynamic> tableData,

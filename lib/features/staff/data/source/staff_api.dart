@@ -27,7 +27,7 @@ abstract class StaffApi {
     @Body() Map<String, dynamic> body,
   );
 
-  @PUT('/staffs/{id}')
+  @PATCH('/staffs/{id}')
   Future<DataApiResponse> updateStaff(
     @Path('id') String id,
     @Body() Map<String, dynamic> body,

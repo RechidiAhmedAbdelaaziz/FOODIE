@@ -54,8 +54,7 @@ class StaffsScreen extends StatelessWidget {
       ),
 
       body: PaginationBuilder(
-        items: (ctx) =>
-            ctx.select((StaffsCubit cubit) => cubit.state.staffs),
+        items: (ctx) => ctx.watch<StaffsCubit>().state.staffs,
         itemBuilder: _buildStaffCard,
 
         isLoading: (ctx) =>
@@ -86,17 +85,23 @@ class StaffsScreen extends StatelessWidget {
               Expanded(
                 child: Text(
                   staff.name ?? '',
-                  style: AppTextStyles.medium.copyWith(
+                  style: AppTextStyles.large.copyWith(
                     color: AppColors.white,
                   ),
                 ),
               ),
 
               PopupMenuButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Symbols.more_vert,
+                  color: AppColors.white,
+                ),
                 itemBuilder: (context) {
                   return [
                     PopupMenuItem(
                       child: Row(
+                        spacing: 8.w,
                         children: [
                           const Icon(
                             Symbols.send_money,
@@ -115,6 +120,8 @@ class StaffsScreen extends StatelessWidget {
 
                     PopupMenuItem(
                       child: Row(
+                        spacing: 8.w,
+
                         children: [
                           const Icon(Symbols.edit),
                           Text('Edit'.tr(context)),
@@ -130,6 +137,8 @@ class StaffsScreen extends StatelessWidget {
 
                     PopupMenuItem(
                       child: Row(
+                        spacing: 8.w,
+
                         children: [
                           const Icon(
                             Symbols.delete,

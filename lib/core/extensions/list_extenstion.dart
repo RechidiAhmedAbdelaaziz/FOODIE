@@ -18,22 +18,15 @@ extension ListExtension<T> on List<T> {
     if (!contains(item)) addFirst(item);
   }
 
-  List<T> withUnique(T item) {
-    addUnique(item);
-    return List.from(this);
-  }
+  List<T> withUnique(T item) => List<T>.from(this)..addUnique(item);
 
-  List<T> withUniqueFirst(T item) {
-    addUniqueFirst(item);
-    return List.from(this);
-  }
+  List<T> withUniqueFirst(T item) =>
+      List.from(this)..addUniqueFirst(item);
 
   void addAllUnique(List<T> items) => items.forEach(addUnique);
 
-  List<T> withAllUnique(List<T> items) {
-    items.forEach(addUnique);
-    return [...this];
-  }
+  List<T> withAllUnique(List<T> items) =>
+      List<T>.from(this)..addAllUnique(items);
 
   void replace(T item) {
     final index = indexWhere((e) => e == item);
@@ -41,17 +34,7 @@ extension ListExtension<T> on List<T> {
     this[index] = item;
   }
 
-  List<T> withReplace(T item) {
-    final index = indexWhere((e) => e == item);
-    if (index == -1) return this;
-    this[index] = item;
-    return List<T>.from(this);
-  }
+  List<T> withReplace(T item) => List<T>.from(this)..replace(item);
 
-  List<T> without(T item) {
-    final index = indexWhere((e) => e == item);
-    if (index == -1) return this;
-    removeAt(index);
-    return List<T>.from(this);
-  }
+  List<T> without(T item) => where((e) => e != item).toList();
 }
