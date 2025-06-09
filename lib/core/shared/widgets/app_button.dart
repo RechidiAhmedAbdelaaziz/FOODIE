@@ -38,7 +38,9 @@ class AppButton extends StatelessWidget {
     onPressed: onPressed,
     isLoading: isLoading,
     color: color ?? AppColors.greenLight,
-    textStyle: AppTextStyles.primaryButton.copyWith(color: textColor),
+    textStyle: AppTextStyles.primaryButton.copyWith(
+      color: textColor ?? AppColors.blue,
+    ),
   );
 
   factory AppButton.secondary({
@@ -55,7 +57,7 @@ class AppButton extends StatelessWidget {
     isLoading: isLoading,
     borderColor: color ?? AppColors.greenLight,
     textStyle: AppTextStyles.secondaryButton.copyWith(
-      color: textColor,
+      color: textColor ?? AppColors.greenLight,
     ),
   );
 
@@ -80,7 +82,7 @@ class AppButton extends StatelessWidget {
 
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: 80.w,
+          horizontal: 32.w,
           vertical: 16.h,
         ),
         decoration: BoxDecoration(

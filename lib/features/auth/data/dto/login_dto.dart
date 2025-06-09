@@ -24,6 +24,7 @@ class LoginDTO with FormDTO {
   @override
   Map<String, dynamic> toMap() {
     return {
+      // Send only one 
       if (loginWithEmailController.value)
         'email': emailController.text,
 

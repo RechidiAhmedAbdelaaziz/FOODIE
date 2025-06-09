@@ -77,44 +77,128 @@ class AppDropDownField<T> extends StatelessWidget {
                 ),
               ),
 
-              DropdownSearch<T>(
-                itemAsString: itemToString,
-                selectedItem: controller.value,
-                compareFn: (item1, item2) => item1 == item2,
+              GestureDetector(
+                child: DropdownSearch<T>(
+                  itemAsString: itemToString,
+                  selectedItem: controller.value,
+                  compareFn: (item1, item2) => item1 == item2,
 
-                items: (filter, loadProps) => items,
+                  items: (filter, loadProps) => items,
 
-                onChanged: (value) => value != null
-                    ? controller.setValue(value)
-                    : controller.clear(),
+                  onChanged: (value) => value != null
+                      ? controller.setValue(value)
+                      : controller.clear(),
 
-                decoratorProps: DropDownDecoratorProps(
-                  baseStyle: AppTextStyles.medium.copyWith(
-                    color: AppColors.black,
-                  ),
-
-                  decoration: InputDecoration(
-                    fillColor: AppColors.blue,
-                    filled: true,
-
-                    hintText: hintText,
-                    error: state.hasError
-                        ? FormFieldError(state.errorText!)
-                        : null,
-
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 12.h,
-                      horizontal: 12.w,
+                  popupProps: PopupProps.menu(
+                    cacheItems: true,
+                    menuProps: MenuProps(
+                      backgroundColor: AppColors.black,
                     ),
 
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: state.hasError
-                          ? BorderSide(
-                              color: AppColors.red,
-                              width: 1.w,
-                            )
-                          : BorderSide.none,
+                    showSelectedItems: false,
+                    constraints: BoxConstraints(
+                      maxHeight: 200.h,
+                      maxWidth: double.infinity,
+                    ),
+
+                    containerBuilder: (context, popupWidget) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 2.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.blue,
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(12.r),
+                          ),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppColors.greenLight,
+                            ),
+                          ),
+                        ),
+                        child: popupWidget,
+                      );
+                    },
+
+                    itemBuilder:
+                        (context, item, isDisabled, isSelected) {
+                          return itemToWidget != null
+                              ? itemToWidget!(item)
+                              : Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                    vertical: 8.h,
+                                  ),
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 4.w,
+                                    vertical: 8.h,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.blue,
+                                  ),
+
+                                  child: Text(
+                                    itemToString(item),
+                                    style: AppTextStyles.normal
+                                        .copyWith(
+                                          color: AppColors.white,
+                                        ),
+                                  ),
+                                );
+                        },
+                  ),
+
+                  dropdownBuilder: (context, selectedItem) {
+                    return selectedItem != null &&
+                            itemToString(selectedItem).isNotEmpty
+                        ? Text(
+                            itemToString(selectedItem),
+                            style: AppTextStyles.medium.copyWith(
+                              color: AppColors.white,
+                            ),
+                          )
+                        : Text(
+                            hintText ?? '',
+                            style: AppTextStyles.small.copyWith(
+                              color: AppColors.grey,
+                            ),
+                          );
+                  },
+
+                  decoratorProps: DropDownDecoratorProps(
+                    baseStyle: AppTextStyles.medium.copyWith(
+                      color: AppColors.white,
+                    ),
+
+                    decoration: InputDecoration(
+                      fillColor: AppColors.blue,
+                      filled: true,
+
+                      error: state.hasError
+                          ? FormFieldError(state.errorText!)
+                          : null,
+
+                      suffixIconColor: AppColors.white,
+
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 16.h,
+                        horizontal: 12.w,
+                      ),
+                      isCollapsed: true,
+                      isDense: true,
+
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: state.hasError
+                            ? BorderSide(
+                                color: AppColors.red,
+                                width: 1.w,
+                              )
+                            : BorderSide.none,
+                      ),
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
@@ -11,6 +12,7 @@ import 'package:app/core/shared/widgets/app_text_field.dart';
 import 'package:app/core/shared/widgets/dropdown_field.dart';
 import 'package:app/core/shared/widgets/image_field.dart';
 import 'package:app/core/themes/colors.dart';
+import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/food/data/dto/food_dto.dart';
 import 'package:app/features/food/data/model/food_model.dart';
@@ -115,7 +117,7 @@ class FoodFormScreen extends StatelessWidget {
                               controller: dto.descriptionController,
                               label: 'Description'.tr(context),
                               isRequired: true,
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.multiline,
                               validator: (value) =>
                                   value?.isEmpty == true
                                   ? 'Description is required'.tr(
@@ -146,10 +148,8 @@ class FoodFormScreen extends StatelessWidget {
 
                             AppDropDownField(
                               controller: dto.categoryController,
-                              itemsBuilder: (_) =>
-                                  <
-                                    String
-                                  >[], //TODO: create category list
+                              itemsBuilder: (_) => AppData
+                                  .categories, //TODO: create category list
                               itemToString: (item) =>
                                   item.tr(context),
                               isRequired: true,
@@ -163,13 +163,15 @@ class FoodFormScreen extends StatelessWidget {
                               valueListenable: dto.addOnsController,
                               builder: (context, addOnsDto, child) {
                                 return Column(
+                                  spacing: 4.h,
                                   children: [
                                     Row(
                                       children: [
                                         Expanded(
                                           child: Text(
                                             'Add-ons'.tr(context),
-                                            style: AppTextStyles.large
+                                            style: AppTextStyles
+                                                .xLarge
                                                 .copyWith(
                                                   color:
                                                       AppColors.white,
@@ -185,14 +187,15 @@ class FoodFormScreen extends StatelessWidget {
                                                 );
                                           },
                                           icon: const Icon(
-                                            Symbols.add,
+                                            Symbols
+                                                .add_circle_outline,
                                           ),
                                           color: AppColors.green,
                                         ),
                                       ],
                                     ),
 
-                                    ListView.builder(
+                                    ListView.separated(
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -205,6 +208,9 @@ class FoodFormScreen extends StatelessWidget {
                                           dto.addOnsController,
                                         );
                                       },
+                                      separatorBuilder:
+                                          (context, index) =>
+                                              heightSpace(8.h),
                                     ),
                                   ],
                                 );
@@ -216,6 +222,13 @@ class FoodFormScreen extends StatelessWidget {
                               onPressed: context
                                   .read<FoodFormCubit>()
                                   .save,
+                            ),
+
+                            heightSpace(
+                              MediaQuery.of(
+                                    context,
+                                  ).viewInsets.bottom +
+                                  16,
                             ),
                           ],
                         ),
@@ -239,16 +252,17 @@ class _AddOnsField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       spacing: 4.w,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          flex: 3,
+          flex: 2,
           child: AppTextField(
             controller: dto.nameController,
-            label: 'Add-on name'.tr(context),
+            hintText: 'Add-on name'.tr(context),
             isRequired: true,
             keyboardType: TextInputType.text,
             validator: (value) => value?.isEmpty == true
-                ? 'Add-on name is required'.tr(context)
+                ? 'Name is required'.tr(context)
                 : null,
           ),
         ),
@@ -256,23 +270,22 @@ class _AddOnsField extends StatelessWidget {
         Expanded(
           child: AppTextField(
             controller: dto.priceController,
-            label: 'Price'.tr(context),
+            hintText: 'Price'.tr(context),
             isRequired: true,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             validator: (value) {
               final price = int.tryParse(value ?? '');
-              return price == null || price <= 0
+              return price == null || price < 0
                   ? 'Price must be a positive number'.tr(context)
                   : null;
             },
           ),
         ),
 
-        IconButton(
-          onPressed: () => addOnsController.removeValue(dto),
-          icon: const Icon(Symbols.delete),
-          color: AppColors.red,
+        InkWell(
+          onTap: () => addOnsController.removeValue(dto),
+          child: const Icon(Symbols.delete, color: AppColors.red),
         ),
       ],
     );

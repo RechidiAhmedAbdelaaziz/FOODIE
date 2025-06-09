@@ -29,25 +29,20 @@ class StaffFormView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       decoration: BoxDecoration(
         color: AppColors.black,
         borderRadius: BorderRadius.circular(32.r),
       ),
       child: isLoading
-          ? SizedBox(
-              height: 4.h,
-              child: LinearProgressIndicator(color: AppColors.green),
-            )
+          ? CircularProgressIndicator(color: AppColors.green)
           : Form(
               key: formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Symbols.person_apron_rounded),
-                  heightSpace(16),
-
                   AppTextField(
                     controller: nameController,
                     label: 'Name',
@@ -68,7 +63,7 @@ class StaffFormView extends StatelessWidget {
                     controller: loginController,
                     label: 'Contact',
                     hintText: 'Enter staff Email or Phone',
-                    prefixIcon: Symbols.login,
+                    prefixIcon: Symbols.phone,
                     keyboardType: TextInputType.text,
                     isRequired: true,
                     validator: (value) {
@@ -89,6 +84,7 @@ class StaffFormView extends StatelessWidget {
 
                   Row(
                     spacing: 16.w,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       AppButton.secondary(
                         text: 'Cancel',

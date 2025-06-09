@@ -35,15 +35,6 @@ class TablesScreen extends StatelessWidget {
           icon: const Icon(Symbols.arrow_back),
         ),
         title: Text('Tables'.tr(context)),
-        actions: [
-          IconButton(
-            onPressed: () => context.dialogWith<TableModel>(
-              child: TableFormView(),
-              onResult: context.read<TablesCubit>().addTable,
-            ),
-            icon: const Icon(Symbols.add),
-          ),
-        ],
       ),
       body: PaginationBuilder(
         items: (ctx) =>
@@ -55,6 +46,15 @@ class TablesScreen extends StatelessWidget {
         onRefresh: () async =>
             context.read<TablesCubit>().clearAndFetch(),
         emptyText: 'No tables found',
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.dialogWith<TableModel>(
+          child: TableFormView(),
+          onResult: context.read<TablesCubit>().addTable,
+        ),
+        backgroundColor: AppColors.green,
+        child: const Icon(Symbols.add, color: Colors.white),
       ),
     );
   }

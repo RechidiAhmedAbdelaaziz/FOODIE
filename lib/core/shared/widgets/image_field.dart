@@ -55,7 +55,11 @@ class AppFileField<T extends FileDTO> extends StatelessWidget {
                     alignment: AlignmentDirectional.center,
                     children: [
                       file != null
-                          ? file.build(width: width, height: height)
+                          ? file.build(
+                              width: width,
+                              height: height,
+                              borderRadius: borderRadius,
+                            )
                           : Container(
                               height: height,
                               width: width,

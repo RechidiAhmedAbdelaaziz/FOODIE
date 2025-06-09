@@ -45,7 +45,10 @@ class StaffsScreen extends StatelessWidget {
               child: CreateStaffForm(),
               onResult: context.read<StaffsCubit>().addStaff,
             ),
-            icon: const Icon(Symbols.person_add),
+            icon: const Icon(
+              Symbols.person_add,
+              color: AppColors.white,
+            ),
           ),
         ],
       ),

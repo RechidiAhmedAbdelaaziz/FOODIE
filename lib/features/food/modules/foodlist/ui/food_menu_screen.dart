@@ -96,6 +96,12 @@ class FoodMenuScreen extends StatelessWidget {
                 );
               },
             ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.to(AppRoutes.createFood),
+        backgroundColor: AppColors.green,
+        child: const Icon(Symbols.add, color: AppColors.black),
+      ),
     );
   }
 

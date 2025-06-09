@@ -1,10 +1,12 @@
 import 'package:app/core/extensions/popup_extension.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
+import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/staff/modules/staffs/ui/selectable_staffls.dart';
 import 'package:app/features/table/data/dto/table_dto.dart';
 import 'package:app/features/table/data/model/table_model.dart';
@@ -58,10 +60,7 @@ class TableFormView extends StatelessWidget {
   }
 
   Widget _buildLoadingIndicator() {
-    return SizedBox(
-      height: 4.h,
-      child: LinearProgressIndicator(color: AppColors.green),
-    );
+    return CircularProgressIndicator(color: AppColors.green);
   }
 }
 
@@ -72,11 +71,12 @@ class _TableFormContent extends StatelessWidget {
     return Form(
       key: dto.formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+
         children: [
           AppTextField(
             controller: dto.nameController,
-            label: 'Name',
+            // label: 'Name',
             hintText: 'Enter table name',
             prefixIcon: Symbols.table_bar,
             keyboardType: TextInputType.name,
@@ -93,13 +93,16 @@ class _TableFormContent extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SwitchListTile(
+                  CheckboxListTile(
                     title: Text(
-                      'For All Staff',
+                      'For All Staff'.tr(context),
                       style: TextStyle(color: AppColors.white),
                     ),
                     value: isForAll,
-                    onChanged: dto.forAllStaffController.setValue,
+                    activeColor: AppColors.green,
+                    checkColor: AppColors.black,
+                    onChanged: (value) => dto.forAllStaffController
+                        .setValue(value ?? false),
                   ),
                   if (!isForAll) ...[
                     SizedBox(height: 8.h),
@@ -113,6 +116,7 @@ class _TableFormContent extends StatelessWidget {
 
           Row(
             spacing: 16.w,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AppButton.secondary(
                 text: 'Cancel',
@@ -140,31 +144,44 @@ class _StaffSelection extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: dto.staffController,
       builder: (context, staffs, _) {
-        return Wrap(
-          spacing: 8.w,
-          runSpacing: 8.h,
+        return Column(
           children: [
-            ...staffs.map<Widget>(
-              (staff) => Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: AppColors.grey,
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Text(
-                  staff.name ?? 'Unknown',
-                  style: TextStyle(color: AppColors.white),
-                ),
+            Text(
+              '${'Select Staffs'.tr(context)}:',
+              style: AppTextStyles.small.copyWith(
+                color: AppColors.white,
               ),
             ),
-            IconButton(
-              icon: Icon(Symbols.edit_square, color: AppColors.green),
-              onPressed: () {
-                context.dialogWith(
-                  child: SelectableStaffs(staffs),
-                  onResult: dto.staffController.setList,
-                );
-              },
+            Wrap(
+              spacing: 8.w,
+              runSpacing: 8.h,
+              children: [
+                ...staffs.map<Widget>(
+                  (staff) => Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.grey,
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Text(
+                      staff.name ?? 'Unknown',
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Symbols.edit_square,
+                    color: AppColors.green,
+                  ),
+                  onPressed: () {
+                    context.dialogWith(
+                      child: SelectableStaffs(staffs),
+                      onResult: dto.staffController.setList,
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         );

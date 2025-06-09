@@ -17,7 +17,6 @@ void main() async {
   // Initialize the dependency injection locator
   await setupLocator();
 
-  //Run the app in a specific flavor
   locator<FlavorConfig>();
 
   runApp(const App());

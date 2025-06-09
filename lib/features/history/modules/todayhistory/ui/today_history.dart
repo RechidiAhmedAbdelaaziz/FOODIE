@@ -20,16 +20,16 @@ class _TodayHistoryState extends State<TodayHistory> {
   bool isLoading = true;
 
   @override
-  void initState() async {
-    final result = await locator<HistoryRepo>().getLastHistory();
-
-    result.when(
+  void initState()  {
+    locator<HistoryRepo>().getLastHistory().then((result) {
+      result.when(
       success: (history) => setState(() {
         _history = history;
         isLoading = false;
       }),
       error: (_) => setState(() => isLoading = false),
-    );
+      );
+    });
 
     super.initState();
   }
@@ -64,7 +64,7 @@ class _TodayHistoryState extends State<TodayHistory> {
                   children: [
                     Expanded(
                       child: Text(
-                        _history!.amount?.toString() ?? '0',
+                        _history?.amount?.toString() ?? '0',
                         style: AppTextStyles.large.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.greenLight,

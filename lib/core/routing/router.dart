@@ -18,7 +18,7 @@ part 'app_routes.dart';
 @lazySingleton
 class AppRouter {
   final router = GoRouter(
-    initialLocation: '/students',
+    initialLocation: AppRoutes.home.path,
     routes: [
       ...AuthRoutes.routes,
       ...HomeRoutes.routes,

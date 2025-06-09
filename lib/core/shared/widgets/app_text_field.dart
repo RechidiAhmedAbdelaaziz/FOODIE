@@ -56,13 +56,17 @@ class AppTextField extends StatelessWidget {
               textInputAction: textInputAction,
               inputFormatters: inputFormatters,
 
+              maxLines: keyboardType == TextInputType.multiline
+                  ? null
+                  : 1,
+
               style: AppTextStyles.normal.copyWith(
                 color: AppColors.white,
               ),
 
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                  // horizontal: 4.w,
+                  horizontal: 12.w,
                   vertical: 16.h,
                 ),
 

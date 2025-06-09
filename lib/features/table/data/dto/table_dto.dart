@@ -19,10 +19,10 @@ class TableDTO with FormDTO {
         _table?.staff,
       ),
       forAllStaffController = BooleanEditingController(
-        _table?.forAllStaff ?? false,
+        _table?.forAllStaff ?? true,
       );
 
-  String get id => _table!.id!;
+  String get id => _table?.id ?? '';
 
   @override
   void dispose() {
