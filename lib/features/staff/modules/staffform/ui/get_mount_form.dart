@@ -54,10 +54,10 @@ class GetMountForm extends StatelessWidget {
               child: Form(
                 key: dto.formKey,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     AppTextField(
                       controller: dto.mountGottenController,
-                      label: 'Mount Gotten',
                       hintText: 'Enter mount gotten',
                       keyboardType: TextInputType.text,
                       inputFormatters: [
@@ -78,10 +78,11 @@ class GetMountForm extends StatelessWidget {
                         return null;
                       },
                     ),
-                    heightSpace(12),
+                    heightSpace(24),
 
                     Row(
                       spacing: 16.w,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         AppButton.secondary(
                           text: 'Cancel',

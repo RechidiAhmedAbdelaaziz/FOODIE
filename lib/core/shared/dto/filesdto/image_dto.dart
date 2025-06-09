@@ -1,4 +1,3 @@
-
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/services/cloudstorage/cloud_storage.service.dart';
 import 'package:app/core/shared/widgets/image_widget.dart';
@@ -54,7 +53,10 @@ class LocalImageDTO extends ImageDTO {
 
   @override
   Future<String> get url async =>
-      locator<ImageCloudStorageService>().upload(_bytes);
+      locator<ImageCloudStorageService>().upload(
+        _bytes,
+        'local_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
 
   @override
   ImageProvider<Object> get imageProvider => MemoryImage(_bytes);

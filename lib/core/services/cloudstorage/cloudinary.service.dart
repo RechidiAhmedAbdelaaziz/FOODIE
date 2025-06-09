@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:app/core/di/locator.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'cloud_storage.service.dart';
 
@@ -19,27 +19,22 @@ mixin CloudinaryConfig {
     String? fileName,
   ]) async {
     // Prepare the data for the request
-    final request = http.MultipartRequest("POST", uploadUrl)
-      ..fields['upload_preset'] = uploadPreset;
-
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        'file',
-        fileBytes.toList(),
-        filename: fileName,
-      ),
-    );
+    final formData = FormData.fromMap({
+      'upload_preset': uploadPreset,
+      'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
+    });
 
     // Send the request
-    final response = await http.Response.fromStream(
-      await request.send(),
+    final response = await locator<Dio>().post(
+      uploadUrl.toString(),
+      data: formData,
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['secure_url']; // The URL of the uploaded image
+      return response
+          .data['secure_url']; // The URL of the uploaded file
     } else {
-      throw Exception("Failed to upload image: ${response.body}");
+      throw Exception("Failed to upload file: ${response.data}");
     }
   }
 }
