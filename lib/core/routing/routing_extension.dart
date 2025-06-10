@@ -10,9 +10,20 @@ extension RoutingExtension on BuildContext {
   }
 
   void to<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
-    T route, [
-    D? params,
-  ]) => push<TResutl>(_getPath(route, params));
+    T route,
+    D params,
+  ) => push<TResutl>(_getPath(route, params));
+
+  void
+  toWith<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
+    T route,
+    D params, {
+    required ValueChanged<TResutl> onResult,
+    VoidCallback? onError,
+  }) async {
+    final result = await push<TResutl>(_getPath(route, params));
+    result != null ? onResult(result) : onError?.call();
+  }
 
   void off<D extends RouteParams?, T extends AppRoutes<D>>(
     T route,

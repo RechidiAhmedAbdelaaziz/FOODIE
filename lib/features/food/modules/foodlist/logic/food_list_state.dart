@@ -44,10 +44,7 @@ class FoodListState with CubitErrorHandling {
   }
 
   FoodListState _loaded(List<FoodModel> foods) {
-    return _copyWith(
-      foods: foods,
-      status: _FoodListStatus.loaded,
-    );
+    return _copyWith(foods: foods, status: _FoodListStatus.loaded);
   }
 
   FoodListState _added(FoodModel food) {

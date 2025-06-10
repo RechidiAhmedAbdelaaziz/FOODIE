@@ -3,19 +3,19 @@
 part of 'router.dart';
 
 enum AppRoutes<T extends RouteParams?> {
-  login('/login', isGuarded: false),
-  home('/home'),
+  login<Null>('/login', isGuarded: false),
+  home<Null>('/home'),
 
-  history('/history'),
+  history<Null>('/history'),
 
-  tables('/table'),
+  tables<Null>('/table'),
 
-  createFood('/food-form'),
+  createFood<Null>('/food-form'),
   updateFood<UpdateFoodFormParams>('/food-form/:id'),
 
-  foodMenu('/food-menu'),
+  foodMenu<Null>('/food-menu'),
 
-  staffs('/staff');
+  staffs<Null>('/staff');
 
   final String path;
   final bool isGuarded;

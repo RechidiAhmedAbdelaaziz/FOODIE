@@ -75,165 +75,175 @@ class FoodFormScreen extends StatelessWidget {
               (FoodFormCubit cubit) => cubit.state.isLoading,
             );
 
-            final dto = context.read<FoodFormCubit>().dto;
             return isLoading
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: AppColors.green,
                     ),
                   )
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Form(
-                        key: dto.formKey,
-                        child: Column(
-                          spacing: 12.h,
-                          children: [
-                            AppFileField(
-                              controller: dto.imageController,
-                              height: 150.h,
-                              width: 120.w,
-                              borderRadius: 16.r,
-                              isRequired: true,
-                              errorText: 'Image is required'.tr(
-                                context,
-                              ),
-                              picker: locator<ImageFilePicker>(),
-                            ),
+                : Builder(
+                    builder: (context) {
+                      final dto = context.read<FoodFormCubit>().dto;
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                          ),
+                          child: Form(
+                            key: dto.formKey,
+                            child: Column(
+                              spacing: 12.h,
+                              children: [
+                                AppFileField(
+                                  controller: dto.imageController,
+                                  height: 100.h,
+                                  width: 100.w,
+                                  borderRadius: 12.r,
+                                  isRequired: true,
+                                  errorText: 'Image is required'.tr(
+                                    context,
+                                  ),
+                                  picker: locator<ImageFilePicker>(),
+                                ),
 
-                            AppTextField(
-                              controller: dto.nameController,
-                              label: 'Product name'.tr(context),
-                              isRequired: true,
-                              keyboardType: TextInputType.text,
-                              validator: (value) =>
-                                  value?.isEmpty == true
-                                  ? 'Name is required'.tr(context)
-                                  : null,
-                            ),
+                                AppTextField(
+                                  controller: dto.nameController,
+                                  label: 'Product name'.tr(context),
+                                  isRequired: true,
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Name is required'.tr(context)
+                                      : null,
+                                ),
 
-                            AppTextField(
-                              controller: dto.descriptionController,
-                              label: 'Description'.tr(context),
-                              isRequired: true,
-                              keyboardType: TextInputType.multiline,
-                              validator: (value) =>
-                                  value?.isEmpty == true
-                                  ? 'Description is required'.tr(
-                                      context,
-                                    )
-                                  : null,
-                            ),
+                                AppTextField(
+                                  controller:
+                                      dto.descriptionController,
+                                  label: 'Description'.tr(context),
+                                  isRequired: true,
+                                  keyboardType:
+                                      TextInputType.multiline,
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Description is required'.tr(
+                                          context,
+                                        )
+                                      : null,
+                                ),
 
-                            AppTextField(
-                              controller: dto.priceController,
-                              label: 'Price'.tr(context),
-                              isRequired: true,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter
-                                    .digitsOnly,
-                              ],
-                              validator: (value) {
-                                final price = int.tryParse(
-                                  value ?? '',
-                                );
-                                return price == null || price <= 0
-                                    ? 'Price must be a positive number'
-                                          .tr(context)
-                                    : null;
-                              },
-                            ),
+                                AppTextField(
+                                  controller: dto.priceController,
+                                  label: 'Price'.tr(context),
+                                  isRequired: true,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    final price = int.tryParse(
+                                      value ?? '',
+                                    );
+                                    return price == null || price <= 0
+                                        ? 'Price must be a positive number'
+                                              .tr(context)
+                                        : null;
+                                  },
+                                ),
 
-                            AppDropDownField(
-                              controller: dto.categoryController,
-                              itemsBuilder: (_) => AppData
-                                  .categories, //TODO: create category list
-                              itemToString: (item) =>
-                                  item.tr(context),
-                              isRequired: true,
-                              label: 'Category'.tr(context),
-                              hintText: 'Select a category'.tr(
-                                context,
-                              ),
-                            ),
+                                AppDropDownField(
+                                  controller: dto.categoryController,
+                                  itemsBuilder: (_) => AppData
+                                      .categories, //TODO: create category list
+                                  itemToString: (item) =>
+                                      item.tr(context),
+                                  isRequired: true,
+                                  label: 'Category'.tr(context),
+                                  hintText: 'Select a category'.tr(
+                                    context,
+                                  ),
+                                ),
 
-                            ValueListenableBuilder(
-                              valueListenable: dto.addOnsController,
-                              builder: (context, addOnsDto, child) {
-                                return Column(
-                                  spacing: 4.h,
-                                  children: [
-                                    Row(
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      dto.addOnsController,
+                                  builder: (context, addOnsDto, child) {
+                                    return Column(
+                                      spacing: 4.h,
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            'Add-ons'.tr(context),
-                                            style: AppTextStyles
-                                                .xLarge
-                                                .copyWith(
-                                                  color:
-                                                      AppColors.white,
-                                                ),
-                                          ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                'Add-ons'.tr(context),
+                                                style: AppTextStyles
+                                                    .xLarge
+                                                    .copyWith(
+                                                      color: AppColors
+                                                          .white,
+                                                    ),
+                                              ),
+                                            ),
+
+                                            IconButton(
+                                              onPressed: () {
+                                                dto.addOnsController
+                                                    .addValue(
+                                                      AddOnsDTO(),
+                                                    );
+                                              },
+                                              icon: const Icon(
+                                                Symbols
+                                                    .add_circle_outline,
+                                              ),
+                                              color: AppColors.green,
+                                            ),
+                                          ],
                                         ),
 
-                                        IconButton(
-                                          onPressed: () {
-                                            dto.addOnsController
-                                                .addValue(
-                                                  AddOnsDTO(),
+                                        ListView.separated(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: addOnsDto.length,
+                                          itemBuilder:
+                                              (context, index) {
+                                                final addOn =
+                                                    addOnsDto[index];
+                                                return _AddOnsField(
+                                                  addOn,
+                                                  dto.addOnsController,
                                                 );
-                                          },
-                                          icon: const Icon(
-                                            Symbols
-                                                .add_circle_outline,
-                                          ),
-                                          color: AppColors.green,
+                                              },
+                                          separatorBuilder:
+                                              (context, index) =>
+                                                  heightSpace(8.h),
                                         ),
                                       ],
-                                    ),
+                                    );
+                                  },
+                                ),
 
-                                    ListView.separated(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: addOnsDto.length,
-                                      itemBuilder: (context, index) {
-                                        final addOn =
-                                            addOnsDto[index];
-                                        return _AddOnsField(
-                                          addOn,
-                                          dto.addOnsController,
-                                        );
-                                      },
-                                      separatorBuilder:
-                                          (context, index) =>
-                                              heightSpace(8.h),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                                AppButton.primary(
+                                  text: 'Save',
+                                  onPressed: context
+                                      .read<FoodFormCubit>()
+                                      .save,
+                                ),
 
-                            AppButton.primary(
-                              text: 'Save',
-                              onPressed: context
-                                  .read<FoodFormCubit>()
-                                  .save,
+                                heightSpace(
+                                  MediaQuery.of(
+                                        context,
+                                      ).viewInsets.bottom +
+                                      16,
+                                ),
+                              ],
                             ),
-
-                            heightSpace(
-                              MediaQuery.of(
-                                    context,
-                                  ).viewInsets.bottom +
-                                  16,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
           },
         ),

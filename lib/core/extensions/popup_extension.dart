@@ -1,6 +1,7 @@
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
+import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,8 +51,21 @@ extension DialogExtension on BuildContext {
     return showDialog(
       context: this,
       builder: (context) => AlertDialog(
-        title: Text(title.tr(context)),
-        content: content != null ? Text(content.tr(context)) : null,
+        backgroundColor: AppColors.black,
+        title: Text(
+          title.tr(context),
+          style: AppTextStyles.h4.copyWith(
+            color: AppColors.greenLight,
+          ),
+        ),
+        content: content != null
+            ? Text(
+                content.tr(context),
+                style: AppTextStyles.normal.copyWith(
+                  color: AppColors.white,
+                ),
+              )
+            : null,
         actions: [
           AppButton.secondary(
             text: cancelText.tr(context),
@@ -60,6 +74,7 @@ extension DialogExtension on BuildContext {
               context.back();
             },
           ),
+          widthSpace(8),
           AppButton.primary(
             text: okText.tr(context),
             onPressed: () {
@@ -76,7 +91,7 @@ extension DialogExtension on BuildContext {
     showDialog(
       context: this,
       builder: (_) => AlertDialog(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.black,
 
         title: Row(
           spacing: 8.w,
@@ -88,7 +103,12 @@ extension DialogExtension on BuildContext {
             ),
           ],
         ),
-        content: Text(message.tr(this), style: AppTextStyles.medium),
+        content: Text(
+          message.tr(this),
+          style: AppTextStyles.medium.copyWith(
+            color: AppColors.white,
+          ),
+        ),
         actions: [
           AppButton.secondary(
             text: 'TryAgain'.tr(this),

@@ -49,10 +49,10 @@ class AppFileField<T extends FileDTO> extends StatelessWidget {
               valueListenable: controller,
               builder: (context, file, child) {
                 return SizedBox(
-                  height: height + 16.h,
-                  width: width + 16.w,
+                  height: height + 24.h,
+                  width: width + 24.w,
                   child: Stack(
-                    alignment: AlignmentDirectional.center,
+                    alignment: AlignmentDirectional.topCenter,
                     children: [
                       file != null
                           ? file.build(
@@ -73,21 +73,21 @@ class AppFileField<T extends FileDTO> extends StatelessWidget {
 
                       Align(
                         alignment: AlignmentDirectional.bottomEnd,
-                        child: IconButton(
-                          onPressed: () async {
+                        child: InkWell(
+                          onTap: () async {
                             final file = await picker.pickFile();
                             if (file != null) {
                               controller.setValue(file);
                             }
                           },
-                          icon: const Icon(
-                            Symbols.upload,
-                            color: Colors.white,
-                          ),
-                          style: IconButton.styleFrom(
-                            backgroundColor: AppColors.green,
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(4.r),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 20.r,
+                            child: Icon(
+                              Symbols.upload,
+                              color: AppColors.black,
+                              size: 24.r,
+                            ),
                           ),
                         ),
                       ),

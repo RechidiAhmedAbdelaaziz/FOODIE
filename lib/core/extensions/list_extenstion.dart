@@ -20,8 +20,11 @@ extension ListExtension<T> on List<T> {
 
   List<T> withUnique(T item) => List<T>.from(this)..addUnique(item);
 
-  List<T> withUniqueFirst(T item) =>
-      List.from(this)..addUniqueFirst(item);
+  List<T> withUniqueFirst(T item) {
+    final lsit = List<T>.from(this);
+    lsit.addUniqueFirst(item);
+    return lsit;
+  }
 
   void addAllUnique(List<T> items) => items.forEach(addUnique);
 
@@ -34,7 +37,11 @@ extension ListExtension<T> on List<T> {
     this[index] = item;
   }
 
-  List<T> withReplace(T item) => List<T>.from(this)..replace(item);
+  List<T> withReplace(T item) {
+    final list = List<T>.from(this);
+    list.replace(item);
+    return list;
+  }
 
   List<T> without(T item) => where((e) => e != item).toList();
 }

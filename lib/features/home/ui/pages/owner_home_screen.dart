@@ -40,7 +40,8 @@ class OwnerHomeScreen extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => context.to(AppRoutes.history),
+                      onPressed: () =>
+                          context.to(AppRoutes.history, null),
                       child: Text(
                         'See History'.tr(context),
                         style: AppTextStyles.normal.copyWith(
@@ -75,7 +76,7 @@ class OwnerHomeScreen extends StatelessWidget {
               context,
               Symbols.people,
               'Staff Management',
-              () => context.to(AppRoutes.staffs),
+              () => context.to(AppRoutes.staffs, null),
             ),
 
             //Menu Management
@@ -83,7 +84,7 @@ class OwnerHomeScreen extends StatelessWidget {
               context,
               Symbols.menu_book,
               'Menu Management',
-              () => context.to(AppRoutes.foodMenu),
+              () => context.to(AppRoutes.foodMenu, null),
             ),
 
             //Table Management
@@ -91,7 +92,7 @@ class OwnerHomeScreen extends StatelessWidget {
               context,
               Symbols.table_bar,
               'Table Management',
-              () => context.to(AppRoutes.tables),
+              () => context.to(AppRoutes.tables, null),
             ),
           ],
         ),

@@ -3,7 +3,6 @@ import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
-import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/food/data/model/food_model.dart';
@@ -54,43 +53,68 @@ class FoodMenuScreen extends StatelessWidget {
                 return ValueListenableBuilder(
                   valueListenable: categoryController,
                   builder: (context, selected, child) {
-                    return SingleChildScrollView(
-                      child: Column(
-                        spacing: 4.h,
-                        children: [
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              spacing: 4.w,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: cubit.categories
+                    return Column(
+                      spacing: 12.h,
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            spacing: 12.w,
+                            mainAxisAlignment:
+                                MainAxisAlignment.start,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: cubit.categories
+                                .map(
+                                  (category) => InkWell(
+                                    focusColor: Colors.transparent,
+                                    highlightColor:
+                                        Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    overlayColor:
+                                        WidgetStateProperty.all(
+                                          Colors.transparent,
+                                        ),
+
+                                    onTap: () => categoryController
+                                        .setValue(category),
+                                    child: _buildCatogoryButton(
+                                      context,
+                                      category,
+                                      selected == category,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              spacing: 8.h,
+                              children: cubit.foods
+                                  .where(
+                                    (food) =>
+                                        food.category == selected ||
+                                        selected == null,
+                                  )
                                   .map(
-                                    (category) => InkWell(
-                                      onTap: () => categoryController
-                                          .setValue(category),
-                                      child: _buildCatogoryButton(
-                                        context,
-                                        category,
-                                        selected == category,
+                                    (food) => _FoodItem(
+                                      food,
+                                      context.select(
+                                        (FoodListCubit cubit) => cubit
+                                            .state
+                                            .isUpdating(food),
                                       ),
                                     ),
                                   )
                                   .toList(),
                             ),
                           ),
-
-                          ...cubit.foods
-                              .where(
-                                (food) =>
-                                    food.category == selected ||
-                                    selected == null,
-                              )
-                              .map((food) => _FoodItem(food)),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   },
                 );
@@ -98,7 +122,11 @@ class FoodMenuScreen extends StatelessWidget {
             ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.to(AppRoutes.createFood),
+        onPressed: () => context.toWith(
+          AppRoutes.createFood,
+          null,
+          onResult: context.read<FoodListCubit>().addFood,
+        ),
         backgroundColor: AppColors.green,
         child: const Icon(Symbols.add, color: AppColors.black),
       ),
@@ -114,21 +142,22 @@ class FoodMenuScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(4.r),
       child: Column(
-        spacing: 4.h,
+        spacing: 2.h,
         children: [
           Text(
             category.tr(context),
-            style: AppTextStyles.medium.copyWith(
+            style: AppTextStyles.large.copyWith(
               color: isSelected ? AppColors.green : AppColors.white,
             ),
           ),
           if (isSelected)
             Container(
-              width: 4.w,
-              height: 2.h,
+              width: 4.r,
+              height: 4.r,
               decoration: BoxDecoration(
                 color: AppColors.green,
-                borderRadius: BorderRadius.circular(4.r),
+                // borderRadius: BorderRadius.circular(4.r),
+                shape: BoxShape.circle,
               ),
             ),
         ],
@@ -139,80 +168,97 @@ class FoodMenuScreen extends StatelessWidget {
 
 class _FoodItem extends StatelessWidget {
   final FoodModel food;
+  final bool isLoading;
 
-  const _FoodItem(this.food);
+  const _FoodItem(this.food, this.isLoading);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border(
           bottom: BorderSide(color: AppColors.green, width: 1.w),
+          top: BorderSide(color: AppColors.green, width: 1.w),
         ),
       ),
 
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8.w,
         children: [
           Container(
             width: 100.w,
             height: 100.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(12.r),
               image: DecorationImage(
                 image: NetworkImage(food.image ?? ''),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),
 
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              spacing: 4.h,
               children: [
                 Row(
-                  spacing: 2.w,
+                  spacing: 8.w,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // food name and description
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            food.name ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.large.copyWith(
-                              color: AppColors.white,
+                      child: SizedBox(
+                        height: 100.h,
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              food.name ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.large.copyWith(
+                                color: AppColors.white,
+                              ),
                             ),
-                          ),
-                          Text(
-                            food.description ?? '',
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.small.copyWith(
-                              color: AppColors.white,
+                            Expanded(
+                              child: Text(
+                                food.description ?? '',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.small.copyWith(
+                                  color: AppColors.white,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
 
-                    IconButton(
-                      onPressed: () => context.to(
+                    InkWell(
+                      onTap: () => context.toWith(
                         AppRoutes.updateFood,
                         UpdateFoodFormParams(food),
+                        onResult: context
+                            .read<FoodListCubit>()
+                            .replaceFood,
                       ),
 
-                      icon: const Icon(
+                      child: const Icon(
                         Symbols.edit,
                         color: AppColors.white,
                       ),
                     ),
 
-                    IconButton(
-                      onPressed: () => context.alertDialog(
+                    InkWell(
+                      onTap: () => context.alertDialog(
                         title: 'Delete Food'.tr(context),
                         content:
                             'Are you sure you want to delete this food?'
@@ -221,7 +267,7 @@ class _FoodItem extends StatelessWidget {
                             .read<FoodListCubit>()
                             .removeFood(food),
                       ),
-                      icon: const Icon(
+                      child: const Icon(
                         Symbols.delete,
                         color: AppColors.red,
                       ),
@@ -229,37 +275,58 @@ class _FoodItem extends StatelessWidget {
                   ],
                 ),
 
-                // price and availability
                 Row(
-                  spacing: 2.w,
                   children: [
                     Expanded(
-                      child: Text(
-                        '${food.price ?? 0} DZD',
-                        style: AppTextStyles.medium.copyWith(
-                          color: AppColors.green,
-                          fontWeight: FontWeight.bold,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '${food.price ?? 0} ',
+                              style: AppTextStyles.h4.copyWith(
+                                color: AppColors.greenLight,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'DZD',
+                              style: AppTextStyles.small.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-
-                    food.isAvailable == true
-                        ? AppButton.secondary(
-                            text: 'Mark as unavailable'.tr(context),
-                            color: AppColors.red,
-                            textColor: AppColors.red,
-                            onPressed: () => context
-                                .read<FoodListCubit>()
-                                .updateAvailability(food),
-                          )
-                        : AppButton.primary(
-                            text: 'Mark as available'.tr(context),
-                            onPressed: () => context
-                                .read<FoodListCubit>()
-                                .updateAvailability(food),
+                    InkWell(
+                      onTap: () => context
+                          .read<FoodListCubit>()
+                          .updateAvailability(food),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 4.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: food.isAvailable ?? false
+                              ? AppColors.green
+                              : AppColors.red,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          food.isAvailable ?? false
+                              ? 'Available'.tr(context)
+                              : 'Unavailable'.tr(context),
+                          style: AppTextStyles.normal.copyWith(
+                            color: AppColors.white,
                           ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+
+                if (isLoading)
+                  LinearProgressIndicator(color: AppColors.green),
               ],
             ),
           ),

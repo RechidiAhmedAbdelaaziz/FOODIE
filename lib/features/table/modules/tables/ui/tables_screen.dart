@@ -37,8 +37,7 @@ class TablesScreen extends StatelessWidget {
         title: Text('Tables'.tr(context)),
       ),
       body: PaginationBuilder(
-        items: (ctx) =>
-            ctx.select((TablesCubit cubit) => cubit.state.tables),
+        items: (ctx) => ctx.watch<TablesCubit>().state.tables,
         itemBuilder: _buildTableCard,
         isLoading: (ctx) =>
             ctx.select((TablesCubit cubit) => cubit.state.isLoading),
@@ -63,14 +62,16 @@ class TablesScreen extends StatelessWidget {
   Widget _buildTableCard(BuildContext context, TableModel table) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
-      padding: EdgeInsets.all(8.r),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
         color: AppColors.blue,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: 8.w,
         children: [
+          Icon(Symbols.table_bar, color: Colors.white, size: 24.sp),
+
           Expanded(
             child: Text(
               table.name ?? 'Unnamed Table',
@@ -81,26 +82,25 @@ class TablesScreen extends StatelessWidget {
               ),
             ),
           ),
+
           Row(
+            spacing: 16.w,
             children: [
-              IconButton(
-                onPressed: () {
+              InkWell(
+                onTap: () {
                   //TODO: Implement QR code download functionality
                 },
-                icon: const Icon(
-                  Symbols.qr_code,
-                  color: Colors.white,
-                ),
+                child: Icon(Symbols.qr_code, color: AppColors.green),
               ),
-              IconButton(
-                onPressed: () => context.dialogWith<TableModel>(
+              InkWell(
+                onTap: () => context.dialogWith<TableModel>(
                   child: TableFormView(table: table),
                   onResult: context.read<TablesCubit>().updateTable,
                 ),
-                icon: const Icon(Symbols.edit, color: Colors.white),
+                child: Icon(Symbols.edit, color: Colors.white),
               ),
-              IconButton(
-                onPressed: () => context.alertDialog(
+              InkWell(
+                onTap: () => context.alertDialog(
                   title: 'Delete Table'.tr(context),
                   content:
                       'Are you sure you want to delete this table?'
@@ -108,7 +108,7 @@ class TablesScreen extends StatelessWidget {
                   onConfirm: () =>
                       context.read<TablesCubit>().removeTable(table),
                 ),
-                icon: const Icon(Symbols.delete, color: Colors.red),
+                child: Icon(Symbols.delete, color: Colors.red),
               ),
             ],
           ),
