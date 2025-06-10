@@ -7,8 +7,8 @@ import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller
 import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:flutter/widgets.dart';
 
-class RestaurantDto with AsyncFormDTO {
-  final RestaurantModel? _restaurant;
+class RestaurantDTO with AsyncFormDTO {
+  final RestaurantModel _restaurant;
 
   final EditingController<ImageDTO> imageController;
   final TextEditingController nameController;
@@ -24,44 +24,44 @@ class RestaurantDto with AsyncFormDTO {
   final EditingController<String> tiktokLinkController;
   final EditingController<String> phoneController;
 
-  RestaurantDto(this._restaurant)
+  RestaurantDTO(this._restaurant)
     : imageController = EditingController<ImageDTO>(
-        _restaurant?.image != null
-            ? RemoteImageDto(_restaurant!.image!)
+        _restaurant.image != null
+            ? RemoteImageDto(_restaurant.image!)
             : null,
       ),
-      nameController = TextEditingController(text: _restaurant?.name),
+      nameController = TextEditingController(text: _restaurant.name),
       categoryController = EditingController<String>(
-        _restaurant?.category,
+        _restaurant.category,
       ),
       descriptionController = TextEditingController(
-        text: _restaurant?.description,
+        text: _restaurant.description,
       ),
       addressController = EditingController<String>(
-        _restaurant?.address?.title,
+        _restaurant.address?.title,
       ),
       openingDaysController = ListEditingController<String>(
-        _restaurant?.openingDays,
+        _restaurant.openingDays,
       ),
       startTimeController = EditingController<String>(
-        _restaurant?.startTime,
+        _restaurant.startTime,
       ),
       endTimeController = EditingController<String>(
-        _restaurant?.endTime,
+        _restaurant.endTime,
       ),
       isPrePaidController = BooleanEditingController(
-        _restaurant?.isPrePaid ?? false,
+        _restaurant.isPrePaid ?? false,
       ),
       facebookLinkController = EditingController<String>(
-        _restaurant?.facebookLink,
+        _restaurant.facebookLink,
       ),
       instagramLinkController = EditingController<String>(
-        _restaurant?.instagramLink,
+        _restaurant.instagramLink,
       ),
       tiktokLinkController = EditingController<String>(
-        _restaurant?.tiktokLink,
+        _restaurant.tiktokLink,
       ),
-      phoneController = EditingController<String>(_restaurant?.phone);
+      phoneController = EditingController<String>(_restaurant.phone);
 
   @override
   void dispose() {
@@ -80,62 +80,47 @@ class RestaurantDto with AsyncFormDTO {
     phoneController.dispose();
   }
 
-  String get id => _restaurant?.id ?? '';
-
   @override
   Future<Map<String, dynamic>> toMap() async {
     final imageUrl = await imageController.value?.url;
     return {
-      if (_restaurant == null ||
-          _restaurant.name != nameController.text)
+      if (_restaurant.name != nameController.text)
         'name': nameController.text,
 
-      if (_restaurant == null ||
-          _restaurant.category != categoryController.value)
+      if (_restaurant.category != categoryController.value)
         'category': categoryController.value,
 
-      if (_restaurant == null ||
-          _restaurant.description != descriptionController.text)
+      if (_restaurant.description != descriptionController.text)
         'description': descriptionController.text,
 
-      if (_restaurant == null ||
-          _restaurant.address?.title != addressController.value)
+      if (_restaurant.address?.title != addressController.value)
         'address': addressController.value,
 
-      if (_restaurant == null ||
-          _restaurant.openingDays != openingDaysController.value)
+      if (_restaurant.openingDays != openingDaysController.value)
         'openingDays': openingDaysController.value,
 
-      if (_restaurant == null ||
-          _restaurant.startTime != startTimeController.value)
+      if (_restaurant.startTime != startTimeController.value)
         'startTime': startTimeController.value,
 
-      if (_restaurant == null ||
-          _restaurant.endTime != endTimeController.value)
+      if (_restaurant.endTime != endTimeController.value)
         'endTime': endTimeController.value,
 
-      if (_restaurant == null ||
-          _restaurant.isPrePaid != isPrePaidController.value)
+      if (_restaurant.isPrePaid != isPrePaidController.value)
         'isPrePaid': isPrePaidController.value,
 
-      if (_restaurant == null ||
-          _restaurant.facebookLink != facebookLinkController.value)
+      if (_restaurant.facebookLink != facebookLinkController.value)
         'facebookLink': facebookLinkController.value,
 
-      if (_restaurant == null ||
-          _restaurant.instagramLink != instagramLinkController.value)
+      if (_restaurant.instagramLink != instagramLinkController.value)
         'instagramLink': instagramLinkController.value,
 
-      if (_restaurant == null ||
-          _restaurant.tiktokLink != tiktokLinkController.value)
+      if (_restaurant.tiktokLink != tiktokLinkController.value)
         'tiktokLink': tiktokLinkController.value,
 
-      if (_restaurant == null ||
-          _restaurant.phone != phoneController.value)
+      if (_restaurant.phone != phoneController.value)
         'phone': phoneController.value,
 
-      if (_restaurant == null || _restaurant.image != imageUrl)
-        'image': imageUrl,
+      if (_restaurant.image != imageUrl) 'image': imageUrl,
     }.withoutNullsOrEmpty();
   }
 }

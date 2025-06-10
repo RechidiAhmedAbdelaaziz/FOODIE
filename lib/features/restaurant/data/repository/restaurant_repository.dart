@@ -24,33 +24,20 @@ class RestaurantRepo extends NetworkRepository {
     );
   }
 
-  RepoResult<RestaurantModel> getRestaurant(String id) {
+  RepoResult<RestaurantModel> getRestaurant() {
     return tryApiCall(
-      apiCall: () async => _restaurantApi.getRestaurantById(id),
+      apiCall: () async => _restaurantApi.getRestaurantById(),
       onResult: (response) => RestaurantModel.fromJson(response.data),
     );
   }
 
-  RepoResult<RestaurantModel> createRestaurant(RestaurantDto dto) {
+  RepoResult<RestaurantModel> updateRestaurant(RestaurantDTO dto) {
     return tryApiCall(
       apiCall: () async =>
-          _restaurantApi.createRestaurant(await dto.toMap()),
+          _restaurantApi.updateRestaurant( await dto.toMap()),
       onResult: (response) => RestaurantModel.fromJson(response.data),
     );
   }
 
-  RepoResult<RestaurantModel> updateRestaurant(RestaurantDto dto) {
-    return tryApiCall(
-      apiCall: () async =>
-          _restaurantApi.updateRestaurant(dto.id, await dto.toMap()),
-      onResult: (response) => RestaurantModel.fromJson(response.data),
-    );
-  }
 
-  RepoResult<void> deleteRestaurant(String id) {
-    return tryApiCall(
-      apiCall: () async => _restaurantApi.deleteRestaurant(id),
-      onResult: (response) {},
-    );
-  }
 }

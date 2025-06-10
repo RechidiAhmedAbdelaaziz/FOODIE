@@ -16,20 +16,11 @@ abstract class RestaurantApi {
     @Queries() Map<String, dynamic> queries,
   );
 
-  @GET('/restaurants/{id}')
-  Future<DataApiResponse> getRestaurantById(@Path('id') String id);
+  @GET('/restaurants/me')
+  Future<DataApiResponse> getRestaurantById();
 
-  @POST('/restaurants')
-  Future<DataApiResponse> createRestaurant(
-    @Body() Map<String, dynamic> body,
-  );
-
-  @PATCH('/restaurants/{id}')
+  @PATCH('/restaurants')
   Future<DataApiResponse> updateRestaurant(
-    @Path('id') String id,
     @Body() Map<String, dynamic> body,
   );
-
-  @DELETE('/restaurants/{id}')
-  Future<DataApiResponse> deleteRestaurant(@Path('id') String id);
 }

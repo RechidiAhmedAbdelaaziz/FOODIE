@@ -15,7 +15,9 @@ enum AppRoutes<T extends RouteParams?> {
 
   foodMenu<Null>('/food-menu'),
 
-  staffs<Null>('/staff');
+  staffs<Null>('/staff'),
+
+  updateRestaurant<Null>('/restaurant-form');
 
   final String path;
   final bool isGuarded;
