@@ -32,6 +32,10 @@ import 'package:app/features/food/data/source/food_api.dart' as _i531;
 import 'package:app/features/history/data/repository/history_repository.dart'
     as _i883;
 import 'package:app/features/history/data/source/history_api.dart' as _i892;
+import 'package:app/features/restaurant/data/repository/restaurant_repository.dart'
+    as _i275;
+import 'package:app/features/restaurant/data/source/restaurant_api.dart'
+    as _i728;
 import 'package:app/features/staff/data/repository/staff_repository.dart'
     as _i798;
 import 'package:app/features/staff/data/source/staff_api.dart' as _i850;
@@ -70,6 +74,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
+    gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -82,6 +87,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i850.StaffApi>(() => _i850.StaffApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i728.RestaurantApi>(
+      () => _i728.RestaurantApi(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );
