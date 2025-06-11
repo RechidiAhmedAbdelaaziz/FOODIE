@@ -78,7 +78,7 @@ class OwnerOrderScreen extends OrderScreenBase {
               '${order.quantity}',
               key: ValueKey<int>(order.quantity ?? 0),
               style: AppTextStyles.large.copyWith(
-                color: AppColors.white,
+                color: AppColors.greenLight,
               ),
             ),
           ),
