@@ -32,6 +32,8 @@ class SocketIoService {
   void disconnect() => _socket.disconnect();
 
   void onData(String event, Function(DataApiResponse data) callback) {
+    connect();
+
     _socket.on(event, (data) {
       if (data is Map<String, dynamic>) {
         final response = DataApiResponse.fromJson(data);
@@ -46,6 +48,8 @@ class SocketIoService {
     String event,
     Function(MultiDataApiResponse data) callback,
   ) {
+    connect();
+
     _socket.on(event, (data) {
       if (data is Map<String, dynamic>) {
         final response = MultiDataApiResponse.fromJson(data);
@@ -55,4 +59,7 @@ class SocketIoService {
       }
     });
   }
+
+  void off(String event) =>
+      _socket.connected ? _socket.off(event) : {};
 }

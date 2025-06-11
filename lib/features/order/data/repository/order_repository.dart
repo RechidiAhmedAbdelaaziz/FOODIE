@@ -1,5 +1,6 @@
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/networking/network_repository.dart';
+import 'package:app/core/services/socketio/socket_io_service.dart';
 import 'package:app/core/shared/models/pagination_result.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:injectable/injectable.dart';
@@ -9,6 +10,7 @@ import '../source/order_api.dart';
 @lazySingleton
 class OrderRepo extends NetworkRepository {
   final _orderApi = locator<OrderApi>();
+  final _socket = locator<SocketIoService>();
 
   RepoListResult<OrderModel> getOrders() => tryApiCall(
     apiCall: () async => _orderApi.getOrders(),
@@ -17,4 +19,24 @@ class OrderRepo extends NetworkRepository {
       fromJson: OrderModel.fromJson,
     ),
   );
+
+  void onNewOrder(Function(OrderModel order) callback) =>
+      _socket.onData(
+        'NEW_ORDER',
+        (data) => callback(OrderModel.fromJson(data.data)),
+      );
+
+  void onOrderUpdated(Function(OrderModel order) callback) =>
+      _socket.onData(
+        'ORDER_UPDATED',
+        (data) => callback(OrderModel.fromJson(data.data)),
+      );
+
+  void onOrderDeleted(Function(OrderModel order) callback) =>
+      _socket.onData(
+        'ORDER_DELETED',
+        (data) => callback(OrderModel.fromJson(data.data)),
+      );
+
+  void disconnect() => _socket.disconnect();
 }
