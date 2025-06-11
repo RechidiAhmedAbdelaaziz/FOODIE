@@ -14,5 +14,17 @@ abstract class OrderApi {
   @GET('/orders')
   Future<MultiDataApiResponse> getOrders();
 
-  
+  @POST('/orders')
+  Future<DataApiResponse> createOrder(
+    @Body() Map<String, dynamic> orderData,
+  );
+
+  @PATCH('/orders/{id}')
+  Future<DataApiResponse> updateOrder(
+    @Path('id') String orderId,
+    @Body() Map<String, dynamic> orderData,
+  );
+
+  @DELETE('/orders/{id}')
+  Future<VoidApiResponse> deleteOrder(@Path('id') String orderId);
 }

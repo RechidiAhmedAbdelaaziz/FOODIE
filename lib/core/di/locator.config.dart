@@ -18,6 +18,7 @@ import 'package:app/core/services/cloudstorage/cloud_storage.service.dart'
     as _i489;
 import 'package:app/core/services/cloudstorage/cloudinary.service.dart' as _i87;
 import 'package:app/core/services/filepicker/file_picker_service.dart' as _i133;
+import 'package:app/core/services/socketio/socket_io_service.dart' as _i117;
 import 'package:app/features/auth/data/repository/auth_repository.dart'
     as _i719;
 import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
@@ -66,9 +67,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i811.FoodRepo>(() => _i811.FoodRepo());
     gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
     gh.lazySingleton<_i798.StaffRepo>(() => _i798.StaffRepo());
+    gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
     gh.lazySingleton<_i729.TableRepo>(() => _i729.TableRepo());
+    gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
     gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
     gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
+    gh.lazySingleton<_i117.SocketIoService>(() => _i117.SocketIoService());
     gh.lazySingleton<_i962.CacheService>(() => _i962.CacheService());
     gh.lazySingleton<_i183.ImagePicker>(() => filePickersModule.imagePicker);
     gh.lazySingleton<_i388.FilePicker>(() => filePickersModule.filePicker);
@@ -77,8 +81,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
-    gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
-    gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -89,12 +91,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i531.FoodApi>(() => _i531.FoodApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i850.StaffApi>(() => _i850.StaffApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i728.RestaurantApi>(
       () => _i728.RestaurantApi(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i46.OrderApi>(() => _i46.OrderApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );

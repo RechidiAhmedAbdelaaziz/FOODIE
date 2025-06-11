@@ -2,6 +2,8 @@ import 'package:app/core/di/locator.dart';
 import 'package:app/core/networking/network_repository.dart';
 import 'package:app/core/services/socketio/socket_io_service.dart';
 import 'package:app/core/shared/models/pagination_result.dart';
+import 'package:app/features/order/data/dto/create_order_dto.dart';
+import 'package:app/features/order/data/dto/update_order_dto.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -19,6 +21,26 @@ class OrderRepo extends NetworkRepository {
       fromJson: OrderModel.fromJson,
     ),
   );
+
+  RepoResult<OrderModel> createOrder(CreateOrderDTO dto) =>
+      tryApiCall(
+        apiCall: () async => _orderApi.createOrder(dto.toMap()),
+        onResult: (response) => OrderModel.fromJson(response.data),
+      );
+
+  RepoResult<OrderModel> updateOrder(UpdateOrderDTO dto) =>
+      tryApiCall(
+        apiCall: () async =>
+            _orderApi.updateOrder(dto.id, dto.toMap()),
+        onResult: (response) => OrderModel.fromJson(response.data),
+      );
+
+  RepoResult<void> deleteOrder(String orderId) => tryApiCall(
+    apiCall: () async => _orderApi.deleteOrder(orderId),
+    onResult: (_) {},
+  );
+
+  // * SOCKET METHODS
 
   void onNewOrder(Function(OrderModel order) callback) =>
       _socket.onData(

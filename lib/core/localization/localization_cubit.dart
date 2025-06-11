@@ -7,12 +7,13 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class LocalizationCubit extends Cubit<Locale?> {
   final _cacheService = locator<CacheService>();
-  LocalizationCubit() : super(null) {
-    init();
-  }
+  LocalizationCubit() : super(null);
 
-  void init() {
-    final langCode = _cacheService.getString('language') ?? 'en';
+  void init(String initialLangCode) {
+    if (state != null) return;
+    final langCode =
+        _cacheService.getString('language') ?? initialLangCode;
+
     emit(Locale(langCode));
   }
 

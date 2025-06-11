@@ -1,8 +1,12 @@
+import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
+import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/order/data/model/order_model.dart';
+import 'package:app/features/order/modules/logic/orders_cubit.dart';
 import 'package:app/features/order/modules/pages/orders_screen_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OwnerOrderScreen extends OrderScreenBase {
@@ -64,7 +68,6 @@ class OwnerOrderScreen extends OrderScreenBase {
             ),
           ),
 
-
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder:
@@ -81,6 +84,135 @@ class OwnerOrderScreen extends OrderScreenBase {
                 color: AppColors.greenLight,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ServerOrderScreen extends OrderScreenBase {
+  const ServerOrderScreen({super.key});
+
+  @override
+  Widget builder(List<OrderModel> orders) {
+    return ListView.separated(
+      itemBuilder: (context, i) =>
+          _buildOrderCard(context, orders[i]),
+      separatorBuilder: (_, __) => heightSpace(12),
+      itemCount: orders.length,
+    );
+  }
+
+  Widget _buildOrderCard(BuildContext context, OrderModel order) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: AppColors.white),
+      ),
+      child: Column(
+        children: [
+          //table name and price
+          Row(
+            spacing: 8.w,
+            children: [
+              Expanded(
+                child: Text(
+                  order.table?.name ?? 'Unknown Table',
+                  style: AppTextStyles.large.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: order.totalPrice.toStringAsFixed(0),
+                      style: AppTextStyles.h4.copyWith(
+                        color: order.isPaid ?? false
+                            ? AppColors.greenLight
+                            : AppColors.red,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' DZD',
+                      style: AppTextStyles.small.copyWith(
+                        color: order.isPaid ?? false
+                            ? AppColors.greenLight
+                            : AppColors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          //foods list
+          if (order.foods?.isNotEmpty == true)
+            ...order.foods!.map(
+              (order) => Row(
+                spacing: 8.w,
+                children: [
+                  // food name with add-ons like this : Food Name (Add-on1, Add-on2)
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: order.food?.name ?? '',
+                            style: AppTextStyles.large.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                          TextSpan(
+                            text: order.addOns?.isNotEmpty == true
+                                ? ' (${order.addOns?.map((e) => e.name).join(', ')})'
+                                : '',
+                            style: AppTextStyles.normal.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // quantity
+                  Text(
+                    '${order.quantity}',
+                    style: AppTextStyles.h4.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          //action buttons
+          Row(
+            spacing: 26.w,
+            children: [
+              // mark as paid if not paid
+              if (!(order.isPaid ?? false))
+                AppButton.secondary(
+                  onPressed: () => context
+                      .read<OrdersCubit>()
+                      .markOrderAsPaid(order),
+                  text: 'Mark as Paid',
+                ),
+
+              // mark as delivered if not delivered
+              if (!(order.isDelivered ?? false))
+                AppButton.primary(
+                  onPressed: () => context
+                      .read<OrdersCubit>()
+                      .markOrderAsDelivered(order),
+                  text: 'Mark as Delivered',
+                ),
+            ],
           ),
         ],
       ),
