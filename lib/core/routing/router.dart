@@ -5,6 +5,7 @@ import 'package:app/features/food/modules/foodform/ui/food_form_screen.dart';
 import 'package:app/features/food/modules/foodlist/ui/food_menu_screen.dart';
 import 'package:app/features/history/modules/histories/ui/history_screen.dart';
 import 'package:app/features/home/configs/home_routes.dart';
+import 'package:app/features/restaurant/modules/restaurantform/ui/restaurant_form_screen.dart';
 import 'package:app/features/staff/modules/staffs/ui/staffs_screen.dart';
 import 'package:app/features/table/modules/tables/ui/tables_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class AppRouter {
       TablesScreen.route,
       ...FoodFormScreen.routes,
       FoodMenuScreen.route,
+      RestaurantFormScreen.route,
     ],
     debugLogDiagnostics: true,
 

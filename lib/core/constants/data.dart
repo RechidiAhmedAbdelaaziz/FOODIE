@@ -1,5 +1,5 @@
 abstract class AppData {
-  static const List<String> categories = [
+  static const List<String> foodCategories = [
     'Food',
     'Drinks',
     'Desserts',
@@ -7,5 +7,15 @@ abstract class AppData {
     'Breakfast',
     'Lunch',
     'Dinner',
+  ];
+
+  static const List<String> restaurantTypes = [
+    'Fast Food',
+    'Casual Dining',
+    'Fine Dining',
+    'Cafe',
+    'Buffet',
+    'Food Truck',
+    'Bistro',
   ];
 }

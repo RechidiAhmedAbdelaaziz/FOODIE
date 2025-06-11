@@ -68,7 +68,7 @@ class OwnerHomeScreen extends StatelessWidget {
               context,
               Symbols.restaurant,
               'Restaurant Management',
-              () {},
+              () => context.to(AppRoutes.updateRestaurant, null),
             ),
 
             //Staff  Management

@@ -29,7 +29,10 @@ class ListEditingController<T> extends ValueNotifier<List<T>> {
     notifyListeners();
   }
 
-  void addValues(List<T> values) => value.addAllUnique(values);
+  void addValues(List<T> values) {
+    value.addAllUnique(values);
+    notifyListeners();
+  }
 
   void removeValues(List<T> values) =>
       value.removeWhere((element) => values.contains(element));
