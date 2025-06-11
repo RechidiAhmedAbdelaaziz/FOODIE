@@ -32,6 +32,9 @@ import 'package:app/features/food/data/source/food_api.dart' as _i531;
 import 'package:app/features/history/data/repository/history_repository.dart'
     as _i883;
 import 'package:app/features/history/data/source/history_api.dart' as _i892;
+import 'package:app/features/order/data/repository/order_repository.dart'
+    as _i913;
+import 'package:app/features/order/data/source/order_api.dart' as _i46;
 import 'package:app/features/restaurant/data/repository/restaurant_repository.dart'
     as _i275;
 import 'package:app/features/restaurant/data/source/restaurant_api.dart'
@@ -75,6 +78,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
     gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
+    gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
@@ -90,6 +94,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i728.RestaurantApi>(
       () => _i728.RestaurantApi(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i46.OrderApi>(() => _i46.OrderApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );
