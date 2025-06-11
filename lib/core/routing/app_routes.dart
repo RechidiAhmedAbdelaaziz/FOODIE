@@ -17,6 +17,8 @@ enum AppRoutes<T extends RouteParams?> {
 
   staffs<Null>('/staff'),
 
+  orders<Null>('/orders'),
+
   updateRestaurant<Null>('/restaurant-form');
 
   final String path;

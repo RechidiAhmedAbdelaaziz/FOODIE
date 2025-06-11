@@ -94,6 +94,14 @@ class OwnerHomeScreen extends StatelessWidget {
               'Table Management',
               () => context.to(AppRoutes.tables, null),
             ),
+
+            //Order Management
+            _buildButton(
+              context,
+              Symbols.receipt_long,
+              'Order Management',
+              () => context.to(AppRoutes.orders, null),
+            ),
           ],
         ),
       ),

@@ -34,6 +34,8 @@ class OrderModel extends Equatable {
     return total;
   }
 
+  List<OrderData> get mergedFoods => foods?.merged ?? [];
+
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
 
@@ -70,7 +72,7 @@ class OrderData {
 extension OrderDataListExtension on List<OrderData> {
   List<OrderData> get merged {
     List<OrderData> result = [];
-    
+
     for (var currentOrderData in this) {
       final existingIndex = result.indexWhere(
         (element) => element.isEquale(currentOrderData),
