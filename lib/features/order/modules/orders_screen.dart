@@ -1,7 +1,6 @@
 import 'package:app/core/flavors/flavors_screen.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/features/order/modules/logic/orders_cubit.dart';
-import 'package:app/features/order/modules/pages/orders_screen_base.dart';
 import 'package:app/features/order/modules/pages/orders_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

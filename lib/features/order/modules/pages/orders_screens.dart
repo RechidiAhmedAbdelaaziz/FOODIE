@@ -64,7 +64,7 @@ class OwnerOrderScreen extends OrderScreenBase {
             ),
           ),
 
-          //animated number (order.quantity)
+
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder:
@@ -77,7 +77,7 @@ class OwnerOrderScreen extends OrderScreenBase {
             child: Text(
               '${order.quantity}',
               key: ValueKey<int>(order.quantity ?? 0),
-              style: AppTextStyles.large.copyWith(
+              style: AppTextStyles.h4.copyWith(
                 color: AppColors.greenLight,
               ),
             ),
