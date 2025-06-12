@@ -18,6 +18,7 @@ import 'package:app/core/services/cloudstorage/cloud_storage.service.dart'
     as _i489;
 import 'package:app/core/services/cloudstorage/cloudinary.service.dart' as _i87;
 import 'package:app/core/services/filepicker/file_picker_service.dart' as _i133;
+import 'package:app/core/services/qr/qr_service.dart' as _i425;
 import 'package:app/core/services/socketio/socket_io_service.dart' as _i117;
 import 'package:app/features/auth/data/repository/auth_repository.dart'
     as _i719;
@@ -72,6 +73,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
     gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
     gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
+    gh.lazySingleton<_i425.QrService>(() => _i425.QrService());
     gh.lazySingleton<_i117.SocketIoService>(() => _i117.SocketIoService());
     gh.lazySingleton<_i962.CacheService>(() => _i962.CacheService());
     gh.lazySingleton<_i183.ImagePicker>(() => filePickersModule.imagePicker);

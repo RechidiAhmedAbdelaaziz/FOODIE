@@ -81,8 +81,8 @@ class RestaurantsScreen extends StatelessWidget {
     return InkWell(
       // when click open the restaurant map link
       onTap: () {
-        if (item.googleMapLink != null) {
-          launchUrl(Uri.parse(item.googleMapLink!));
+        if (item.address?.link != null) {
+          launchUrl(Uri.parse(item.address!.link!));
         }
       },
 

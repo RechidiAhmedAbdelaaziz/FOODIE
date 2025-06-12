@@ -1,4 +1,6 @@
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/map_extension.dart';
+import 'package:app/core/services/geolocator/geo_locator_service.dart';
 import 'package:app/core/shared/dto/filesdto/image_dto.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
@@ -37,8 +39,8 @@ class RestaurantDTO with AsyncFormDTO {
       descriptionController = TextEditingController(
         text: _restaurant.description,
       ),
-      addressController =TextEditingController(text: 
-        _restaurant.address?.title,
+      addressController = TextEditingController(
+        text: _restaurant.address?.link,
       ),
       openingDaysController = ListEditingController<String>(
         _restaurant.openingDays,
@@ -93,8 +95,13 @@ class RestaurantDTO with AsyncFormDTO {
       if (_restaurant.description != descriptionController.text)
         'description': descriptionController.text,
 
-      if (_restaurant.address?.title != addressController.value)
-        'address': addressController.value,
+      if (_restaurant.address?.link != addressController.text) ...{
+        'address': addressController.text,
+        // Fetching the coordinates from the short URL
+        ...(await locator<GeoLocatorService>().getLangLatFromShortUrl(
+          addressController.text,
+        )).toMap(), // {latitude: ..., longitude: ...}
+      },
 
       if (_restaurant.openingDays != openingDaysController.value)
         'openingDays': openingDaysController.value,

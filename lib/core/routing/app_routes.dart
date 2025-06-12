@@ -4,6 +4,9 @@ part of 'router.dart';
 
 enum AppRoutes<T extends RouteParams?> {
   login<Null>('/login', isGuarded: false),
+  verifyCode<VerifyCodeParams>('/verify-code', isGuarded: false),
+
+
   home<Null>('/home'),
 
   history<Null>('/history'),

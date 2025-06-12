@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/core/di/locator.dart';
 import 'package:app/features/auth/configs/auth_routes.dart';
 import 'package:app/features/auth/logic/auth_cubit.dart';
+import 'package:app/features/auth/modules/verifycode/ui/verify_code_screen.dart';
 import 'package:app/features/food/modules/foodform/ui/food_form_screen.dart';
 import 'package:app/features/food/modules/foodlist/ui/food_menu_screen.dart';
 import 'package:app/features/history/modules/histories/ui/history_screen.dart';
@@ -44,7 +45,15 @@ class AppRouter {
     BuildContext context,
     GoRouterState state,
   ) async {
-    if (locator<AuthCubit>().isAuthenticated) return null;
+    final route = AppRoutes.values.firstWhere(
+      (route) => route.path == state.uri.path,
+      orElse: () => AppRoutes.home,
+    );
+
+    if (!route.isGuarded || locator<AuthCubit>().isAuthenticated) {
+      return null;
+    }
+
     return AppRoutes.login.path;
   }
 }

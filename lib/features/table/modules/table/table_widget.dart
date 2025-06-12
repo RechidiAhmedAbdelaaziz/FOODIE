@@ -35,6 +35,10 @@ class _TableWidgetState extends State<TableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return !_isLoaded ? SizedBox.shrink() : Column();
+    return !_isLoaded ? SizedBox.shrink() : Column(
+      children: [
+        
+      ],
+    );
   }
 }

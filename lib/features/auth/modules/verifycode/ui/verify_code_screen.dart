@@ -1,5 +1,6 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
@@ -15,6 +16,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 part 'widget/verify_code_form.dart';
+
+class VerifyCodeParams extends RouteParams {
+  final String login;
+
+  VerifyCodeParams({required this.login})
+    : super(queryParams: {"login": login});
+}
 
 class VerifyCodeScreen extends StatelessWidget {
   const VerifyCodeScreen({super.key});

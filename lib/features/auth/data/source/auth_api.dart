@@ -19,7 +19,7 @@ abstract class AuthApi {
     @Query('refresh_token') required String refreshToken,
   });
 
-  @POST('/auth/verify-code')
+  @POST('/auth/verify-otp')
   Future<DataApiResponse> verifyCode({
     @Body() required Map<String, dynamic> body,
   });

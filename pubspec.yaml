@@ -67,6 +67,7 @@ dependencies:
     pdf: ^3.11.3
     path_provider: ^2.1.5
     qr_code_scanner_plus: ^2.0.10+1
+    geolocator: ^14.0.1
     
 
 

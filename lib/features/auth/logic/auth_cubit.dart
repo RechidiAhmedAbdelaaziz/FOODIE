@@ -29,17 +29,23 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state._authenticated());
   }
 
-  Future<void> refreshToken() async {
+  Future<bool> refreshToken() async {
     final refreshToken = await _authCache.refreshToken;
     if (refreshToken == null) {
-      emit(state._unauthenticated());
-      return;
+      logOut();
+      return false;
     }
 
     final result = await _authRepo.refreshToken(refreshToken);
-    result.when(
-      success: (tokens) => authenticate(tokens),
-      error: (_) => logOut(),
+    return result.when(
+      success: (tokens) {
+        authenticate(tokens);
+        return true;
+      },
+      error: (_) {
+        logOut();
+        return false;
+      },
     );
   }
 

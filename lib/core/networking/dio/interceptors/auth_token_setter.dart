@@ -10,8 +10,7 @@ class _AuthTokenInterceptor extends InterceptorsWrapper {
     final accessToken = authCacheHelper.accessToken;
 
     if (accessToken != null) {
-      options.headers['Authorization'] = accessToken;
-      return handler.next(options);
+      options.headers['Authorization'] = 'Bearer $accessToken';
     }
 
     super.onRequest(options, handler);

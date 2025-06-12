@@ -1,5 +1,6 @@
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/networking/network_repository.dart';
+import 'package:app/core/services/geolocator/geo_locator_service.dart';
 import 'package:app/core/shared/models/pagination_result.dart';
 import 'package:app/features/restaurant/data/dto/restaurant_dto.dart';
 import 'package:app/features/restaurant/data/dto/restaurant_filter_dto.dart';
@@ -16,7 +17,11 @@ class RestaurantRepo extends NetworkRepository {
     RestaurantFilterDTO dto,
   ) {
     return tryApiCall(
-      apiCall: () async => _restaurantApi.getRestaurants(dto.toMap()),
+      apiCall: () async => _restaurantApi.getRestaurants({
+        ...dto.toMap(),
+        ...(await locator<GeoLocatorService>().getCurrentLocation())
+            .toMap(), // {latitude, longitude}
+      }),
       onResult: (response) => PaginationResult.fromResponse(
         response: response,
         fromJson: RestaurantModel.fromJson,

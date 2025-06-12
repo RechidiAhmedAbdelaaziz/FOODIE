@@ -25,8 +25,7 @@ class RestaurantModel extends Equatable {
 
   final String? phone;
 
-  // like this https://maps.app.goo.gl/CuQ8DzcWK2Smx13L7
-  final String? googleMapLink;
+
 
   bool get isNightTimeOpen {
     if (startTime == null || endTime == null) return false;
@@ -46,7 +45,6 @@ class RestaurantModel extends Equatable {
 
   const RestaurantModel({
     this.id,
-    this.googleMapLink,
     this.name,
     this.category,
     this.description,
@@ -71,11 +69,11 @@ class RestaurantModel extends Equatable {
 
 @JsonSerializable(createToJson: false)
 class LocationModel {
-  final String? title;
+  final String? link;
   final String? longitude;
   final String? latitude;
 
-  const LocationModel({this.title, this.longitude, this.latitude});
+  const LocationModel({this.link, this.longitude, this.latitude});
 
   factory LocationModel.fromJson(Map<String, dynamic> json) =>
       _$LocationModelFromJson(json);
