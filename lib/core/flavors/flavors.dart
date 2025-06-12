@@ -3,12 +3,13 @@ import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:injectable/injectable.dart';
 
 enum Flavor {
-  client('FOODIE'),
-  owner('FOODIE OWNER'),
-  server('FOODIE SERVER');
+  client('FOODIE', "Client"),
+  owner('FOODIE OWNER', "Owner"),
+  server('FOODIE SERVER', "Staff");
 
   final String title;
-  const Flavor(this.title);
+  final String role;
+  const Flavor(this.title, this.role);
 }
 
 abstract class F {
@@ -23,10 +24,7 @@ abstract class FlavorConfigModule {
   FlavorConfig get config {
     return FlavorConfig(
       name: F.name,
-      variables: {
-        //TODO: Replace with actual base URL
-        'baseUrl': dotenv.env['API_BASE_URL']!,
-      },
+      variables: {'baseUrl': dotenv.env['API_BASE_URL']!},
     );
   }
 }

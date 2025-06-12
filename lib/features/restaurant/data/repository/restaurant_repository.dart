@@ -13,7 +13,7 @@ class RestaurantRepo extends NetworkRepository {
   final _restaurantApi = locator<RestaurantApi>();
 
   RepoListResult<RestaurantModel> getRestaurants(
-    RestaurantFilterDto dto,
+    RestaurantFilterDTO dto,
   ) {
     return tryApiCall(
       apiCall: () async => _restaurantApi.getRestaurants(dto.toMap()),
@@ -34,10 +34,8 @@ class RestaurantRepo extends NetworkRepository {
   RepoResult<RestaurantModel> updateRestaurant(RestaurantDTO dto) {
     return tryApiCall(
       apiCall: () async =>
-          _restaurantApi.updateRestaurant( await dto.toMap()),
+          _restaurantApi.updateRestaurant(await dto.toMap()),
       onResult: (response) => RestaurantModel.fromJson(response.data),
     );
   }
-
-
 }

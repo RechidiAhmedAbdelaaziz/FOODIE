@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/popup_extension.dart';
+import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/services/qr/qr_service.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/features/table/data/model/table_model.dart';
+import 'package:app/features/table/helper/table_qr.dart';
 import 'package:app/features/table/modules/tableform/ui/table_form_view.dart';
 import 'package:app/features/table/modules/tables/logic/tables_cubit.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +94,16 @@ class TablesScreen extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  //TODO: Implement QR code download functionality
+                  locator<QrService>()
+                      .generateAndSaveQrPdf(
+                        data: TableQr.generateQrData(table),
+                        fileName: 'table_${table.name}.pdf',
+                      )
+                      .then((path) {
+                        context.showSuccessSnackbar(
+                          '${'Successfully generated QR code'.tr(context)}\n$path',
+                        );
+                      });
                 },
                 child: Icon(Symbols.qr_code, color: AppColors.green),
               ),

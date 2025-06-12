@@ -9,6 +9,7 @@ import 'package:app/features/history/modules/histories/ui/history_screen.dart';
 import 'package:app/features/home/configs/home_routes.dart';
 import 'package:app/features/order/modules/orders_screen.dart';
 import 'package:app/features/restaurant/modules/restaurantform/ui/restaurant_form_screen.dart';
+import 'package:app/features/restaurant/modules/restaurants/ui/restaurants_screen.dart';
 import 'package:app/features/staff/modules/staffs/ui/staffs_screen.dart';
 import 'package:app/features/table/modules/tables/ui/tables_screen.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +44,7 @@ class AppRouter {
     BuildContext context,
     GoRouterState state,
   ) async {
-
     if (locator<AuthCubit>().isAuthenticated) return null;
     return AppRoutes.login.path;
-    
   }
-
 }

@@ -19,6 +19,7 @@ enum AppRoutes<T extends RouteParams?> {
 
   orders<Null>('/orders'),
 
+  restaurants<RestaurantFilterParams>('/restaurants'),
   updateRestaurant<Null>('/restaurant-form');
 
   final String path;

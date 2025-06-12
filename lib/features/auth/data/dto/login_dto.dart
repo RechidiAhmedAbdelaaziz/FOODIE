@@ -1,3 +1,4 @@
+import 'package:app/core/flavors/flavors.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:flutter/widgets.dart';
@@ -24,12 +25,14 @@ class LoginDTO with FormDTO {
   @override
   Map<String, dynamic> toMap() {
     return {
-      // Send only one 
+      // Send only one
       if (loginWithEmailController.value)
-        'email': emailController.text,
+        'login': emailController.text,
 
       if (!loginWithEmailController.value)
-        'phone': phoneController.text,
+        'login': phoneController.text,
+
+      'role': F.appFlavor.role,
     };
   }
 }
