@@ -5,6 +5,7 @@ import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/data/dto/food_filter_dto.dart';
 import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/food/modules/foodform/ui/food_form_screen.dart';
 import 'package:app/features/food/modules/foodlist/logic/food_list_cubit.dart';
@@ -23,8 +24,9 @@ class FoodMenuScreen extends StatelessWidget {
     path: AppRoutes.foodMenu.path,
     builder: (context, state) => BlocProvider(
       lazy: false,
-      create: (_) =>
-          FoodListCubit(fields: FoodModelFields.owner)..fetchFoods(),
+      create: (_) => FoodListCubit(
+        FoodFilterDTO(fields: FoodModelFields.owner.value, limit: 60),
+      )..fetchFoods(),
       child: FoodMenuScreen(),
     ),
   );

@@ -38,6 +38,17 @@ class FoodModel extends Equatable {
     this.image,
   });
 
+
+  int get totalPrice {
+    int total = price ?? 0;
+    if (addOns != null) {
+      for (final addOn in addOns!) {
+        total += addOn.price ?? 0;
+      }
+    }
+    return total;
+  }
+
   factory FoodModel.fromJson(Map<String, dynamic> json) =>
       _$FoodModelFromJson(json);
 

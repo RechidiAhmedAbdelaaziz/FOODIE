@@ -9,6 +9,12 @@ extension RoutingExtension on BuildContext {
     return params == null ? route.path : params.getPath(route.path);
   }
 
+  void toWidget<T extends Widget>(T widget) {
+    Navigator.of(
+      this,
+    ).push(MaterialPageRoute<T>(builder: (context) => widget));
+  }
+
   void to<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
     T route,
     D params,

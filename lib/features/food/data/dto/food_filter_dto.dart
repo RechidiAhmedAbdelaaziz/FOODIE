@@ -1,19 +1,21 @@
 import 'package:app/core/shared/dto/pagination_dto.dart';
 
 class FoodFilterDTO extends PaginationDto {
-  final String? id;
+  String? _id;
 
   FoodFilterDTO({
-    this.id,
+    String? id,
     super.page,
     super.limit,
     super.keyword,
     super.fields,
     super.sort,
-  });
+  }) : _id = id;
+
+  void setId(String id) => _id = id;
 
   @override
   Map<String, dynamic> toMap() {
-    return {...super.toMap(), if (id != null) 'id': id};
+    return {...super.toMap(), if (_id != null) 'id': _id};
   }
 }

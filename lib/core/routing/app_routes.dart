@@ -6,7 +6,6 @@ enum AppRoutes<T extends RouteParams?> {
   login<Null>('/login', isGuarded: false),
   verifyCode<VerifyCodeParams>('/verify-code', isGuarded: false),
 
-
   home<Null>('/home'),
 
   history<Null>('/history'),
@@ -17,6 +16,7 @@ enum AppRoutes<T extends RouteParams?> {
   updateFood<UpdateFoodFormParams>('/food-form/:id'),
 
   foodMenu<Null>('/food-menu'),
+  tableFoodMenu<TableFoodMenuParams>('/table-food-menu/:tableId'),
 
   staffs<Null>('/staff'),
 

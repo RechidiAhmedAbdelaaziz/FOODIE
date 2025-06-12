@@ -4,11 +4,11 @@ import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart
 import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
 import 'package:app/core/shared/editioncontollers/number_editingcontroller.dart';
 import 'package:app/features/food/data/model/food_model.dart';
-import 'package:app/features/table/data/dto/table_dto.dart';
+import 'package:app/features/table/data/model/table_model.dart';
 
 class CreateOrderDTO with FormDTO {
   final menuController = ListEditingController<OrderMenuDTO>();
-  final tableController = EditingController<TableDTO>();
+  final tableController = EditingController<TableModel>();
 
   @override
   void dispose() {
@@ -17,6 +17,13 @@ class CreateOrderDTO with FormDTO {
     }
     menuController.dispose();
     tableController.dispose();
+  }
+
+  int get totalPrice {
+    return menuController.value.fold<int>(
+      0,
+      (sum, order) => sum + order.price,
+    );
   }
 
   @override
@@ -35,6 +42,16 @@ class OrderMenuDTO with FormDTO {
   final foodController = EditingController<FoodModel>();
   final addOnsController = ListEditingController<AddOnsModel>();
   final quantityController = IntEditingcontroller(1);
+
+
+  int get price {
+    final foodPrice = foodController.value?.price ?? 0;
+    final addOnsPrice = addOnsController.value.fold<int>(
+      0,
+      (sum, addOn) => sum + (addOn.price ?? 0),
+    );
+    return (foodPrice + addOnsPrice) * quantityController.value;
+  }
 
   @override
   void dispose() {

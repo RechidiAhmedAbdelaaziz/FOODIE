@@ -3,7 +3,7 @@ import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/order/data/model/order_model.dart';
-import 'package:app/features/order/modules/logic/orders_cubit.dart';
+import 'package:app/features/order/modules/orders/logic/orders_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

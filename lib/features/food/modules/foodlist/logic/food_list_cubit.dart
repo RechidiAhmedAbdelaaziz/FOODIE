@@ -12,11 +12,11 @@ part 'food_list_state.dart';
 class FoodListCubit extends Cubit<FoodListState> {
   final _repo = locator<FoodRepo>();
 
-  FoodListCubit({required FoodModelFields fields})
-    : _filter = FoodFilterDTO(fields: fields.value, limit: 60),
-      super(FoodListState.initial());
+  FoodListCubit(this._filter) : super(FoodListState.initial());
 
   final FoodFilterDTO _filter;
+
+  FoodFilterDTO get filter => _filter;
 
   List<FoodModel> get foods {
     return state._foods;
@@ -70,5 +70,11 @@ class FoodListCubit extends Cubit<FoodListState> {
       success: replaceFood,
       error: (error) => emit(state._error(error.message)),
     );
+  }
+
+  @override
+  Future<void> close() {
+    _filter.dispose();
+    return super.close();
   }
 }
