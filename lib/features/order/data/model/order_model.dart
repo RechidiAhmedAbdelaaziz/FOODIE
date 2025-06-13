@@ -16,23 +16,17 @@ class OrderModel extends Equatable {
   final bool? isDelivered;
   final bool? isPaid;
 
+  @JsonKey(defaultValue: 0)
+  final int price;
+
   const OrderModel({
     this.id,
     this.table,
     this.isDelivered,
     this.isPaid,
     this.foods,
+    required this.price,
   });
-
-  int get totalPrice {
-    int total = 0;
-    if (foods != null) {
-      for (var orderData in foods!) {
-        total += orderData.price;
-      }
-    }
-    return total;
-  }
 
   List<OrderData> get mergedFoods => foods?.merged ?? [];
 
@@ -48,18 +42,14 @@ class OrderData {
   final FoodModel? food;
   final List<AddOnsModel>? addOns;
   final int? quantity;
+  // final int? price;
 
-  const OrderData({this.food, this.addOns, this.quantity});
-
-  int get price {
-    int total = food?.price ?? 0;
-    if (addOns != null) {
-      for (var addOn in addOns!) {
-        total += addOn.price ?? 0;
-      }
-    }
-    return total * (quantity ?? 1);
-  }
+  const OrderData({
+    this.food,
+    this.addOns,
+    this.quantity,
+    // this.price,
+  });
 
   bool isEquale(OrderData other) {
     return food == other.food && listEquals(addOns, other.addOns);

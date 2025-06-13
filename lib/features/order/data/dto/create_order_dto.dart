@@ -65,9 +65,7 @@ class OrderMenuDTO with FormDTO {
     return {
       'food': foodController.value?.id,
 
-      'addOns': addOnsController.value
-          .map((addOn) => addOn.name)
-          .toList(),
+      'addOns': addOnsController.value,
 
       'quantity': quantityController.value,
     }.withoutNullsOrEmpty();
