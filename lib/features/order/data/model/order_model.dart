@@ -17,7 +17,7 @@ class OrderModel extends Equatable {
   final bool? isPaid;
 
   @JsonKey(defaultValue: 0)
-  final int price;
+  final int totalPrice;
 
   const OrderModel({
     this.id,
@@ -25,7 +25,7 @@ class OrderModel extends Equatable {
     this.isDelivered,
     this.isPaid,
     this.foods,
-    required this.price,
+    required this.totalPrice,
   });
 
   List<OrderData> get mergedFoods => foods?.merged ?? [];

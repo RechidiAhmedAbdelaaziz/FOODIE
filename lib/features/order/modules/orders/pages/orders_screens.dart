@@ -129,7 +129,7 @@ class ServerOrderScreen extends OrderScreenBase {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: order.price.toStringAsFixed(0),
+                      text: order.totalPrice.toStringAsFixed(0),
                       style: AppTextStyles.h4.copyWith(
                         color: order.isPaid ?? false
                             ? AppColors.greenLight
