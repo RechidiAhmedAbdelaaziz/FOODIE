@@ -1,3 +1,4 @@
+import 'package:app/core/networking/dio/interceptors/dio_interceptors.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
 import 'dart:core';

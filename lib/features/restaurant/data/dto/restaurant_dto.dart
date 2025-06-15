@@ -1,3 +1,4 @@
+import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/map_extension.dart';
 import 'package:app/core/services/geolocator/geo_locator_service.dart';
@@ -21,10 +22,10 @@ class RestaurantDTO with AsyncFormDTO {
   final EditingController<String> startTimeController;
   final EditingController<String> endTimeController;
   final BooleanEditingController isPrePaidController;
-  final EditingController<String> facebookLinkController;
-  final EditingController<String> instagramLinkController;
-  final EditingController<String> tiktokLinkController;
-  final EditingController<String> phoneController;
+  final TextEditingController facebookLinkController;
+  final TextEditingController instagramLinkController;
+  final TextEditingController tiktokLinkController;
+  final TextEditingController phoneController;
 
   RestaurantDTO(this._restaurant)
     : imageController = EditingController<ImageDTO>(
@@ -34,7 +35,7 @@ class RestaurantDTO with AsyncFormDTO {
       ),
       nameController = TextEditingController(text: _restaurant.name),
       categoryController = EditingController<String>(
-        _restaurant.category,
+        _restaurant.category ?? AppData.restaurantTypes.first,
       ),
       descriptionController = TextEditingController(
         text: _restaurant.description,
@@ -45,25 +46,27 @@ class RestaurantDTO with AsyncFormDTO {
       openingDaysController = ListEditingController<String>(
         _restaurant.openingDays,
       ),
-      startTimeController = EditingController<String>(
-        _restaurant.startTime,
+      startTimeController = EditingController(
+        _restaurant.startTime ?? '08:00',
       ),
-      endTimeController = EditingController<String>(
-        _restaurant.endTime,
+      endTimeController = EditingController(
+        _restaurant.endTime ?? '10:00',
       ),
       isPrePaidController = BooleanEditingController(
         _restaurant.isPrePaid ?? false,
       ),
-      facebookLinkController = EditingController<String>(
-        _restaurant.facebookLink,
+      facebookLinkController = TextEditingController(
+        text: _restaurant.facebookLink,
       ),
-      instagramLinkController = EditingController<String>(
-        _restaurant.instagramLink,
+      instagramLinkController = TextEditingController(
+        text: _restaurant.instagramLink,
       ),
-      tiktokLinkController = EditingController<String>(
-        _restaurant.tiktokLink,
+      tiktokLinkController = TextEditingController(
+        text: _restaurant.tiktokLink,
       ),
-      phoneController = EditingController<String>(_restaurant.phone);
+      phoneController = TextEditingController(
+        text: _restaurant.phone,
+      );
 
   @override
   void dispose() {
@@ -115,17 +118,17 @@ class RestaurantDTO with AsyncFormDTO {
       if (_restaurant.isPrePaid != isPrePaidController.value)
         'isPrePaid': isPrePaidController.value,
 
-      if (_restaurant.facebookLink != facebookLinkController.value)
-        'facebookLink': facebookLinkController.value,
+      if (_restaurant.facebookLink != facebookLinkController.text)
+        'facebookLink': facebookLinkController.text,
 
-      if (_restaurant.instagramLink != instagramLinkController.value)
-        'instagramLink': instagramLinkController.value,
+      if (_restaurant.instagramLink != instagramLinkController.text)
+        'instagramLink': instagramLinkController.text,
 
-      if (_restaurant.tiktokLink != tiktokLinkController.value)
-        'tiktokLink': tiktokLinkController.value,
+      if (_restaurant.tiktokLink != tiktokLinkController.text)
+        'tiktokLink': tiktokLinkController.text,
 
-      if (_restaurant.phone != phoneController.value)
-        'phone': phoneController.value,
+      if (_restaurant.phone != phoneController.text)
+        'phone': phoneController.text,
 
       if (_restaurant.image != imageUrl) 'image': imageUrl,
     }.withoutNullsOrEmpty();

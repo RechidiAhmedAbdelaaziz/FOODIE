@@ -4,14 +4,20 @@ import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/services/filepicker/file_picker_service.dart';
+import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
 import 'package:app/core/shared/widgets/dropdown_field.dart';
 import 'package:app/core/shared/widgets/image_field.dart';
+import 'package:app/core/shared/widgets/multi_dropdown_field.dart';
 import 'package:app/core/themes/colors.dart';
+import 'package:app/core/themes/dimensions.dart';
+import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/restaurant/modules/restaurantform/logic/restaurant_form_cubit.dart';
+import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
@@ -104,8 +110,66 @@ class RestaurantFormScreen extends StatelessWidget {
                                   controller: dto.categoryController,
                                   itemsBuilder: (_) =>
                                       AppData.restaurantTypes,
+                                  hintText: 'Select restaurant type',
                                   itemToString: (value) =>
                                       value.tr(context),
+                                ),
+
+                                AppMultiDropDownField(
+                                  controller:
+                                      dto.openingDaysController,
+                                  itemsBuilder: (_) =>
+                                      AppData.weekDays,
+                                  itemToString: (value) =>
+                                      value.tr(context),
+
+                                  hintText: 'Select opening days',
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Opening days are required'
+                                      : null,
+                                ),
+
+                                Row(
+                                  spacing: 12.w,
+                                  children: [
+                                    Expanded(
+                                      child: AppDropDownField(
+                                        controller:
+                                            dto.startTimeController,
+                                        itemsBuilder: (_) =>
+                                            AppData.dayTimes,
+                                        hintText: 'Select start time',
+                                        itemToString: (value) =>
+                                            value,
+                                        validator: (value) =>
+                                            value?.isEmpty == true
+                                            ? 'Start time is required'
+                                            : null,
+                                      ),
+                                    ),
+                                    Text(
+                                      'to'.tr(context),
+                                      style: AppTextStyles.normal
+                                          .copyWith(
+                                            color: AppColors.white,
+                                          ),
+                                    ),
+                                    Expanded(
+                                      child: AppDropDownField(
+                                        controller:
+                                            dto.endTimeController,
+                                        itemsBuilder: (_) =>
+                                            AppData.dayTimes,
+                                        hintText: 'Select end time',
+                                        itemToString: (hour) => hour,
+                                        validator: (value) =>
+                                            value?.isEmpty == true
+                                            ? 'End time is required'
+                                            : null,
+                                      ),
+                                    ),
+                                  ],
                                 ),
 
                                 AppTextField(
@@ -121,17 +185,87 @@ class RestaurantFormScreen extends StatelessWidget {
                                 ),
 
                                 //check box for prepaid
-                                CheckboxListTile(
-                                  title: Text(
-                                    'Is Prepaid'.tr(context),
-                                  ),
-                                  value:
-                                      dto.isPrePaidController.value,
-                                  onChanged: (value) {
-                                    dto.isPrePaidController.setValue(
-                                      value ?? false,
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      dto.isPrePaidController,
+                                  builder: (context, value, child) {
+                                    return CheckboxListTile(
+                                      title: Text(
+                                        'Is Prepaid'.tr(context),
+                                        style: AppTextStyles.normal
+                                            .copyWith(
+                                              color: AppColors.white,
+                                            ),
+                                      ),
+                                      value: value,
+                                      onChanged: (value) {
+                                        dto.isPrePaidController
+                                            .setValue(value ?? false);
+                                      },
+                                      activeColor: AppColors.green,
+                                      checkColor: AppColors.white,
                                     );
                                   },
+                                ),
+
+                                AppTextField(
+                                  controller: dto.phoneController,
+                                  hintText: 'Enter phone number',
+                                  keyboardType: TextInputType.phone,
+                                  suffixIcon: Symbols.phone,
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Phone number is required'
+                                      : null,
+                                ),
+
+                                AppTextField(
+                                  controller:
+                                      dto.facebookLinkController,
+                                  hintText: 'Enter Facebook link',
+                                  keyboardType: TextInputType.url,
+                                  suffixWidget: SvgPicture.asset(
+                                    Assets.svg.facebook,
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
+                                ),
+
+                                AppTextField(
+                                  controller:
+                                      dto.instagramLinkController,
+                                  hintText: 'Enter Instagram link',
+                                  keyboardType: TextInputType.url,
+                                  suffixWidget: SvgPicture.asset(
+                                    Assets.svg.instagram,
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
+                                ),
+
+                                AppTextField(
+                                  controller:
+                                      dto.tiktokLinkController,
+                                  hintText: 'Enter TikTok link',
+                                  keyboardType: TextInputType.url,
+                                  suffixWidget: SvgPicture.asset(
+                                    Assets.svg.tiktok,
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
+                                ),
+
+                                heightSpace(12),
+                                AppButton.primary(
+                                  text: 'Save',
+                                  onPressed: context
+                                      .read<RestaurantFormCubit>()
+                                      .save,
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(
+                                    context,
+                                  ).viewInsets.bottom,
                                 ),
                               ],
                             ),

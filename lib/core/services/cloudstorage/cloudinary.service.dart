@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/networking/dio/interceptors/dio_interceptors.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
@@ -24,11 +25,15 @@ mixin CloudinaryConfig {
       'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
     });
 
+    final dio = Dio()..addLogger();
+
     // Send the request
-    final response = await locator<Dio>().post(
+    final response = await dio.post(
       uploadUrl.toString(),
       data: formData,
     );
+
+    dio.close();
 
     if (response.statusCode == 200) {
       return response

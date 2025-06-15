@@ -1,3 +1,4 @@
+import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/shared/widgets/app_search_bar.dart';
@@ -43,33 +44,44 @@ class RestaurantsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<RestaurantsCubit>();
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          //TODO: add qr code scanner
-        ],
-      ),
-      body: Column(
-        spacing: 12.h,
-        children: [
-          AppSearchBar(
-            controller: cubit.filter.keywordController,
-            onChanged: (_) => cubit.refresh(),
+    return BlocListener<RestaurantsCubit, RestaurantsState>(
+      listener: (context, state) {
+        state.onError(context.showErrorSnackbar);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            //TODO: add qr code scanner
+          ],
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: 12.h,
           ),
-          heightSpace(16),
+          child: Column(
+            spacing: 12.h,
+            children: [
+              AppSearchBar(
+                controller: cubit.filter.keywordController,
+                onChanged: (_) => cubit.refresh(),
+              ),
+              heightSpace(16),
 
-          Expanded(
-            child: PaginationBuilder(
-              items: (ctx) =>
-                  ctx.watch<RestaurantsCubit>().restaurants,
-              itemBuilder: _buildRestaurantItem,
-              isLoading: (ctx) =>
-                  ctx.watch<RestaurantsCubit>().state.isLoading,
-              onLoadMore: cubit.fetchRestaurants,
-              shrinkWrap: true,
-            ),
+              Expanded(
+                child: PaginationBuilder(
+                  items: (ctx) =>
+                      ctx.watch<RestaurantsCubit>().restaurants,
+                  itemBuilder: _buildRestaurantItem,
+                  isLoading: (ctx) =>
+                      ctx.watch<RestaurantsCubit>().state.isLoading,
+                  onLoadMore: cubit.fetchRestaurants,
+                  shrinkWrap: true,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

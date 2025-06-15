@@ -16,6 +16,8 @@ class AppTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final IconData? suffixIcon;
 
+  final Widget? suffixWidget;
+
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter> inputFormatters;
@@ -33,6 +35,7 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.keyboardType,
     this.textInputAction,
+    this.suffixWidget,
     this.validator,
   });
 
@@ -91,7 +94,7 @@ class AppTextField extends StatelessWidget {
                     : null,
                 suffixIcon: suffixIcon != null
                     ? Icon(suffixIcon, color: AppColors.white)
-                    : null,
+                    : suffixWidget,
 
                 error: state.hasError
                     ? FormFieldError(state.errorText!.tr(context))

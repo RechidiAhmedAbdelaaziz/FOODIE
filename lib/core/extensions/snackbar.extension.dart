@@ -10,6 +10,10 @@ extension SnackbarExtension on BuildContext {
     Color textColor,
     IconData icon,
   ) {
+    // close any existing snackbar before showing a new one
+    ScaffoldMessenger.of(this).hideCurrentSnackBar();
+
+    // show the new snackbar
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         backgroundColor: color,

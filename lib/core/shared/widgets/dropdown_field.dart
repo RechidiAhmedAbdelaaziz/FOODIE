@@ -22,7 +22,7 @@ class AppDropDownField<T> extends StatelessWidget {
 
   final bool isRequired;
 
-  final double width;
+  final double? width;
 
   const AppDropDownField({
     super.key,
@@ -35,7 +35,7 @@ class AppDropDownField<T> extends StatelessWidget {
     required this.itemsBuilder,
     required this.itemToString,
     this.itemToWidget,
-    this.width = double.infinity,
+    this.width,
   });
 
   @override

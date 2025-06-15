@@ -10,7 +10,7 @@ Future<LangLatModel> _getLangLat(String shortUrl) async {
       validateStatus: (status) =>
           status! < 400, // Allow redirect (3xx)
     ),
-  );
+  )..addLogger();
 
   // First request to get the redirected long URL
   final response = await dio.get(shortUrl);
@@ -25,10 +25,10 @@ Future<LangLatModel> _getLangLat(String shortUrl) async {
   final regex = RegExp(r'@(-?\d+\.\d+),(-?\d+\.\d+)');
   final match = regex.firstMatch(redirectedUrl);
 
-  final latitude = match!.group(1);
-  final longitude = match.group(2);
+  final latitude = match?.group(1) ?? '';
+  final longitude = match?.group(2) ?? '';
   return LangLatModel(
-    latitude: double.parse(latitude!),
-    longitude: double.parse(longitude!),
+    latitude: double.parse(latitude),
+    longitude: double.parse(longitude),
   );
 }
