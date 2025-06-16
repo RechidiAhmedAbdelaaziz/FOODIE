@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/popup_extension.dart';
-import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
-import 'package:app/core/services/qr/qr_service.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
+import 'package:app/core/shared/widgets/qr_pdf_saver.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:app/features/table/helper/table_qr.dart';
@@ -92,20 +90,9 @@ class TablesScreen extends StatelessWidget {
           Row(
             spacing: 16.w,
             children: [
-              InkWell(
-                onTap: () {
-                  locator<QrService>()
-                      .generateAndSaveQrPdf(
-                        data: TableQr.generateQrData(table),
-                        fileName: 'table_${table.name}.pdf',
-                      )
-                      .then((path) {
-                        context.showSuccessSnackbar(
-                          '${'Successfully generated QR code'.tr(context)}\n$path',
-                        );
-                      });
-                },
-                child: Icon(Symbols.qr_code, color: AppColors.green),
+              QrPdfSaver(
+                data: TableQr.generateQrData(table),
+                fileName: 'table_${table.name}.pdf',
               ),
               InkWell(
                 onTap: () => context.dialogWith<TableModel>(

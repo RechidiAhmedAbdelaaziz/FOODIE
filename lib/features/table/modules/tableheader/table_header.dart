@@ -1,9 +1,15 @@
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/services/qr/qr_service.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class TableHeader extends StatelessWidget {
   final TableModel table;
@@ -13,7 +19,7 @@ class TableHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 8.h,
+      spacing: 12.h,
       children: [
         // Welcome to [Restaurant Name]
         RichText(
@@ -24,11 +30,13 @@ class TableHeader extends StatelessWidget {
             children: [
               TextSpan(
                 text: '${'Welcome to'.tr(context)} ',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: AppTextStyles.normal.copyWith(
+                  color: AppColors.white,
+                ),
               ),
               TextSpan(
                 text: table.restaurant?.name,
-                style: AppTextStyles.xLarge.copyWith(
+                style: AppTextStyles.large.copyWith(
                   color: AppColors.green,
                 ),
               ),
@@ -48,7 +56,8 @@ class TableHeader extends StatelessWidget {
           ),
 
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
             children: [
               Expanded(
                 child: Column(
@@ -64,6 +73,8 @@ class TableHeader extends StatelessWidget {
                     // Table Number
                     Text(
                       '${table.name}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.h4.copyWith(
                         color: AppColors.green,
                       ),
@@ -71,8 +82,47 @@ class TableHeader extends StatelessWidget {
                   ],
                 ),
               ),
+              InkWell(
+                onTap: () async {
+                  final qrService = locator<QrService>();
+                  final result = await qrService.scanQrCode(context);
+                  if (result != null) {
+                    // ignore: use_build_context_synchronously
+                    context.off(
+                      AppRoutes.tableFoodMenu,
+                      TableFoodMenuParams(
+                        result['tableId'] as String? ?? '',
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.green,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    spacing: 8.w,
+                    children: [
+                      Text(
+                        'Rescan'.tr(context),
+                        style: AppTextStyles.normal.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
 
-              // Rescan QR Code Button //TODO: Implement this button
+                      const Icon(
+                        Symbols.qr_code_scanner,
+                        color: AppColors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

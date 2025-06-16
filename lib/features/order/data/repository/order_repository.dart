@@ -15,7 +15,10 @@ class OrderRepo extends NetworkRepository {
   final _socket = locator<SocketIoService>();
 
   RepoListResult<OrderModel> getOrders() => tryApiCall(
-    apiCall: () async => _orderApi.getOrders(),
+    apiCall: () async => _orderApi.getOrders({
+      'limit': 1000,
+      'fields': 'foods.food table restaurant isDelivered isPaid',
+    }),
     onResult: (response) => PaginationResult.fromResponse(
       response: response,
       fromJson: OrderModel.fromJson,

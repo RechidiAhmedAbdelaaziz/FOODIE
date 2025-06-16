@@ -1,7 +1,7 @@
 import 'package:app/core/shared/dto/pagination_dto.dart';
 
 class FoodFilterDTO extends PaginationDto {
-  String? _id;
+  String? _restaurantId;
 
   FoodFilterDTO({
     String? id,
@@ -10,12 +10,15 @@ class FoodFilterDTO extends PaginationDto {
     super.keyword,
     super.fields,
     super.sort,
-  }) : _id = id;
+  }) : _restaurantId = id;
 
-  void setId(String id) => _id = id;
+  void setId(String id) => _restaurantId = id;
 
   @override
   Map<String, dynamic> toMap() {
-    return {...super.toMap(), if (_id != null) 'id': _id};
+    return {
+      ...super.toMap(),
+      if (_restaurantId != null) 'restaurant': _restaurantId,
+    };
   }
 }

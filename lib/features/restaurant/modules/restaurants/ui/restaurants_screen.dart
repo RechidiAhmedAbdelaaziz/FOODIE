@@ -1,11 +1,15 @@
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/services/qr/qr_service.dart';
 import 'package:app/core/shared/widgets/app_search_bar.dart';
 import 'package:app/core/shared/widgets/pagination_builder.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.dart';
 import 'package:app/features/restaurant/data/dto/restaurant_filter_dto.dart';
 import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:app/features/restaurant/modules/restaurants/logic/restaurants_cubit.dart';
@@ -51,7 +55,23 @@ class RestaurantsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            //TODO: add qr code scanner
+            // QR Code Scanner Button
+            IconButton(
+              icon: const Icon(Symbols.qr_code_scanner),
+              onPressed: () async {
+                final qrService = locator<QrService>();
+                final result = await qrService.scanQrCode(context);
+                if (result != null) {
+                  // ignore: use_build_context_synchronously
+                  context.to(
+                    AppRoutes.tableFoodMenu,
+                    TableFoodMenuParams(
+                      result['tableId'] as String? ?? '',
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
         body: Padding(

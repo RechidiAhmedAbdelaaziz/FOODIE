@@ -37,6 +37,7 @@ class AppRouter {
       RestaurantFormScreen.route,
       OrdersScreen.route,
       RestaurantsScreen.route,
+      TableFoodMenuScreen.route,
     ],
     debugLogDiagnostics: true,
 

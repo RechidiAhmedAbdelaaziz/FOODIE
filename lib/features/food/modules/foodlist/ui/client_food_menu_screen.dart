@@ -64,6 +64,7 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
   TableModel? _table;
   bool? _isLoading = true;
   final categoryController = EditingController<String>();
+
   @override
   void initState() {
     locator<TableRepo>().getTableById(widget.tableId!).then((result) {
@@ -89,6 +90,12 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
   }
 
   @override
+  void dispose() {
+    categoryController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: AppLogo()),
@@ -98,62 +105,64 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                 color: AppColors.green,
               ),
             )
-          : Column(
-              children: [
-                TableHeader(_table!),
-                heightSpace(12),
+          : Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                children: [
+                  heightSpace(8),
+                  TableHeader(_table!),
+                  heightSpace(12),
 
-                Builder(
-                  builder: (context) {
-                    final cubit = context.read<FoodListCubit>();
-                    categoryController.initValue(
-                      cubit.categories.firstOrNull ?? '',
-                    );
-                    return ValueListenableBuilder(
-                      valueListenable: categoryController,
-                      builder: (context, selected, child) {
-                        return Column(
-                          spacing: 12.h,
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                spacing: 12.w,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: cubit.categories
-                                    .map(
-                                      (category) => InkWell(
-                                        focusColor:
-                                            Colors.transparent,
-                                        highlightColor:
-                                            Colors.transparent,
-                                        hoverColor:
-                                            Colors.transparent,
-                                        splashColor:
-                                            Colors.transparent,
-                                        overlayColor:
-                                            WidgetStateProperty.all(
+                  Builder(
+                    builder: (context) {
+                      final cubit = context.read<FoodListCubit>();
+                      categoryController.initValue(
+                        cubit.categories.firstOrNull ?? '',
+                      );
+                      return ValueListenableBuilder(
+                        valueListenable: categoryController,
+                        builder: (context, selected, child) {
+                          return Column(
+                            spacing: 12.h,
+                            children: [
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  spacing: 12.w,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: cubit.categories
+                                      .map(
+                                        (category) => InkWell(
+                                          focusColor:
                                               Colors.transparent,
-                                            ),
-                                        onTap: () =>
-                                            categoryController
-                                                .setValue(category),
-                                        child: _buildCatogoryButton(
-                                          context,
-                                          category,
-                                          selected == category,
+                                          highlightColor:
+                                              Colors.transparent,
+                                          hoverColor:
+                                              Colors.transparent,
+                                          splashColor:
+                                              Colors.transparent,
+                                          overlayColor:
+                                              WidgetStateProperty.all(
+                                                Colors.transparent,
+                                              ),
+                                          onTap: () =>
+                                              categoryController
+                                                  .setValue(category),
+                                          child: _buildCatogoryButton(
+                                            context,
+                                            category,
+                                            selected == category,
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
+                                      )
+                                      .toList(),
+                                ),
                               ),
-                            ),
 
-                            Expanded(
-                              child: SingleChildScrollView(
+                              SingleChildScrollView(
                                 child: Column(
                                   spacing: 8.h,
                                   children: cubit.foods
@@ -169,14 +178,14 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                                       .toList(),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
 
       bottomNavigationBar: ValueListenableBuilder(
@@ -192,8 +201,8 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
           return Padding(
             padding: EdgeInsets.all(8.r),
             child: AppButton.primary(
-              text: '${'Confirm'.tr(context)} (${selectedFoods.length})',
-              
+              text:
+                  '${'Confirm'.tr(context)} (${selectedFoods.length})',
             ),
           );
         },

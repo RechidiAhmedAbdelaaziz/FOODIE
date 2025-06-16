@@ -29,7 +29,7 @@ class SocketIoService {
 
   void _connect() => _socket.connect();
 
-  void disconnect() => _socket.disconnect();
+  void disconnect() => _socket.connected ? _socket.disconnect() : {};
 
   void onData(String event, Function(DataApiResponse data) callback) {
     connect();

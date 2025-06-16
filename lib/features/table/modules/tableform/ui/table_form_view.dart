@@ -155,13 +155,19 @@ class _StaffSelection extends StatelessWidget {
             Wrap(
               spacing: 8.w,
               runSpacing: 8.h,
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              runAlignment: WrapAlignment.start,
               children: [
                 ...staffs.map<Widget>(
                   (staff) => Container(
-                    padding: EdgeInsets.all(8.w),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: AppColors.grey,
-                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(color: AppColors.green),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Text(
                       staff.name ?? 'Unknown',

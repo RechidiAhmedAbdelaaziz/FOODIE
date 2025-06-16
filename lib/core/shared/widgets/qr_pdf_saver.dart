@@ -1,16 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/themes/colors.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
 
 class QrPdfSaver extends StatefulWidget {
-  final String data;
+  final Map<String, dynamic> data;
   final String fileName;
   final void Function(String path)? onSaved;
 
@@ -44,20 +45,27 @@ class _QrPdfSaverState extends State<QrPdfSaver> {
   }
 
   Future<void> _savePdf(BuildContext context) async {
-    final pdfBytes = await _generatePdf(widget.data);
-    final dir = await getApplicationDocumentsDirectory();
-    final path = '${dir.path}/${widget.fileName}';
-    final file = File(path);
-    await file.writeAsBytes(pdfBytes);
+    final pdfBytes = await _generatePdf(jsonEncode(widget.data));
 
-    if (widget.onSaved != null) {
-      widget.onSaved!(path);
+    final result = await FilePicker.platform.saveFile(
+      dialogTitle: 'Save your QR Code PDF',
+      fileName: widget.fileName,
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+      bytes: pdfBytes,
+    );
+
+    if (result != null) {
+      if (widget.onSaved != null) {
+        widget.onSaved!(result);
+      }
+
+      if (!mounted) return;
+      context.showSuccessSnackbar('PDF saved successfully');
+    } else {
+      if (!mounted) return;
+      context.showErrorSnackbar('PDF saving canceled');
     }
-
-    if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('PDF saved to: $path')));
   }
 
   @override

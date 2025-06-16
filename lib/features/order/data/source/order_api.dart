@@ -12,7 +12,9 @@ abstract class OrderApi {
   factory OrderApi(Dio dio) = _OrderApi;
 
   @GET('/orders')
-  Future<MultiDataApiResponse> getOrders();
+  Future<MultiDataApiResponse> getOrders(
+    @Queries() Map<String, dynamic> queries,
+  );
 
   @POST('/orders')
   Future<DataApiResponse> createOrder(

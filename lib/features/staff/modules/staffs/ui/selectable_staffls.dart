@@ -11,10 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SelectableStaffs extends StatelessWidget {
+class SelectableStaffs extends StatefulWidget {
   final List<StaffModel> selected;
   const SelectableStaffs(this.selected, {super.key});
 
+  @override
+  State<SelectableStaffs> createState() => _SelectableStaffsState();
+}
+
+class _SelectableStaffsState extends State<SelectableStaffs> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -70,7 +75,7 @@ class SelectableStaffs extends StatelessWidget {
                       text: 'Cancel',
                     ),
                     AppButton.primary(
-                      onPressed: () => context.back(selected),
+                      onPressed: () => context.back(widget.selected),
                       text: 'Select',
                     ),
                   ],
@@ -84,7 +89,7 @@ class SelectableStaffs extends StatelessWidget {
   }
 
   Widget _buildStaffCard(BuildContext context, StaffModel staff) {
-    final isSelected = selected.contains(staff);
+    final isSelected = widget.selected.contains(staff);
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
@@ -100,9 +105,11 @@ class SelectableStaffs extends StatelessWidget {
             value: isSelected,
             onChanged: (checked) {
               if (checked == true) {
-                selected.addUnique(staff);
+                widget.selected.addUnique(staff);
+                setState(() {});
               } else {
-                selected.remove(staff);
+                widget.selected.remove(staff);
+                setState(() {});
               }
             },
             activeColor: AppColors.greenLight,

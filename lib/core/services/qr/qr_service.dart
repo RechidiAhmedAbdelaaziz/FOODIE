@@ -49,7 +49,7 @@ class QrService {
   }
 
   /// Open a camera screen and return scanned QR code result
-  static Future<Map<String, dynamic>?> scanQrCode(
+  Future<Map<String, dynamic>?> scanQrCode(
     BuildContext context,
   ) async {
     final result = await Navigator.push<String>(

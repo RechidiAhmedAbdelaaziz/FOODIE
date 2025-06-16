@@ -154,8 +154,8 @@ class FoodFormScreen extends StatelessWidget {
 
                                 AppDropDownField(
                                   controller: dto.categoryController,
-                                  itemsBuilder: (_) => AppData
-                                      .foodCategories, //TODO: create category list
+                                  itemsBuilder: (_) =>
+                                      AppData.foodCategories,
                                   itemToString: (item) =>
                                       item.tr(context),
                                   isRequired: true,

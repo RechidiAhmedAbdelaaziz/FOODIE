@@ -37,5 +37,8 @@ class ListEditingController<T> extends ValueNotifier<List<T>> {
   void removeValues(List<T> values) =>
       value.removeWhere((element) => values.contains(element));
 
-  void setList(List<T> value) => this.value = value;
+  void setList(List<T> value) {
+    this.value = value;
+    notifyListeners();
+  }
 }
