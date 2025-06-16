@@ -1,4 +1,6 @@
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/bottom_extension.dart';
+import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
@@ -13,6 +15,7 @@ import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/food/modules/foodlist/logic/food_list_cubit.dart';
 import 'package:app/features/order/data/dto/create_order_dto.dart';
 import 'package:app/features/order/modules/order/logic/order_cubit.dart';
+import 'package:app/features/order/modules/order/ui/confirm_order_view.dart';
 import 'package:app/features/order/modules/order/ui/food_order_card.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:app/features/table/data/repository/table_repository.dart';
@@ -97,115 +100,139 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: AppLogo()),
-      body: _isLoading == true
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.green,
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                children: [
-                  heightSpace(8),
-                  TableHeader(_table!),
-                  heightSpace(12),
+    return BlocListener<FoodListCubit, FoodListState>(
+      listener: (context, state) {
+        state.onError(context.showErrorSnackbar);
 
-                  Builder(
-                    builder: (context) {
-                      final cubit = context.read<FoodListCubit>();
-                      categoryController.initValue(
-                        cubit.categories.firstOrNull ?? '',
-                      );
-                      return ValueListenableBuilder(
-                        valueListenable: categoryController,
-                        builder: (context, selected, child) {
-                          return Column(
-                            spacing: 12.h,
-                            children: [
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  spacing: 12.w,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: cubit.categories
-                                      .map(
-                                        (category) => InkWell(
-                                          focusColor:
-                                              Colors.transparent,
-                                          highlightColor:
-                                              Colors.transparent,
-                                          hoverColor:
-                                              Colors.transparent,
-                                          splashColor:
-                                              Colors.transparent,
-                                          overlayColor:
-                                              WidgetStateProperty.all(
-                                                Colors.transparent,
-                                              ),
-                                          onTap: () =>
-                                              categoryController
-                                                  .setValue(category),
-                                          child: _buildCatogoryButton(
-                                            context,
-                                            category,
-                                            selected == category,
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-
-                              SingleChildScrollView(
-                                child: Column(
-                                  spacing: 8.h,
-                                  children: cubit.foods
-                                      .where(
-                                        (food) =>
-                                            food.category ==
-                                                selected ||
-                                            selected == null,
-                                      )
-                                      .map(
-                                        (food) => FoodOrderCard(food),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-      bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: context
-            .read<OrderCubit>()
-            .dto
-            .menuController,
-        builder: (context, selectedFoods, child) {
-          if (selectedFoods.isEmpty) {
-            return const SizedBox.shrink();
-          }
-
-          return Padding(
-            padding: EdgeInsets.all(8.r),
-            child: AppButton.primary(
-              text:
-                  '${'Confirm'.tr(context)} (${selectedFoods.length})',
-            ),
+        if (context.read<FoodListCubit>().categories.isNotEmpty) {
+          categoryController.initValue(
+            context.read<FoodListCubit>().categories.first,
           );
-        },
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(title: AppLogo()),
+        body: _isLoading == true
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.green,
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    heightSpace(8),
+                    TableHeader(_table!),
+                    heightSpace(12),
+
+                    Builder(
+                      builder: (context) {
+                        final cubit = context.read<FoodListCubit>();
+                        return ValueListenableBuilder(
+                          valueListenable: categoryController,
+                          builder: (context, selected, child) {
+                            return Column(
+                              spacing: 12.h,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    spacing: 12.w,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: cubit.categories
+                                        .map(
+                                          (category) => InkWell(
+                                            focusColor:
+                                                Colors.transparent,
+                                            highlightColor:
+                                                Colors.transparent,
+                                            hoverColor:
+                                                Colors.transparent,
+                                            splashColor:
+                                                Colors.transparent,
+                                            overlayColor:
+                                                WidgetStateProperty.all(
+                                                  Colors.transparent,
+                                                ),
+                                            onTap: () =>
+                                                categoryController
+                                                    .setValue(
+                                                      category,
+                                                    ),
+                                            child:
+                                                _buildCatogoryButton(
+                                                  context,
+                                                  category,
+                                                  selected ==
+                                                      category,
+                                                ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+
+                                SingleChildScrollView(
+                                  child: Column(
+                                    spacing: 8.h,
+                                    children: cubit.foods
+                                        .where(
+                                          (food) =>
+                                              food.category ==
+                                                  selected ||
+                                              selected == null,
+                                        )
+                                        .map(
+                                          (food) =>
+                                              FoodOrderCard(food),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+        bottomNavigationBar: ValueListenableBuilder(
+          valueListenable: context
+              .read<OrderCubit>()
+              .dto
+              .menuController,
+          builder: (context, selectedFoods, child) {
+            if (selectedFoods.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return Padding(
+              padding: EdgeInsets.all(8.r),
+              child: AppButton.primary(
+                text:
+                    '${'Confirm'.tr(context)} (${selectedFoods.length})',
+                onPressed: () {
+                  context.bottomSheetWith<bool>(
+                    child: BlocProvider.value(
+                      value: context.read<OrderCubit>(),
+                      child: ConfirmOrderView(),
+                    ),
+                    onResult: (_) {
+                      context.read<OrderCubit>().saveOrder();
+                    },
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

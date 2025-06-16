@@ -184,7 +184,7 @@ class StaffsScreen extends StatelessWidget {
               ),
               widthSpace(4),
               Text(
-                'DZD'.tr(context),
+                'DA'.tr(context),
                 style: AppTextStyles.small.copyWith(
                   color: AppColors.white,
                 ),

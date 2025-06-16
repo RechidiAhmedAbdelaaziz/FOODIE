@@ -95,7 +95,7 @@ class HistoryScreen extends StatelessWidget {
           ),
           widthSpace(2),
           Text(
-            'DZD'.tr(context),
+            'DA'.tr(context),
             style: AppTextStyles.small.copyWith(
               color: AppColors.white,
             ),

@@ -32,7 +32,7 @@ class CreateOrderDTO with FormDTO {
       'foods': menuController.value
           .map((menu) => menu.toMap())
           .toList(),
-          
+
       'table': tableController.value?.id,
     }.withoutNullsOrEmpty();
   }
@@ -42,7 +42,6 @@ class OrderMenuDTO with FormDTO {
   final foodController = EditingController<FoodModel>();
   final addOnsController = ListEditingController<AddOnsModel>();
   final quantityController = IntEditingcontroller(1);
-
 
   int get price {
     final foodPrice = foodController.value?.price ?? 0;
@@ -65,7 +64,9 @@ class OrderMenuDTO with FormDTO {
     return {
       'food': foodController.value?.id,
 
-      'addOns': addOnsController.value,
+      'selectedAddOns': addOnsController.value
+          .map((addOn) => addOn.name)
+          .toList(),
 
       'quantity': quantityController.value,
     }.withoutNullsOrEmpty();

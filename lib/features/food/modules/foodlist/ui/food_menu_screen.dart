@@ -290,7 +290,7 @@ class _FoodItem extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: 'DZD',
+                              text: 'DA',
                               style: AppTextStyles.small.copyWith(
                                 color: AppColors.white,
                               ),

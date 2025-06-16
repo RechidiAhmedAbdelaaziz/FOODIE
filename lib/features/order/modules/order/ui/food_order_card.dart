@@ -1,5 +1,6 @@
 import 'package:app/core/extensions/list_extenstion.dart';
 import 'package:app/core/extensions/popup_extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
@@ -101,7 +102,7 @@ class FoodOrderCard extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: 'DZD',
+                              text: 'DA',
                               style: AppTextStyles.small.copyWith(
                                 color: AppColors.white,
                               ),
@@ -169,21 +170,22 @@ class _FoodAddFormState extends State<_FoodAddForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxHeight: 450.h),
+      constraints: BoxConstraints(maxHeight: 650.h),
       width: double.infinity,
+      padding: EdgeInsets.only(bottom: 12.h),
+      margin: EdgeInsets.symmetric(horizontal: 8.w),
 
       decoration: BoxDecoration(
         color: AppColors.black,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(12.r),
-        ),
+        borderRadius: BorderRadius.circular(24.r),
+        border: Border.all(color: AppColors.greenLight, width: 1.w),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisSize: MainAxisSize.min,
         spacing: 12.h,
         children: [
           Container(
-            height: 120.h,
+            height: 200.h,
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -191,132 +193,168 @@ class _FoodAddFormState extends State<_FoodAddForm> {
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(12.r),
+                top: Radius.circular(24.r),
+              ),
+            ),
+          ),
+
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 12.h,
+                  children: [
+                    //name and description
+                    Text(
+                      widget.food.name ?? '',
+                      style: AppTextStyles.h4.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
+                    Text(
+                      widget.food.description ?? '',
+                      style: AppTextStyles.small.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
+
+                    // quantity selector
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Symbols.remove,
+                                color: AppColors.white,
+                              ),
+                              onPressed: () {
+                                if (quantity > 1) {
+                                  setState(() {
+                                    quantity--;
+                                    price = widget.food.totalPrice(
+                                      addOns,
+                                      quantity,
+                                    );
+                                  });
+                                }
+                              },
+                            ),
+                            Text(
+                              '$quantity',
+                              style: AppTextStyles.medium.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Symbols.add,
+                                color: AppColors.white,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  quantity++;
+                                  price = widget.food.totalPrice(
+                                    addOns,
+                                    quantity,
+                                  );
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+
+                        Text(
+                          '$price DA',
+                          style: AppTextStyles.h4.copyWith(
+                            color: AppColors.greenLight,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    //addons
+                    if (widget.food.addOns != null &&
+                        widget.food.addOns!.isNotEmpty)
+                      ...widget.food.addOns!.map((addOn) {
+                        return Column(
+                          children: [
+                            Text(
+                              'Add Ons'.tr(context),
+                              style: AppTextStyles.large.copyWith(
+                                color: AppColors.greenLight,
+                              ),
+                            ),
+
+                            Row(
+                              children: [
+                                Checkbox(
+                                  activeColor: AppColors.greenLight,
+                                  checkColor: AppColors.black,
+
+                                  value: addOns.contains(addOn),
+                                  onChanged: (value) => setState(() {
+                                    value == true
+                                        ? addOns.addUnique(addOn)
+                                        : addOns.remove(addOn);
+
+                                    price = widget.food.totalPrice(
+                                      addOns,
+                                      quantity,
+                                    );
+                                  }),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    addOn.name ?? '',
+                                    style: AppTextStyles.normal
+                                        .copyWith(
+                                          color: AppColors.white,
+                                        ),
+                                  ),
+                                ),
+
+                                Text(
+                                  '+${addOn.price ?? 0} DA',
+                                  style: AppTextStyles.medium
+                                      .copyWith(
+                                        color: AppColors.white,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
+                  ],
+                ),
               ),
             ),
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              spacing: 4.h,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Row(
+              spacing: 24.w,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //name and description
-                Text(
-                  widget.food.name ?? '',
-                  style: AppTextStyles.h4.copyWith(
-                    color: AppColors.white,
+                AppButton.secondary(
+                  text: 'Cancel',
+                  onPressed: () => context.back(),
+                ),
+
+                AppButton.primary(
+                  text: 'Add to Order',
+                  onPressed: () => context.back(
+                    OrderMenuDTO()
+                      ..addOnsController.setList(addOns)
+                      ..foodController.setValue(widget.food)
+                      ..quantityController.setValue(quantity),
                   ),
-                ),
-                Text(
-                  widget.food.description ?? '',
-                  style: AppTextStyles.small.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-
-                // quantity selector
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Symbols.remove,
-                            color: AppColors.white,
-                          ),
-                          onPressed: () {
-                            if (quantity > 1) {
-                              setState(() {
-                                quantity--;
-                                price =
-                                    widget.food.totalPrice * quantity;
-                              });
-                            }
-                          },
-                        ),
-                        Text(
-                          '$quantity',
-                          style: AppTextStyles.medium.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Symbols.add,
-                            color: AppColors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              quantity++;
-                              price =
-                                  widget.food.totalPrice * quantity;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-
-                    Text(
-                      '$price DZD',
-                      style: AppTextStyles.h4.copyWith(
-                        color: AppColors.greenLight,
-                      ),
-                    ),
-                  ],
-                ),
-
-                //addons
-                if (widget.food.addOns != null &&
-                    widget.food.addOns!.isNotEmpty)
-                  ...widget.food.addOns!.map((addOn) {
-                    // check box
-                    return CheckboxListTile(
-                      title: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              addOn.name ?? '',
-                              style: AppTextStyles.normal.copyWith(
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
-
-                          Text(
-                            '${addOn.price ?? 0} DZD',
-                            style: AppTextStyles.medium.copyWith(
-                              color: AppColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      value: addOns.contains(addOn),
-                      onChanged: (value) => value == true
-                          ? addOns.addUnique(addOn)
-                          : addOns.remove(addOn),
-                    );
-                  }),
-
-                Row(
-                  spacing: 24.w,
-                  children: [
-                    AppButton.primary(
-                      text: 'Add to Order',
-                      onPressed: () => context.back(
-                        OrderMenuDTO()
-                          ..addOnsController.setList(addOns)
-                          ..foodController.setValue(widget.food)
-                          ..quantityController.setValue(quantity),
-                      ),
-                    ),
-                    AppButton.secondary(
-                      text: 'Cancel',
-                      onPressed: () => context.back(),
-                    ),
-                  ],
                 ),
               ],
             ),

@@ -59,7 +59,7 @@ class OwnerOrderScreen extends OrderScreenBase {
                   ),
                 ),
                 Text(
-                  order.addOns?.map((e) => e.name).join(',') ?? '',
+                  order.addOns?.join(',') ?? '',
                   style: AppTextStyles.normal.copyWith(
                     color: AppColors.white,
                   ),
@@ -137,7 +137,7 @@ class ServerOrderScreen extends OrderScreenBase {
                       ),
                     ),
                     TextSpan(
-                      text: ' DZD',
+                      text: ' DA',
                       style: AppTextStyles.small.copyWith(
                         color: order.isPaid ?? false
                             ? AppColors.greenLight
@@ -169,7 +169,7 @@ class ServerOrderScreen extends OrderScreenBase {
                           ),
                           TextSpan(
                             text: order.addOns?.isNotEmpty == true
-                                ? ' (${order.addOns?.map((e) => e.name).join(', ')})'
+                                ? ' (${order.addOns?.join(', ')})'
                                 : '',
                             style: AppTextStyles.normal.copyWith(
                               color: AppColors.white,

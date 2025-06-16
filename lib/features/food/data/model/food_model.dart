@@ -4,12 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'food_model.g.dart';
 
 enum FoodModelFields {
-  client(
-    'name addOns category image price description',
-  ),
-  owner(
-    'name addOns category image price isAvailable description',
-  );
+  client('name addOns category image price description'),
+  owner('name addOns category image price isAvailable description');
 
   final String value;
   const FoodModelFields(this.value);
@@ -38,15 +34,14 @@ class FoodModel extends Equatable {
     this.image,
   });
 
-
-  int get totalPrice {
+  int totalPrice(List<AddOnsModel> addOns , int quantity) {
     int total = price ?? 0;
-    if (addOns != null) {
-      for (final addOn in addOns!) {
-        total += addOn.price ?? 0;
-      }
+
+    for (final addOn in addOns) {
+      total += addOn.price ?? 0;
     }
-    return total;
+
+    return total * quantity;
   }
 
   factory FoodModel.fromJson(Map<String, dynamic> json) =>
@@ -56,7 +51,7 @@ class FoodModel extends Equatable {
   List<Object?> get props => [id];
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class AddOnsModel extends Equatable {
   final String? name;
   final int? price;
@@ -68,4 +63,6 @@ class AddOnsModel extends Equatable {
 
   @override
   List<Object?> get props => [name, price];
+
+  Map<String, dynamic> toJson() => _$AddOnsModelToJson(this);
 }

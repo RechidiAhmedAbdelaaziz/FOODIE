@@ -60,7 +60,7 @@ class _TodayEarnState extends State<TodayEarn> {
               ),
               widthSpace(4),
               Text(
-                'DZD'.tr(context),
+                'DA'.tr(context),
                 style: AppTextStyles.normal.copyWith(
                   color: AppColors.greenLight,
                 ),

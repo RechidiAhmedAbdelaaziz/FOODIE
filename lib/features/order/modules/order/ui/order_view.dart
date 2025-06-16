@@ -159,7 +159,7 @@ class OrderView extends StatelessWidget {
                                               //price
                                               Expanded(
                                                 child: Text(
-                                                  '${order.price} DZD',
+                                                  '${order.price} DA',
                                                   style: AppTextStyles
                                                       .large
                                                       .copyWith(

@@ -40,7 +40,7 @@ class OrderModel extends Equatable {
 @JsonSerializable(createToJson: false)
 class OrderData {
   final FoodModel? food;
-  final List<AddOnsModel>? addOns;
+  final List<String>? addOns;
   final int? quantity;
   // final int? price;
 

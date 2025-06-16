@@ -20,14 +20,14 @@ class _TodayHistoryState extends State<TodayHistory> {
   bool isLoading = true;
 
   @override
-  void initState()  {
+  void initState() {
     locator<HistoryRepo>().getLastHistory().then((result) {
       result.when(
-      success: (history) => setState(() {
-        _history = history;
-        isLoading = false;
-      }),
-      error: (_) => setState(() => isLoading = false),
+        success: (history) => setState(() {
+          _history = history;
+          isLoading = false;
+        }),
+        error: (_) => setState(() => isLoading = false),
       );
     });
 
@@ -73,7 +73,7 @@ class _TodayHistoryState extends State<TodayHistory> {
                     ),
                     widthSpace(4),
                     Text(
-                      'DZD'.tr(context),
+                      'DA'.tr(context),
                       style: AppTextStyles.normal.copyWith(
                         color: AppColors.greenLight,
                       ),

@@ -21,7 +21,7 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => FlutterSecureStorage());
 
   //DOTENV
-  await dotenv.load(fileName: kDebugMode ? "env" : "env.dev");
+  await dotenv.load(fileName: kDebugMode ?  ".env.dev":".env" );
 
   locator.allowReassignment = true;
 }
