@@ -15,6 +15,6 @@ class RestaurantFilterDTO extends PaginationDto {
 
   @override
   Map<String, dynamic> toMap() {
-    return {...super.toMap(), 'type': type}.withoutNullsOrEmpty();
+    return {...super.toMap(), 'category': type}.withoutNullsOrEmpty();
   }
 }
