@@ -39,7 +39,8 @@ class RestaurantsScreen extends StatelessWidget {
 
       return BlocProvider(
         create: (context) =>
-            RestaurantsCubit(filter: RestaurantFilterDTO(type: type)),
+            RestaurantsCubit(filter: RestaurantFilterDTO(type: type))
+              ..fetchRestaurants(),
         child: RestaurantsScreen(),
       );
     },

@@ -1,14 +1,19 @@
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/services/sounds/sound_service.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:app/features/order/modules/orders/logic/orders_cubit.dart';
+import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class OrderScreenBase extends StatelessWidget {
   Widget builder(List<OrderModel> orders);
+  Widget floatingActionButton(BuildContext context) =>
+      const SizedBox.shrink();
 
   const OrderScreenBase({super.key});
 
@@ -19,6 +24,11 @@ abstract class OrderScreenBase extends StatelessWidget {
         state.onError(context.showErrorSnackbar);
 
         //TODO: add sound when new order is added
+        state.onAddOrder((order) {
+          locator<SoundService>().playSound(
+            Assets.sounds.bellNotification,
+          );
+        });
       },
       child: Scaffold(
         appBar: AppBar(
@@ -61,6 +71,7 @@ abstract class OrderScreenBase extends StatelessWidget {
                   );
           },
         ),
+        floatingActionButton: floatingActionButton(context),
       ),
     );
   }

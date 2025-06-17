@@ -21,6 +21,7 @@ import 'package:app/core/services/filepicker/file_picker_service.dart' as _i133;
 import 'package:app/core/services/geolocator/geo_locator_service.dart' as _i735;
 import 'package:app/core/services/qr/qr_service.dart' as _i425;
 import 'package:app/core/services/socketio/socket_io_service.dart' as _i117;
+import 'package:app/core/services/sounds/sound_service.dart' as _i99;
 import 'package:app/features/auth/data/repository/auth_repository.dart'
     as _i719;
 import 'package:app/features/auth/data/source/auth_api.dart' as _i530;
@@ -82,6 +83,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i388.FilePicker>(() => filePickersModule.filePicker);
     gh.lazySingleton<_i133.ImageFilePicker>(() => _i133.ImageFilePicker());
     gh.lazySingleton<_i133.VideoFilePicker>(() => _i133.VideoFilePicker());
+    gh.lazySingleton<_i99.SoundService>(() => _i99.SoundService());
     gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);

@@ -56,7 +56,7 @@ class OwnerHomeScreen extends StatelessWidget {
                   spacing: 12.w,
                   children: [
                     TodayHistory(),
-                    TodayEarn(),
+                    StaffTotalMoney(),
                   ].map((widget) => Expanded(child: widget)).toList(),
                 ),
               ],

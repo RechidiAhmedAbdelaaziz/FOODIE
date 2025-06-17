@@ -100,16 +100,36 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FoodListCubit, FoodListState>(
-      listener: (context, state) {
-        state.onError(context.showErrorSnackbar);
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<FoodListCubit, FoodListState>(
+          listener: (context, state) {
+            state.onError(context.showErrorSnackbar);
 
-        if (context.read<FoodListCubit>().categories.isNotEmpty) {
-          categoryController.initValue(
-            context.read<FoodListCubit>().categories.first,
-          );
-        }
-      },
+            if (categoryController.value == null &&
+                context.read<FoodListCubit>().categories.isNotEmpty) {
+              categoryController.initValue(
+                context.read<FoodListCubit>().categories.first,
+              );
+            }
+          },
+        ),
+        BlocListener<OrderCubit, OrderState>(
+          listener: (context, state) {
+            state.onError(context.showErrorSnackbar);
+
+            // setState(() => _isLoading = state.isLoading);
+
+            state.onSuccess((order) {
+              // empty the order dto
+              context.read<OrderCubit>().dto.menuController.clear();
+              context.showSuccessSnackbar(
+                'Order created successfully'.tr(context),
+              );
+            });
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(title: AppLogo()),
         body: _isLoading == true

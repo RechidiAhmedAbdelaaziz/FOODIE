@@ -15,6 +15,8 @@ class AppButton extends StatelessWidget {
   final Color? borderColor;
   final TextStyle textStyle;
 
+  final EdgeInsetsGeometry? padding;
+
   const AppButton._({
     this.text,
     this.suffixIcon,
@@ -23,8 +25,8 @@ class AppButton extends StatelessWidget {
     this.color,
     this.borderColor,
     required this.textStyle,
+    this.padding,
   });
-
   factory AppButton.primary({
     String? text,
     IconData? suffixIcon,
@@ -32,6 +34,7 @@ class AppButton extends StatelessWidget {
     bool Function(BuildContext context)? isLoading,
     Color? color,
     Color? textColor,
+    EdgeInsetsGeometry? padding,
   }) => AppButton._(
     text: text,
     suffixIcon: suffixIcon,
@@ -41,6 +44,7 @@ class AppButton extends StatelessWidget {
     textStyle: AppTextStyles.primaryButton.copyWith(
       color: textColor ?? AppColors.blue,
     ),
+    padding: padding,
   );
 
   factory AppButton.secondary({
@@ -50,6 +54,7 @@ class AppButton extends StatelessWidget {
     bool Function(BuildContext context)? isLoading,
     Color? color,
     Color? textColor,
+    EdgeInsetsGeometry? padding,
   }) => AppButton._(
     text: text,
     suffixIcon: suffixIcon,
@@ -59,6 +64,7 @@ class AppButton extends StatelessWidget {
     textStyle: AppTextStyles.secondaryButton.copyWith(
       color: textColor ?? AppColors.greenLight,
     ),
+    padding: padding,
   );
 
   factory AppButton.hyperLink({
@@ -66,12 +72,14 @@ class AppButton extends StatelessWidget {
     IconData? suffixIcon,
     void Function()? onPressed,
     bool Function(BuildContext context)? isLoading,
+    EdgeInsetsGeometry? padding,
   }) => AppButton._(
     text: text,
     suffixIcon: suffixIcon,
     onPressed: onPressed,
     isLoading: isLoading,
     textStyle: AppTextStyles.link,
+    padding: padding,
   );
 
   @override
@@ -81,10 +89,9 @@ class AppButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(24).r,
 
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 32.w,
-          vertical: 16.h,
-        ),
+        padding:
+            padding ??
+            EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
         decoration: BoxDecoration(
           color: color,
           border: Border.all(

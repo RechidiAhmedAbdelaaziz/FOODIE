@@ -28,7 +28,9 @@ class OrderModel extends Equatable {
     required this.totalPrice,
   });
 
-  List<OrderData> get mergedFoods => foods?.merged ?? [];
+  List<OrderData> get mergedFoods {
+    return foods?.merged ?? [];
+  }
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
@@ -40,19 +42,23 @@ class OrderModel extends Equatable {
 @JsonSerializable(createToJson: false)
 class OrderData {
   final FoodModel? food;
-  final List<String>? addOns;
+  final List<String>? selectedAddOns;
   final int? quantity;
   // final int? price;
 
   const OrderData({
     this.food,
-    this.addOns,
+    this.selectedAddOns,
     this.quantity,
     // this.price,
   });
 
   bool isEquale(OrderData other) {
-    return food == other.food && listEquals(addOns, other.addOns);
+    final equal =
+        food == other.food &&
+        listEquals(selectedAddOns, other.selectedAddOns);
+
+    return equal;
   }
 
   factory OrderData.fromJson(Map<String, dynamic> json) =>
@@ -64,15 +70,15 @@ extension OrderDataListExtension on List<OrderData> {
     List<OrderData> result = [];
 
     for (var currentOrderData in this) {
-      final existingIndex = result.indexWhere(
-        (element) => element.isEquale(currentOrderData),
-      );
+      final existingIndex = result.indexWhere((element) {
+        return element.isEquale(currentOrderData);
+      });
 
       if (existingIndex != -1) {
         OrderData existingOrder = result[existingIndex];
         result[existingIndex] = OrderData(
           food: existingOrder.food,
-          addOns: existingOrder.addOns,
+          selectedAddOns: existingOrder.selectedAddOns,
           quantity:
               (existingOrder.quantity ?? 0) +
               (currentOrderData.quantity ?? 0),

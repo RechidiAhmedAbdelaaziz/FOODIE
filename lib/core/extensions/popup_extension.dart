@@ -1,7 +1,6 @@
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
-import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,39 +49,70 @@ extension DialogExtension on BuildContext {
   }) async {
     return showDialog(
       context: this,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.black,
-        title: Text(
-          title.tr(context),
-          style: AppTextStyles.h4.copyWith(
-            color: AppColors.greenLight,
+      builder: (context) => Material(
+        color: Colors.transparent,
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 40.h,
+            ),
+            padding: EdgeInsets.all(16.w),
+            decoration: BoxDecoration(
+              color: AppColors.black,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title.tr(context),
+                  style: AppTextStyles.h4.copyWith(
+                    color: AppColors.greenLight,
+                  ),
+                ),
+                if (content != null) ...[
+                  SizedBox(height: 8.h),
+                  Text(
+                    content.tr(context),
+                    style: AppTextStyles.normal.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ],
+                SizedBox(height: 16.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    AppButton.secondary(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
+                      ),
+                      text: cancelText.tr(context),
+                      onPressed: () {
+                        onCancel?.call();
+                        context.back();
+                      },
+                    ),
+                    SizedBox(width: 8.w),
+                    AppButton.primary(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
+                      ),
+                      text: okText.tr(context),
+                      onPressed: () {
+                        onConfirm();
+                        context.back();
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-        content: content != null
-            ? Text(
-                content.tr(context),
-                style: AppTextStyles.normal.copyWith(
-                  color: AppColors.white,
-                ),
-              )
-            : null,
-        actions: [
-          AppButton.secondary(
-            text: cancelText.tr(context),
-            onPressed: () {
-              onCancel?.call();
-              context.back();
-            },
-          ),
-          widthSpace(8),
-          AppButton.primary(
-            text: okText.tr(context),
-            onPressed: () {
-              onConfirm();
-              context.back();
-            },
-          ),
-        ],
       ),
     );
   }

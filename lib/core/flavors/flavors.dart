@@ -3,7 +3,7 @@ import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:injectable/injectable.dart';
 
 enum Flavor {
-  client('FOODIE', "Client"),
+  client('FOODIE', "User"),
   owner('FOODIE OWNER', "Owner"),
   server('FOODIE SERVER', "Staff");
 

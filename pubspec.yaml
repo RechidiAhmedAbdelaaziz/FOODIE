@@ -31,7 +31,6 @@ dependencies:
     flutter:
         sdk: flutter
 
-
     flutter_localizations:
         sdk: flutter
 
@@ -68,8 +67,7 @@ dependencies:
     path_provider: ^2.1.5
     qr_code_scanner_plus: ^2.0.10+1
     geolocator: ^14.0.1
-    
-
+    audioplayers: ^6.5.0
 
 dev_dependencies:
     flutter_test:
@@ -107,6 +105,7 @@ flutter:
         - assets/lang/
         - assets/svg/
         - assets/images/
+        - assets/sounds/
         - .env
         - .env.dev
 

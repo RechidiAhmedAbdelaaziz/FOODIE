@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:app/features/staff/data/model/staff_model.dart';
@@ -29,9 +28,7 @@ class TableModel extends Equatable {
   factory TableModel.fromJson(Map<String, dynamic> json) =>
       _$TableModelFromJson(json);
 
-  String get qrData => jsonEncode({
-    "table"
-  });
+
 
   @override
   List<Object?> get props => [id];

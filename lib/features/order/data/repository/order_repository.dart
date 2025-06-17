@@ -17,7 +17,8 @@ class OrderRepo extends NetworkRepository {
   RepoListResult<OrderModel> getOrders() => tryApiCall(
     apiCall: () async => _orderApi.getOrders({
       'limit': 1000,
-      'fields': 'foods.food table restaurant isDelivered isPaid',
+      'fields':
+          'foods.food table restaurant isDelivered isPaid totalPrice',
     }),
     onResult: (response) => PaginationResult.fromResponse(
       response: response,
@@ -44,6 +45,8 @@ class OrderRepo extends NetworkRepository {
   );
 
   // * SOCKET METHODS
+
+  void connectSocket() => _socket.connect();
 
   void onNewOrder(Function(OrderModel order) callback) =>
       _socket.onData(

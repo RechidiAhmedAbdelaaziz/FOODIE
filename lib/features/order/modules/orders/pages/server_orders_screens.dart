@@ -1,13 +1,20 @@
+import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/popup_extension.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/services/qr/qr_service.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:app/features/order/modules/orders/logic/orders_cubit.dart';
 import 'package:app/features/order/modules/orders/pages/orders_screen_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class OwnerOrderScreen extends OrderScreenBase {
   const OwnerOrderScreen({super.key});
@@ -15,15 +22,16 @@ class OwnerOrderScreen extends OrderScreenBase {
   @override
   Widget builder(List<OrderModel> orders) {
     final mergedOrders = orders
-        .map((order) => order.mergedFoods)
-        .expand((x) => x)
-        .toList();
+        .map((order) => order.foods ?? [])
+        .expand((e) => e)
+        .toList()
+        .merged;
 
     return ListView.separated(
       itemBuilder: (context, i) =>
           _buildOrderCard(context, mergedOrders[i]),
       separatorBuilder: (_, __) => const Divider(),
-      itemCount: orders.length,
+      itemCount: mergedOrders.length,
     );
   }
 
@@ -33,35 +41,46 @@ class OwnerOrderScreen extends OrderScreenBase {
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       child: Row(
         spacing: 8.w,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 100.w,
-            height: 100.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              image: DecorationImage(
-                image: NetworkImage(order.food?.image ?? ''),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-
           Expanded(
-            child: Column(
-              spacing: 4.h,
+            child: Row(
+              spacing: 8.w,
+              crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
-                Text(
-                  food.name ?? '',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.large.copyWith(
-                    color: AppColors.white,
+                Container(
+                  width: 100.w,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    image: DecorationImage(
+                      image: NetworkImage(order.food?.image ?? ''),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                Text(
-                  order.addOns?.join(',') ?? '',
-                  style: AppTextStyles.normal.copyWith(
-                    color: AppColors.white,
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 4.h,
+                    children: [
+                      Text(
+                        food.name ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.large.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                      Text(
+                        order.selectedAddOns?.join(',') ?? '',
+                        style: AppTextStyles.normal.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -95,6 +114,29 @@ class ServerOrderScreen extends OrderScreenBase {
   const ServerOrderScreen({super.key});
 
   @override
+  Widget floatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: AppColors.greenLight,
+      onPressed: () async {
+        final qrService = locator<QrService>();
+        final result = await qrService.scanQrCode(context);
+        if (result != null) {
+          // ignore: use_build_context_synchronously
+          context.to(
+            AppRoutes.tableFoodMenu,
+            TableFoodMenuParams(result['tableId'] as String? ?? ''),
+          );
+        }
+      },
+      child: Icon(
+        Symbols.qr_code_scanner,
+        size: 42.r,
+        color: AppColors.blue,
+      ),
+    );
+  }
+
+  @override
   Widget builder(List<OrderModel> orders) {
     return ListView.separated(
       itemBuilder: (context, i) =>
@@ -107,11 +149,13 @@ class ServerOrderScreen extends OrderScreenBase {
   Widget _buildOrderCard(BuildContext context, OrderModel order) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.white),
       ),
       child: Column(
+        spacing: 12.h,
         children: [
           //table name and price
           Row(
@@ -120,7 +164,7 @@ class ServerOrderScreen extends OrderScreenBase {
               Expanded(
                 child: Text(
                   order.table?.name ?? 'Unknown Table',
-                  style: AppTextStyles.large.copyWith(
+                  style: AppTextStyles.h3.copyWith(
                     color: AppColors.white,
                   ),
                 ),
@@ -129,7 +173,7 @@ class ServerOrderScreen extends OrderScreenBase {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: order.totalPrice.toStringAsFixed(0),
+                      text: order.totalPrice.toString(),
                       style: AppTextStyles.h4.copyWith(
                         color: order.isPaid ?? false
                             ? AppColors.greenLight
@@ -149,10 +193,11 @@ class ServerOrderScreen extends OrderScreenBase {
               ),
             ],
           ),
+          const Divider(),
 
           //foods list
           if (order.foods?.isNotEmpty == true)
-            ...order.foods!.map(
+            ...order.mergedFoods.map(
               (order) => Row(
                 spacing: 8.w,
                 children: [
@@ -168,10 +213,12 @@ class ServerOrderScreen extends OrderScreenBase {
                             ),
                           ),
                           TextSpan(
-                            text: order.addOns?.isNotEmpty == true
-                                ? ' (${order.addOns?.join(', ')})'
+                            text:
+                                order.selectedAddOns?.isNotEmpty ==
+                                    true
+                                ? ' (${order.selectedAddOns?.join(', ')})'
                                 : '',
-                            style: AppTextStyles.normal.copyWith(
+                            style: AppTextStyles.small.copyWith(
                               color: AppColors.white,
                             ),
                           ),
@@ -190,27 +237,47 @@ class ServerOrderScreen extends OrderScreenBase {
                 ],
               ),
             ),
+          const Divider(color: AppColors.greyDark),
 
           //action buttons
           Row(
-            spacing: 26.w,
+            spacing: 20.w,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               // mark as paid if not paid
               if (!(order.isPaid ?? false))
                 AppButton.secondary(
-                  onPressed: () => context
-                      .read<OrdersCubit>()
-                      .markOrderAsPaid(order),
+                  onPressed: () => context.alertDialog(
+                    title: 'Mark Order as Paid',
+                    content:
+                        'Are you sure you want to mark this order as paid?',
+                    onConfirm: () => context
+                        .read<OrdersCubit>()
+                        .markOrderAsPaid(order),
+                  ),
                   text: 'Mark as Paid',
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 4.h,
+                  ),
                 ),
 
               // mark as delivered if not delivered
               if (!(order.isDelivered ?? false))
                 AppButton.primary(
-                  onPressed: () => context
-                      .read<OrdersCubit>()
-                      .markOrderAsDelivered(order),
+                  onPressed: () => context.alertDialog(
+                    title: 'Mark Order as Delivered',
+                    content:
+                        'Are you sure you want to mark this order as delivered?',
+                    onConfirm: () => context
+                        .read<OrdersCubit>()
+                        .markOrderAsDelivered(order),
+                  ),
                   text: 'Mark as Delivered',
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 4.h,
+                  ),
                 ),
             ],
           ),

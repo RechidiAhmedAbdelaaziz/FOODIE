@@ -7,14 +7,14 @@ import 'package:app/features/staff/data/repository/staff_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TodayEarn extends StatefulWidget {
-  const TodayEarn({super.key});
+class StaffTotalMoney extends StatefulWidget {
+  const StaffTotalMoney({super.key});
 
   @override
-  State<TodayEarn> createState() => _TodayEarnState();
+  State<StaffTotalMoney> createState() => _StaffTotalMoneyState();
 }
 
-class _TodayEarnState extends State<TodayEarn> {
+class _StaffTotalMoneyState extends State<StaffTotalMoney> {
   int _total = 0;
 
   @override
@@ -41,7 +41,7 @@ class _TodayEarnState extends State<TodayEarn> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Today Income'.tr(context),
+            'Staff money'.tr(context),
             style: AppTextStyles.medium.copyWith(
               color: AppColors.white,
             ),
