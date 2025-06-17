@@ -1,3 +1,5 @@
+import 'package:app/core/di/locator.dart';
+import 'package:app/core/localization/localization_cubit.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/gen/fonts.gen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,11 @@ abstract class AppThemes {
   static ThemeData get theme => ThemeData(
     primaryColor: AppColors.green,
 
-    fontFamily: FontFamily.poppins,
+    fontFamily:
+        locator<LocalizationCubit>().state?.languageCode == 'ar'
+        ? FontFamily.notoSansArabic
+        : FontFamily.poppins,
+
     scaffoldBackgroundColor: AppColors.black,
 
     appBarTheme: AppBarTheme(
@@ -31,7 +37,10 @@ abstract class AppThemes {
       ),
       centerTitle: true,
 
-      iconTheme: IconThemeData(color: AppColors.white, size: 24.r),
+      iconTheme: IconThemeData(
+        color: AppColors.greenLight,
+        size: 32.r,
+      ),
     ),
   );
 }

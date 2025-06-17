@@ -64,7 +64,7 @@ class HistoryScreen extends StatelessWidget {
 
   Widget _buildHistoryCard(BuildContext context, HistoryModel item) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.w),
       decoration: BoxDecoration(
         color: AppColors.blue,
@@ -89,14 +89,15 @@ class HistoryScreen extends StatelessWidget {
 
           Text(
             item.amount?.toString() ?? '0',
-            style: AppTextStyles.normal.copyWith(
+            style: AppTextStyles.medium.copyWith(
               fontWeight: FontWeight.bold,
+              color: AppColors.green,
             ),
           ),
           widthSpace(2),
           Text(
             'DA'.tr(context),
-            style: AppTextStyles.small.copyWith(
+            style: AppTextStyles.hint.copyWith(
               color: AppColors.white,
             ),
           ),

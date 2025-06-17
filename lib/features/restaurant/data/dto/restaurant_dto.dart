@@ -41,7 +41,7 @@ class RestaurantDTO with AsyncFormDTO {
         text: _restaurant.description,
       ),
       addressController = TextEditingController(
-        text: _restaurant.address?.link,
+        text: _restaurant.address?.title,
       ),
       openingDaysController = ListEditingController<String>(
         _restaurant.openingDays,
@@ -98,13 +98,15 @@ class RestaurantDTO with AsyncFormDTO {
       if (_restaurant.description != descriptionController.text)
         'description': descriptionController.text,
 
-      if (_restaurant.address?.link != addressController.text) ...{
-        'address': addressController.text,
-        // Fetching the coordinates from the short URL
-        ...(await locator<GeoLocatorService>().getLangLatFromShortUrl(
-          addressController.text,
-        )).toMap(), // {latitude: ..., longitude: ...}
-      },
+      if (_restaurant.address?.title != addressController.text)
+        'address': {
+          "title": addressController.text,
+          // Fetching the coordinates from the short URL
+          "coordinates":
+              (await locator<GeoLocatorService>()
+                      .getLangLatFromShortUrl(addressController.text))
+                  .toArray(), // {latitude: ..., longitude: ...}
+        },
 
       if (_restaurant.openingDays != openingDaysController.value)
         'openingDays': openingDaysController.value,

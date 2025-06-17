@@ -56,7 +56,7 @@ class OrderRepo extends NetworkRepository {
 
   void onOrderUpdated(Function(OrderModel order) callback) =>
       _socket.onData(
-        'ORDER_UPDATED',
+        'ORDER_UPDATE',
         (data) => callback(OrderModel.fromJson(data.data)),
       );
 

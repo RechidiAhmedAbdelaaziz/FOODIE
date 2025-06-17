@@ -23,7 +23,6 @@ abstract class OrderScreenBase extends StatelessWidget {
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
 
-        //TODO: add sound when new order is added
         state.onAddOrder((order) {
           locator<SoundService>().playSound(
             Assets.sounds.bellNotification,

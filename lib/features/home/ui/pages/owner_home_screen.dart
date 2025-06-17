@@ -1,4 +1,5 @@
 import 'package:app/core/extensions/date_formatter.dart';
+import 'package:app/core/localization/localization_button.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
@@ -18,7 +19,23 @@ class OwnerHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: AppLogo()),
+      appBar: AppBar(
+        leading: LocalizationButton(),
+        title: AppLogo(),
+        actions: [
+          //refrech button
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const OwnerHomeScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Symbols.refresh),
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 20.w,

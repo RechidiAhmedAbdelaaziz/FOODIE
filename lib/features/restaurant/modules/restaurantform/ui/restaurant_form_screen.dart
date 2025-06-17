@@ -37,6 +37,14 @@ class RestaurantFormScreen extends StatelessWidget {
     return BlocListener<RestaurantFormCubit, RestaurantFormState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
+        state.onSuccess(
+          (_){
+            context.pop();
+            context.showSuccessSnackbar(
+              'Restaurant updated successfully'.tr(context),
+            );
+          },
+        );
       },
       child: Scaffold(
         appBar: AppBar(

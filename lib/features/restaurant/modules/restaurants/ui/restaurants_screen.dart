@@ -58,7 +58,10 @@ class RestaurantsScreen extends StatelessWidget {
           actions: [
             // QR Code Scanner Button
             IconButton(
-              icon: const Icon(Symbols.qr_code_scanner),
+              icon: const Icon(
+                Symbols.qr_code_scanner,
+                color: AppColors.green,
+              ),
               onPressed: () async {
                 final qrService = locator<QrService>();
                 final result = await qrService.scanQrCode(context);
@@ -114,24 +117,22 @@ class RestaurantsScreen extends StatelessWidget {
     return InkWell(
       // when click open the restaurant map link
       onTap: () {
-        if (item.address?.link != null) {
-          launchUrl(Uri.parse(item.address!.link!));
+        if (item.address?.title != null) {
+          launchUrl(Uri.parse(item.address!.title!));
         }
       },
 
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 12.w,
-          vertical: 8.h,
-        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
           border: Border(
-            bottom: BorderSide(color: AppColors.white),
-            top: BorderSide(color: AppColors.white),
+            bottom: BorderSide(color: AppColors.green),
+            top: BorderSide(color: AppColors.green),
           ),
         ),
         child: Column(
+          spacing: 4.h,
           children: [
             // The cover image
             SizedBox(
@@ -148,23 +149,27 @@ class RestaurantsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  if (item.isNightTimeOpen)
+                  if (!item.isNightTimeOpen)
                     PositionedDirectional(
                       top: 8.h,
                       end: 12.w,
-                      child: Icon(
-                        Symbols.nightlight,
-                        color: Colors.white,
-                        size: 24.sp,
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.greenLight,
+                        radius: 16.r,
+                        child: Icon(
+                          Symbols.nightlight,
+                          color: AppColors.blue,
+                          size: 24.sp,
+                        ),
                       ),
                     ),
 
                   //Socia Media
                   PositionedDirectional(
                     bottom: 8.h,
-                    start: 12.w,
+                    start: 8.w,
                     child: Row(
-                      spacing: 16.w,
+                      spacing: 4.w,
                       children: [
                         if (item.facebookLink != null)
                           _buildSocialMediaIcon(
@@ -195,7 +200,10 @@ class RestaurantsScreen extends StatelessWidget {
 
             //title and description
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              padding: EdgeInsets.symmetric(
+                horizontal: 4.w,
+                vertical: 8.h,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -214,10 +222,10 @@ class RestaurantsScreen extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 8.w,
-                            vertical: 4.h,
+                            vertical: 2.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.green,
+                            color: AppColors.greenLight,
                             borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: Row(
@@ -225,13 +233,13 @@ class RestaurantsScreen extends StatelessWidget {
                             children: [
                               Icon(
                                 Symbols.payment,
-                                color: AppColors.white,
+                                color: AppColors.blue,
                                 size: 16.sp,
                               ),
                               Text(
                                 'Pre-Paid',
-                                style: AppTextStyles.medium.copyWith(
-                                  color: AppColors.white,
+                                style: AppTextStyles.normal.copyWith(
+                                  color: AppColors.blue,
                                 ),
                               ),
                             ],
@@ -264,7 +272,7 @@ class RestaurantsScreen extends StatelessWidget {
   ) {
     return GestureDetector(
       onTap: () => launchUrl(Uri.parse(url)),
-      child: SvgPicture.asset(iconPath),
+      child: SvgPicture.asset(iconPath, width: 42.r, height: 42.r),
     );
   }
 }

@@ -6,29 +6,62 @@ part of 'geo_locator_service.dart';
 Future<LangLatModel> _getLangLat(String shortUrl) async {
   final dio = Dio(
     BaseOptions(
-      followRedirects: false, // We want to catch the redirect
+      followRedirects: false,
       validateStatus: (status) =>
-          status! < 400, // Allow redirect (3xx)
+          status != null && (status >= 200 && status < 400),
     ),
   )..addLogger();
 
-  // First request to get the redirected long URL
-  final response = await dio.get(shortUrl);
-  dio.close();
+  String? currentUrl = shortUrl;
+  int maxRedirects = 5;
 
-  final redirectedUrl = response.headers.value('location');
+  while (currentUrl != null && maxRedirects-- > 0) {
+    final response = await dio.get(currentUrl);
+    final locationHeader = response.headers.value('location');
 
-  if (redirectedUrl == null) {
-    throw Exception('We get null from the redirected URL');
+    // Check redirect URL for coordinates
+    final redirectUrl = locationHeader ?? currentUrl;
+    final redirectMatch = _extractCoordinates(redirectUrl);
+    if (redirectMatch != null) {
+      dio.close();
+      return redirectMatch;
+    }
+
+    // If it's the final page (200 OK), search in the body
+    if (response.statusCode == 200 && response.data is String) {
+      final html = response.data as String;
+      final bodyMatch = _extractCoordinates(html);
+      if (bodyMatch != null) {
+        dio.close();
+        return bodyMatch;
+      }
+    }
+
+    // Go to next URL in chain
+    currentUrl = locationHeader;
   }
 
-  final regex = RegExp(r'@(-?\d+\.\d+),(-?\d+\.\d+)');
-  final match = regex.firstMatch(redirectedUrl);
+  dio.close();
+  throw Exception('Coordinates not found in redirects or HTML body.');
+}
 
-  final latitude = match?.group(1) ?? '';
-  final longitude = match?.group(2) ?? '';
-  return LangLatModel(
-    latitude: double.parse(latitude),
-    longitude: double.parse(longitude),
-  );
+LangLatModel? _extractCoordinates(String input) {
+  final regex = RegExp(r'(-?\d+\.\d+),\s*(-?\d+\.\d+)');
+  final matches = regex.allMatches(input);
+
+  for (final match in matches) {
+    try {
+      final lat = double.parse(match.group(1)!);
+      final lng = double.parse(match.group(2)!);
+      if (_isValidLatLng(lat, lng)) {
+        return LangLatModel(latitude: lat, longitude: lng);
+      }
+    } catch (_) {}
+  }
+
+  return null;
+}
+
+bool _isValidLatLng(double lat, double lng) {
+  return lat.abs() <= 90 && lng.abs() <= 180;
 }

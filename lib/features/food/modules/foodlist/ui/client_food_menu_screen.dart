@@ -4,6 +4,7 @@ import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
+import 'package:app/core/services/sounds/sound_service.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_logo.dart';
@@ -20,6 +21,7 @@ import 'package:app/features/order/modules/order/ui/food_order_card.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:app/features/table/data/repository/table_repository.dart';
 import 'package:app/features/table/modules/tableheader/table_header.dart';
+import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -123,6 +125,11 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
             state.onSuccess((order) {
               // empty the order dto
               context.read<OrderCubit>().dto.menuController.clear();
+
+              locator<SoundService>().playSound(
+                Assets.sounds.panClose,
+              );
+              
               context.showSuccessSnackbar(
                 'Order created successfully'.tr(context),
               );

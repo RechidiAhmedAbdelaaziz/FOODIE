@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -48,7 +49,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
   Widget build(BuildContext context) {
     return AppTextField(
       controller: widget.controller,
-      hintText: 'Search',
+      hintText: 'Search'.tr(context),
       prefixIcon: Symbols.search,
       // textInputAction: TextInputAction.search,
       keyboardType: TextInputType.text,

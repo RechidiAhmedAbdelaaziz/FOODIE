@@ -105,21 +105,9 @@ class TableHeader extends StatelessWidget {
                     color: AppColors.green,
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Row(
-                    spacing: 8.w,
-                    children: [
-                      Text(
-                        'Rescan'.tr(context),
-                        style: AppTextStyles.normal.copyWith(
-                          color: AppColors.white,
-                        ),
-                      ),
-
-                      const Icon(
-                        Symbols.qr_code_scanner,
-                        color: AppColors.white,
-                      ),
-                    ],
+                  child: const Icon(
+                    Symbols.qr_code_scanner,
+                    color: AppColors.white,
                   ),
                 ),
               ),

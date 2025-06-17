@@ -16,4 +16,8 @@ class LangLatModel {
   Map<String, dynamic> toMap() {
     return {'latitude': latitude, 'longitude': longitude};
   }
+
+  List<double> toArray() {
+    return [latitude, longitude];
+  }
 }

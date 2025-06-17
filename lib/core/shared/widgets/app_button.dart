@@ -1,3 +1,4 @@
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,8 @@ class AppButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 12.w,
           children: [
-            if (text != null) Text(text!, style: textStyle),
+            if (text != null)
+              Text(text!.tr(context), style: textStyle),
 
             //show loading indicator if isLoading is true, else show suffixIcon if it is not null
             if (isLoading?.call(context) == true)

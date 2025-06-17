@@ -20,6 +20,7 @@ class VoidApiResponse extends ApiResponseModel {
 
 @JsonSerializable(createToJson: false)
 class DataApiResponse extends ApiResponseModel {
+  @JsonKey(defaultValue: <String, dynamic>{})
   final Map<String, dynamic> data;
 
   const DataApiResponse({

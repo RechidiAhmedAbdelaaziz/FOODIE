@@ -124,6 +124,7 @@ flutter:
         - family: IconsFont
           fonts:
               - asset: assets/fonts/Icons.ttf
+
         - family: Poppins
           fonts:
               - asset: assets/fonts/Poppins/Poppins-Light.ttf
@@ -138,6 +139,10 @@ flutter:
                 weight: 700
               - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
                 weight: 800
+
+        - family: NotoSansArabic
+          fonts:
+              - asset: assets/fonts/NotoSansArabic-VariableFont_wdth,wght.ttf
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/to/font-from-package
