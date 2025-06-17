@@ -6,6 +6,6 @@ class SoundService {
   final _player = AudioPlayer();
 
   void playSound(String soundPath) {
-    _player.play(AssetSource(soundPath));
+    _player.play(AssetSource(soundPath.split('assets/').last));
   }
 }
