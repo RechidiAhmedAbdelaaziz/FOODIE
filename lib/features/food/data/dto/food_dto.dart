@@ -28,7 +28,7 @@ class FoodDTO with AsyncFormDTO {
   final TextEditingController nameController;
   final TextEditingController descriptionController;
   final TextEditingController priceController;
-  final EditingController<String> categoryController;
+  final TextEditingController categoryController;
   final ListEditingController<AddOnsDTO> addOnsController;
 
   FoodDTO([this._food])
@@ -42,8 +42,8 @@ class FoodDTO with AsyncFormDTO {
       priceController = TextEditingController(
         text: _food?.price?.toString(),
       ),
-      categoryController = EditingController<String>(
-        _food?.category ?? '',
+      categoryController = TextEditingController(
+        text: _food?.category,
       ),
       addOnsController = ListEditingController<AddOnsDTO>(
         _food?.addOns?.map((e) => AddOnsDTO(e)).toList(),

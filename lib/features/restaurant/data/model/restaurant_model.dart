@@ -8,7 +8,7 @@ class RestaurantModel extends Equatable {
   @JsonKey(name: '_id')
   final String? id;
   final String? name;
-  final String? category;
+  final List<String>? category;
   final String? description;
   final String? image;
   final LocationModel? address;

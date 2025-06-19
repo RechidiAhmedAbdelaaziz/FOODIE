@@ -15,7 +15,7 @@ class RestaurantDTO with AsyncFormDTO {
 
   final EditingController<ImageDTO> imageController;
   final TextEditingController nameController;
-  final EditingController<String> categoryController;
+  final ListEditingController<String> categoryController;
   final TextEditingController descriptionController;
   final TextEditingController addressController;
   final ListEditingController<String> openingDaysController;
@@ -34,8 +34,8 @@ class RestaurantDTO with AsyncFormDTO {
             : null,
       ),
       nameController = TextEditingController(text: _restaurant.name),
-      categoryController = EditingController<String>(
-        _restaurant.category ?? AppData.restaurantTypes.first,
+      categoryController = ListEditingController(
+        _restaurant.category ?? [AppData.restaurantTypes.first],
       ),
       descriptionController = TextEditingController(
         text: _restaurant.description,

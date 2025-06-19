@@ -1,6 +1,5 @@
 import 'package:app/core/networking/dio/interceptors/dio_interceptors.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,7 +16,8 @@ abstract class DioModule {
       ..baseUrl = FlavorConfig.instance.variables["baseUrl"] ?? ''
       ..headers = {'Accept': 'application/json'};
 
-    if (kDebugMode) dio.addLogger();
+    // if (kDebugMode)
+    dio.addLogger();
 
     dio.addErrorInterceptor();
     dio.addAuthTokenInterceptor();

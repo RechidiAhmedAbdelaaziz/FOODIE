@@ -37,14 +37,12 @@ class RestaurantFormScreen extends StatelessWidget {
     return BlocListener<RestaurantFormCubit, RestaurantFormState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
-        state.onSuccess(
-          (_){
-            context.pop();
-            context.showSuccessSnackbar(
-              'Restaurant updated successfully'.tr(context),
-            );
-          },
-        );
+        state.onSuccess((_) {
+          context.pop();
+          context.showSuccessSnackbar(
+            'Restaurant updated successfully'.tr(context),
+          );
+        });
       },
       child: Scaffold(
         appBar: AppBar(
@@ -114,7 +112,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                       : null,
                                 ),
 
-                                AppDropDownField(
+                                AppMultiDropDownField(
                                   controller: dto.categoryController,
                                   itemsBuilder: (_) =>
                                       AppData.restaurantTypes,
@@ -183,7 +181,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                 AppTextField(
                                   controller: dto.addressController,
                                   hintText:
-                                      'Enter restaurant address',
+                                      'Enter restaurant address link',
                                   keyboardType: TextInputType.text,
                                   suffixIcon: Symbols.location_on,
                                   validator: (value) =>
