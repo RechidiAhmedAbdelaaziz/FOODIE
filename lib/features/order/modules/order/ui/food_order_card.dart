@@ -7,15 +7,14 @@ import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/order/data/dto/create_order_dto.dart';
-import 'package:app/features/order/modules/order/logic/order_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class FoodOrderCard extends StatelessWidget {
   final FoodModel food;
-  const FoodOrderCard(this.food, {super.key});
+  final CreateOrderDTO dto;
+  const FoodOrderCard(this.food, this.dto, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +114,7 @@ class FoodOrderCard extends StatelessWidget {
                     InkWell(
                       onTap: () => context.dialogWith<OrderMenuDTO>(
                         child: _FoodAddForm(food),
-                        onResult: context
-                            .read<OrderCubit>()
-                            .dto
-                            .menuController
-                            .addValue,
+                        onResult: dto.menuController.addValue,
                       ),
                       child: Container(
                         padding: EdgeInsets.symmetric(

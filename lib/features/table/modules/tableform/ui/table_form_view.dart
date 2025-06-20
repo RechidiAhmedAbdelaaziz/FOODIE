@@ -38,7 +38,7 @@ class TableFormView extends StatelessWidget {
             );
             return Container(
               margin: EdgeInsets.symmetric(
-                horizontal: 24.w,
+                horizontal: 12.w,
                 vertical: 8.h,
               ),
               padding: EdgeInsets.symmetric(
@@ -115,8 +115,7 @@ class _TableFormContent extends StatelessWidget {
           heightSpace(16),
 
           Row(
-            spacing: 16.w,
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppButton.secondary(
                 text: 'Cancel',

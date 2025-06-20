@@ -122,6 +122,16 @@ class OwnerHomeScreen extends StatelessWidget {
           ],
         ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.green,
+        onPressed: () =>
+            context.to(AppRoutes.foodPriceCalculator, null),
+        child: const Icon(
+          Symbols.receipt_long,
+          color: AppColors.blue,
+        ),
+      ),
     );
   }
 

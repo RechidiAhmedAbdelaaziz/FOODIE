@@ -72,7 +72,7 @@ class TablesScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
-        spacing: 8.w,
+        spacing: 16.w,
         children: [
           Icon(Symbols.table_bar, color: Colors.white, size: 24.sp),
 
@@ -88,7 +88,7 @@ class TablesScreen extends StatelessWidget {
           ),
 
           Row(
-            spacing: 16.w,
+            spacing: 20.w,
             children: [
               QrPdfSaver(
                 data: TableQr.generateQrData(table),

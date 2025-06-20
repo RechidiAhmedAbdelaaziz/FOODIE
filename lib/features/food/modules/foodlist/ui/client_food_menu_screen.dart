@@ -129,7 +129,7 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
               locator<SoundService>().playSound(
                 Assets.sounds.panClose,
               );
-              
+
               context.showSuccessSnackbar(
                 'Order created successfully'.tr(context),
               );
@@ -214,8 +214,12 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                                               selected == null,
                                         )
                                         .map(
-                                          (food) =>
-                                              FoodOrderCard(food),
+                                          (food) => FoodOrderCard(
+                                            food,
+                                            context
+                                                .read<OrderCubit>()
+                                                .dto,
+                                          ),
                                         )
                                         .toList(),
                                   ),
@@ -247,9 +251,8 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                     '${'Confirm'.tr(context)} (${selectedFoods.length})',
                 onPressed: () {
                   context.bottomSheetWith<bool>(
-                    child: BlocProvider.value(
-                      value: context.read<OrderCubit>(),
-                      child: ConfirmOrderView(),
+                    child: ConfirmOrderView(
+                      context.read<OrderCubit>().dto.menuController,
                     ),
                     onResult: (_) {
                       context.read<OrderCubit>().saveOrder();

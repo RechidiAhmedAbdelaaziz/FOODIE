@@ -15,10 +15,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-class FoodMenuScreen extends StatelessWidget {
-  final categoryController = EditingController<String>();
+class FoodMenuScreen extends StatefulWidget {
 
-  FoodMenuScreen({super.key});
+  const FoodMenuScreen({super.key});
 
   static RouteBase get route => GoRoute(
     path: AppRoutes.foodMenu.path,
@@ -30,6 +29,20 @@ class FoodMenuScreen extends StatelessWidget {
       child: FoodMenuScreen(),
     ),
   );
+
+  @override
+  State<FoodMenuScreen> createState() => _FoodMenuScreenState();
+}
+
+class _FoodMenuScreenState extends State<FoodMenuScreen> {
+  final categoryController = EditingController<String>();
+
+
+  @override
+  void dispose() {
+    categoryController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

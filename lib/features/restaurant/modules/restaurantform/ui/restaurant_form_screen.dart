@@ -178,6 +178,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                   ],
                                 ),
 
+                                // GOOGLE map link like this https://maps.app.goo.gl/H38MqmYr61rkgMsC6
                                 AppTextField(
                                   controller: dto.addressController,
                                   hintText:
@@ -187,7 +188,11 @@ class RestaurantFormScreen extends StatelessWidget {
                                   validator: (value) =>
                                       value?.isEmpty == true
                                       ? 'Address is required'
-                                      : null,
+                                      : value!.startsWith(
+                                          'https://maps.app.goo.gl/',
+                                        )
+                                      ? null
+                                      : 'Invalid google map link',
                                 ),
 
                                 //check box for prepaid

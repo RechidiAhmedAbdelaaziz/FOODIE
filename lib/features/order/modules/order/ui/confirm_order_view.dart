@@ -1,23 +1,22 @@
 import 'package:app/core/extensions/popup_extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
-import 'package:app/features/order/modules/order/logic/order_cubit.dart';
+import 'package:app/features/order/data/dto/create_order_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class ConfirmOrderView extends StatelessWidget {
-  const ConfirmOrderView({super.key});
+  final ListEditingController<OrderMenuDTO> ordersController;
+  const ConfirmOrderView(this.ordersController, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final dto = context.read<OrderCubit>().dto;
-    final ordersController = dto.menuController;
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,

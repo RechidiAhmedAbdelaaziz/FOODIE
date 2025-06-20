@@ -1,4 +1,3 @@
-import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
@@ -9,7 +8,6 @@ import 'package:app/core/services/filepicker/file_picker_service.dart';
 import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
-import 'package:app/core/shared/widgets/dropdown_field.dart';
 import 'package:app/core/shared/widgets/image_field.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';

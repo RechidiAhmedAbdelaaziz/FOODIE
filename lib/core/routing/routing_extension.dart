@@ -15,6 +15,17 @@ extension RoutingExtension on BuildContext {
     ).push(MaterialPageRoute<T>(builder: (context) => widget));
   }
 
+  void toWidgetWith<T extends Widget, TResutl>(
+    T widget, {
+    required ValueChanged<TResutl> onResult,
+    VoidCallback? onError,
+  }) async {
+    final result = await Navigator.of(
+      this,
+    ).push<TResutl>(MaterialPageRoute<TResutl>(builder: (context) => widget));
+    result != null ? onResult(result) : onError?.call();
+  }
+
   void to<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
     T route,
     D params,

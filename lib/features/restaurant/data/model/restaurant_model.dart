@@ -8,7 +8,7 @@ class RestaurantModel extends Equatable {
   @JsonKey(name: '_id')
   final String? id;
   final String? name;
-  final List<String>? category;
+  final List<String>? categories;
   final String? description;
   final String? image;
   final LocationModel? address;
@@ -44,7 +44,7 @@ class RestaurantModel extends Equatable {
   const RestaurantModel({
     this.id,
     this.name,
-    this.category,
+    this.categories,
     this.description,
     this.image,
     this.address,

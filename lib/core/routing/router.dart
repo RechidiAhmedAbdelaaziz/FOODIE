@@ -7,6 +7,7 @@ import 'package:app/features/auth/modules/verifycode/ui/verify_code_screen.dart'
 import 'package:app/features/food/modules/foodform/ui/food_form_screen.dart';
 import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.dart';
 import 'package:app/features/food/modules/foodlist/ui/food_menu_screen.dart';
+import 'package:app/features/food/modules/foodlist/ui/food_price_calculator.dart';
 import 'package:app/features/history/modules/histories/ui/history_screen.dart';
 import 'package:app/features/home/configs/home_routes.dart';
 import 'package:app/features/order/modules/orders/orders_screen.dart';
@@ -38,6 +39,7 @@ class AppRouter {
       OrdersScreen.route,
       RestaurantsScreen.route,
       TableFoodMenuScreen.route,
+      FoodPriceCalculator.route,
     ],
     debugLogDiagnostics: true,
 

@@ -35,7 +35,7 @@ class RestaurantDTO with AsyncFormDTO {
       ),
       nameController = TextEditingController(text: _restaurant.name),
       categoryController = ListEditingController(
-        _restaurant.category ?? [AppData.restaurantTypes.first],
+        _restaurant.categories ?? [AppData.restaurantTypes.first],
       ),
       descriptionController = TextEditingController(
         text: _restaurant.description,
@@ -92,8 +92,8 @@ class RestaurantDTO with AsyncFormDTO {
       if (_restaurant.name != nameController.text)
         'name': nameController.text,
 
-      if (_restaurant.category != categoryController.value)
-        'category': categoryController.value,
+      if (_restaurant.categories != categoryController.value)
+        'categories': categoryController.value,
 
       if (_restaurant.description != descriptionController.text)
         'description': descriptionController.text,

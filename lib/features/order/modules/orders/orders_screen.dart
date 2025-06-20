@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'pages/owener_order_screen.dart';
+
 class OrdersScreen extends FlavorsScreen {
   const OrdersScreen({super.key});
 
@@ -22,5 +24,5 @@ class OrdersScreen extends FlavorsScreen {
   Widget get ownerScreen => const OwnerOrderScreen();
 
   @override
-  Widget get serverScreen => const ServerOrderScreen();
+  Widget get serverScreen =>  ServerOrderScreen();
 }

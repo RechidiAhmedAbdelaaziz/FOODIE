@@ -1,8 +1,10 @@
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/popup_extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/services/qr/qr_service.dart';
+import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
@@ -11,107 +13,14 @@ import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.da
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:app/features/order/modules/orders/logic/orders_cubit.dart';
 import 'package:app/features/order/modules/orders/pages/orders_screen_base.dart';
+import 'package:app/features/table/data/model/table_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-class OwnerOrderScreen extends OrderScreenBase {
-  const OwnerOrderScreen({super.key});
-
-  @override
-  Widget builder(List<OrderModel> orders) {
-    final mergedOrders = orders
-        .map((order) => order.foods ?? [])
-        .expand((e) => e)
-        .toList()
-        .merged;
-
-    return ListView.separated(
-      itemBuilder: (context, i) =>
-          _buildOrderCard(context, mergedOrders[i]),
-      separatorBuilder: (_, __) => const Divider(),
-      itemCount: mergedOrders.length,
-    );
-  }
-
-  Widget _buildOrderCard(BuildContext context, OrderData order) {
-    final food = order.food!;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-      child: Row(
-        spacing: 8.w,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Row(
-              spacing: 8.w,
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              children: [
-                Container(
-                  width: 100.w,
-                  height: 100.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    image: DecorationImage(
-                      image: NetworkImage(order.food?.image ?? ''),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 4.h,
-                    children: [
-                      Text(
-                        food.name ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.large.copyWith(
-                          color: AppColors.white,
-                        ),
-                      ),
-                      Text(
-                        order.selectedAddOns?.join(',') ?? '',
-                        style: AppTextStyles.normal.copyWith(
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder:
-                (Widget child, Animation<double> animation) {
-                  return ScaleTransition(
-                    scale: animation,
-                    child: child,
-                  );
-                },
-            child: Text(
-              '${order.quantity}',
-              key: ValueKey<int>(order.quantity ?? 0),
-              style: AppTextStyles.h4.copyWith(
-                color: AppColors.greenLight,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ServerOrderScreen extends OrderScreenBase {
-  const ServerOrderScreen({super.key});
+  ServerOrderScreen({super.key});
 
   @override
   Widget floatingActionButton(BuildContext context) {
@@ -136,13 +45,66 @@ class ServerOrderScreen extends OrderScreenBase {
     );
   }
 
+  final tableController = EditingController<String>();
+
   @override
-  Widget builder(List<OrderModel> orders) {
-    return ListView.separated(
-      itemBuilder: (context, i) =>
-          _buildOrderCard(context, orders[i]),
-      separatorBuilder: (_, __) => heightSpace(12),
-      itemCount: orders.length,
+  Widget builder(List<OrderModel> orders, BuildContext context) {
+    final tables = orders
+        .map((order) => order.table)
+        .whereType<TableModel>()
+        .map((table) => table.name ?? '')
+        .toSet()
+        .toList();
+
+    return ValueListenableBuilder(
+      valueListenable: tableController,
+      builder: (context, value, child) {
+        final filteredOrders = orders.where((order) {
+          if (tableController.value?.isEmpty ?? false) return true;
+          return order.table?.name == tableController.value;
+        }).toList();
+
+        return Column(
+          children: [
+            //tables list
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: ["All", ...tables]
+                    .map(
+                      (table) => _buildTableSelector(table, context),
+                    )
+                    .toList(),
+              ),
+            ),
+
+            ListView.separated(
+              itemBuilder: (context, i) =>
+                  _buildOrderCard(context, filteredOrders[i]),
+              separatorBuilder: (_, __) => heightSpace(12),
+              itemCount: filteredOrders.length,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTableSelector(String tableName, BuildContext context) {
+    final isSelected = tableController.value == tableName;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: InkWell(
+        onTap: () => tableName == "All"
+            ? tableController.clear()
+            : tableController.setValue(tableName),
+        child: Text(
+          tableName.tr(context),
+          style: isSelected
+              ? AppTextStyles.h4.copyWith(color: AppColors.greenLight)
+              : AppTextStyles.medium.copyWith(color: AppColors.white),
+        ),
+      ),
     );
   }
 

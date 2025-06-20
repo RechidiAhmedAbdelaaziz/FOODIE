@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class OrderScreenBase extends StatelessWidget {
-  Widget builder(List<OrderModel> orders);
+  Widget builder(List<OrderModel> orders, BuildContext context);
   Widget floatingActionButton(BuildContext context) =>
       const SizedBox.shrink();
 
@@ -65,7 +65,7 @@ abstract class OrderScreenBase extends StatelessWidget {
                                 style: AppTextStyles.medium,
                               ),
                             )
-                          : builder(orders);
+                          : builder(orders, context);
                     },
                   );
           },

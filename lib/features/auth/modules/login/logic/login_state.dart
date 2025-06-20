@@ -27,7 +27,7 @@ class LoginState with CubitErrorHandling {
   LoginState _copyWith({String? error, _LoginStatus? status}) {
     return LoginState(
       dto: _dto,
-      error: error ?? _error,
+      error: error,
       status: status ?? _status,
     );
   }

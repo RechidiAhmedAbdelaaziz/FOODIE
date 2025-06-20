@@ -78,8 +78,8 @@ class FoodDTO with AsyncFormDTO {
           _food.price?.toString() != priceController.text)
         'price': int.tryParse(priceController.text) ?? 0,
 
-      if (_food == null || _food.category != categoryController.value)
-        'category': categoryController.value,
+      if (_food == null || _food.category != categoryController.text)
+        'category': categoryController.text,
 
       if (_food == null ||
           _food.addOns?.length != addOnsController.value.length ||
