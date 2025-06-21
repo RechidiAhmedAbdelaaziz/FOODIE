@@ -4,6 +4,7 @@ import 'package:app/core/extensions/map_extension.dart';
 import 'package:app/core/services/geolocator/geo_locator_service.dart';
 import 'package:app/core/shared/dto/filesdto/image_dto.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
+import 'package:app/core/shared/dto/working_time_dto.dart';
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
@@ -18,10 +19,11 @@ class RestaurantDTO with AsyncFormDTO {
   final ListEditingController<String> categoryController;
   final TextEditingController descriptionController;
   final TextEditingController addressController;
-  final ListEditingController<String> openingDaysController;
-  final EditingController<String> startTimeController;
-  final EditingController<String> endTimeController;
+
+  final ListEditingController<WorkingTimeDto> workingTimesController;
+
   final BooleanEditingController isPrePaidController;
+
   final TextEditingController facebookLinkController;
   final TextEditingController instagramLinkController;
   final TextEditingController tiktokLinkController;
@@ -43,15 +45,13 @@ class RestaurantDTO with AsyncFormDTO {
       addressController = TextEditingController(
         text: _restaurant.address?.title,
       ),
-      openingDaysController = ListEditingController<String>(
-        _restaurant.openingDays,
+      workingTimesController = ListEditingController<WorkingTimeDto>(
+        _restaurant.workingTimes
+                ?.map((e) => WorkingTimeDto(e))
+                .toList() ??
+            [],
       ),
-      startTimeController = EditingController(
-        _restaurant.startTime ?? '08:00',
-      ),
-      endTimeController = EditingController(
-        _restaurant.endTime ?? '10:00',
-      ),
+
       isPrePaidController = BooleanEditingController(
         _restaurant.isPrePaid ?? false,
       ),
@@ -75,14 +75,12 @@ class RestaurantDTO with AsyncFormDTO {
     categoryController.dispose();
     descriptionController.dispose();
     addressController.dispose();
-    openingDaysController.dispose();
-    startTimeController.dispose();
-    endTimeController.dispose();
     isPrePaidController.dispose();
     facebookLinkController.dispose();
     instagramLinkController.dispose();
     tiktokLinkController.dispose();
     phoneController.dispose();
+    workingTimesController.dispose();
   }
 
   @override
@@ -108,14 +106,10 @@ class RestaurantDTO with AsyncFormDTO {
                   .toArray(), // {latitude: ..., longitude: ...}
         },
 
-      if (_restaurant.openingDays != openingDaysController.value)
-        'openingDays': openingDaysController.value,
-
-      if (_restaurant.startTime != startTimeController.value)
-        'startTime': startTimeController.value,
-
-      if (_restaurant.endTime != endTimeController.value)
-        'endTime': endTimeController.value,
+      if (workingTimesController.value.any((e) => e.isModified))
+        'workingTimes': workingTimesController.value
+            .map((e) => e.toMap())
+            .toList(),
 
       if (_restaurant.isPrePaid != isPrePaidController.value)
         'isPrePaid': isPrePaidController.value,

@@ -15,11 +15,4 @@ abstract class AppData {
     'Saturday',
     'Sunday',
   ];
-
-  static List<String> dayTimes = [
-    for (var hour = 0; hour < 24; hour++) ...[
-      '${hour.toString().padLeft(2, '0')}:00',
-      '${hour.toString().padLeft(2, '0')}:30',
-    ],
-  ];
 }

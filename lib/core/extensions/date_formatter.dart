@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension DateFormatter on DateTime {
   // * 12 Mon 2023
   String toFormattedDate() {
@@ -18,5 +20,15 @@ extension DateFormatter on DateTime {
       'Dec',
     ][month - 1];
     return '$day $monthName $year';
+  }
+}
+
+
+extension TimeFormatter on TimeOfDay {
+  // * ##:##
+  String toFormattedTime() {
+    final hour = this.hour.toString().padLeft(2, '0');
+    final minute = this.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 }

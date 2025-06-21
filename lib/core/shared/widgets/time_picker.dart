@@ -1,68 +1,95 @@
+import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/form_field_props.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AppTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final bool isRequired;
+class AppTimePicker extends StatefulWidget {
+  final EditingController<TimeOfDay> controller;
 
   final String? label;
   final String? hintText;
 
+  final bool isRequired;
+
   final IconData? prefixIcon;
   final IconData? suffixIcon;
-
   final Widget? suffixWidget;
 
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
-  final List<TextInputFormatter> inputFormatters;
+  final String? Function(TimeOfDay? time)? validator;
 
-  final String? Function(String?)? validator;
-
-  const AppTextField({
+  const AppTimePicker({
     super.key,
     required this.controller,
-    this.inputFormatters = const [],
     this.label,
     this.hintText,
-    this.prefixIcon,
     this.isRequired = false,
+    this.prefixIcon,
     this.suffixIcon,
-    this.keyboardType,
-    this.textInputAction,
     this.suffixWidget,
     this.validator,
   });
 
+  @override
+  State<AppTimePicker> createState() => _AppTimePickerState();
+}
+
+class _AppTimePickerState extends State<AppTimePicker> {
+  late final TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    _textEditingController = TextEditingController(
+      text: widget.controller.value?.toFormattedTime(),
+    );
+
+    widget.controller.addListener(() {
+      _textEditingController.text =
+          widget.controller.value?.toFormattedTime() ?? '';
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FormField(
-      validator: (_) => validator?.call(controller.text),
+      validator: (_) =>
+          widget.validator?.call(widget.controller.value),
       builder: (state) {
         return Column(
           spacing: 8.h,
           children: [
-            if (label != null)
+            if (widget.label != null)
               FormFieldLabel(
-                label!.tr(context),
-                isRequired: isRequired,
+                widget.label!.tr(context),
+                isRequired: widget.isRequired,
               ),
 
             TextField(
-              controller: controller,
-              keyboardType: keyboardType,
-              textInputAction: textInputAction,
-              inputFormatters: inputFormatters,
+              controller: _textEditingController,
+              readOnly: true,
 
-              maxLines: keyboardType == TextInputType.multiline
-                  ? null
-                  : 1,
+              onTap: () async {
+                final selectedTime = await showTimePicker(
+                  context: context,
+                  initialTime:
+                      widget.controller.value ?? TimeOfDay.now(),
+                );
+
+                if (selectedTime != null) {
+                  widget.controller.value = selectedTime;
+                }
+              },
 
               style: AppTextStyles.normal.copyWith(
                 color: AppColors.white,
@@ -80,22 +107,22 @@ class AppTextField extends StatelessWidget {
                 fillColor: AppColors.blue,
                 filled: true,
 
-                hintText: hintText?.tr(context),
+                hintText: widget.hintText?.tr(context),
                 hintStyle: AppTextStyles.normal.copyWith(
                   color: AppColors.grey,
                 ),
 
                 prefixIconConstraints: BoxConstraints(minWidth: 48.w),
-                prefixIcon: prefixIcon != null
+                prefixIcon: widget.prefixIcon != null
                     ? Icon(
-                        prefixIcon,
+                        widget.prefixIcon,
                         color: AppColors.white,
                         size: 30.r,
                       )
                     : null,
-                suffixIcon: suffixIcon != null
-                    ? Icon(suffixIcon, color: AppColors.white)
-                    : suffixWidget,
+                suffixIcon: widget.suffixIcon != null
+                    ? Icon(widget.suffixIcon, color: AppColors.white)
+                    : widget.suffixWidget,
 
                 error: state.hasError
                     ? FormFieldError(state.errorText!.tr(context))

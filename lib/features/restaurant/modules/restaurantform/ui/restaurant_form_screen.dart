@@ -6,9 +6,9 @@ import 'package:app/core/routing/router.dart';
 import 'package:app/core/services/filepicker/file_picker_service.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
-import 'package:app/core/shared/widgets/dropdown_field.dart';
 import 'package:app/core/shared/widgets/image_field.dart';
 import 'package:app/core/shared/widgets/multi_dropdown_field.dart';
+import 'package:app/core/shared/widgets/work_time_picker.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
@@ -121,61 +121,11 @@ class RestaurantFormScreen extends StatelessWidget {
                                       value.tr(context),
                                 ),
 
-                                AppMultiDropDownField(
+                                WorkTimeField(
                                   controller:
-                                      dto.openingDaysController,
-                                  itemsBuilder: (_) =>
-                                      AppData.weekDays,
-                                  itemToString: (value) =>
-                                      value.tr(context),
-
-                                  hintText: 'Select opening days',
-                                  validator: (value) =>
-                                      value?.isEmpty == true
-                                      ? 'Opening days are required'
-                                      : null,
-                                ),
-
-                                Row(
-                                  spacing: 12.w,
-                                  children: [
-                                    Expanded(
-                                      child: AppDropDownField(
-                                        controller:
-                                            dto.startTimeController,
-                                        itemsBuilder: (_) =>
-                                            AppData.dayTimes,
-                                        hintText: 'Select start time',
-                                        itemToString: (value) =>
-                                            value,
-                                        validator: (value) =>
-                                            value?.isEmpty == true
-                                            ? 'Start time is required'
-                                            : null,
-                                      ),
-                                    ),
-                                    Text(
-                                      'to'.tr(context),
-                                      style: AppTextStyles.normal
-                                          .copyWith(
-                                            color: AppColors.white,
-                                          ),
-                                    ),
-                                    Expanded(
-                                      child: AppDropDownField(
-                                        controller:
-                                            dto.endTimeController,
-                                        itemsBuilder: (_) =>
-                                            AppData.dayTimes,
-                                        hintText: 'Select end time',
-                                        itemToString: (hour) => hour,
-                                        validator: (value) =>
-                                            value?.isEmpty == true
-                                            ? 'End time is required'
-                                            : null,
-                                      ),
-                                    ),
-                                  ],
+                                      dto.workingTimesController,
+                                  label: 'Working times'.tr(context),
+                                  isRequired: true,
                                 ),
 
                                 // GOOGLE map link like this https://maps.app.goo.gl/H38MqmYr61rkgMsC6

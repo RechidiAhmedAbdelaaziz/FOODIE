@@ -60,9 +60,9 @@ class AppCheckBoxField extends StatelessWidget {
                   ),
                 ),
 
-                if (state.hasError) ...[
+                if (state.hasError) 
                   FormFieldError(state.errorText!),
-                ],
+                
               ],
             ),
           ),

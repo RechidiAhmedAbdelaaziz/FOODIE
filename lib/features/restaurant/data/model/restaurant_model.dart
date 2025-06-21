@@ -12,10 +12,7 @@ class RestaurantModel extends Equatable {
   final String? description;
   final String? image;
   final LocationModel? address;
-  final List<String>? openingDays;
-
-  final String? startTime; // ##:## AM
-  final String? endTime; // ##:## PM
+  final List<WorkingTimeModel>? workingTimes;
 
   final bool? isPrePaid;
 
@@ -26,19 +23,20 @@ class RestaurantModel extends Equatable {
   final String? phone;
 
   bool get isNightTimeOpen {
-    if (startTime == null || endTime == null) return false;
+    if (workingTimes == null || workingTimes!.isEmpty) return false;
 
-    final start = DateTime.parse('2023-01-01 $startTime');
-    final end = DateTime.parse('2023-01-01 $endTime');
+    return workingTimes!.any((time) {
+      final start = time.startTime?.split(':');
+      final end = time.endTime?.split(':');
+      if (start == null || end == null) return false;
 
-    // If the end time is before the start time, it means it goes past midnight
-    if (end.isBefore(start)) {
-      return DateTime.now().isAfter(start) ||
-          DateTime.now().isBefore(end);
-    } else {
-      return DateTime.now().isAfter(start) &&
-          DateTime.now().isBefore(end);
-    }
+      final startHour = int.parse(start[0]);
+      final endHour = int.parse(end[0]);
+
+      // Check if the restaurant is open during night hours (22:00 - 06:00)
+      return (startHour >= 22 || startHour < 6) &&
+          (endHour >= 22 || endHour < 6);
+    });
   }
 
   const RestaurantModel({
@@ -48,9 +46,7 @@ class RestaurantModel extends Equatable {
     this.description,
     this.image,
     this.address,
-    this.openingDays,
-    this.startTime,
-    this.endTime,
+    this.workingTimes,
     this.isPrePaid,
     this.facebookLink,
     this.instagramLink,
@@ -75,4 +71,16 @@ class LocationModel {
 
   factory LocationModel.fromJson(Map<String, dynamic> json) =>
       _$LocationModelFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class WorkingTimeModel {
+  final String? day;
+  final String? startTime; // ##:##
+  final String? endTime; // ##:##
+
+  const WorkingTimeModel({this.day, this.startTime, this.endTime});
+
+  factory WorkingTimeModel.fromJson(Map<String, dynamic> json) =>
+      _$WorkingTimeModelFromJson(json);
 }
