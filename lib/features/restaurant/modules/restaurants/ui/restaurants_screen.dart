@@ -1,4 +1,5 @@
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/bottom_extension.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
@@ -13,6 +14,7 @@ import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.da
 import 'package:app/features/restaurant/data/dto/restaurant_filter_dto.dart';
 import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:app/features/restaurant/modules/restaurants/logic/restaurants_cubit.dart';
+import 'package:app/features/restaurant/modules/restaurants/ui/restaurant_filters_view.dart';
 import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,6 +91,15 @@ class RestaurantsScreen extends StatelessWidget {
               AppSearchBar(
                 controller: cubit.filter.keywordController,
                 onChanged: (_) => cubit.refresh(),
+                showFilters: () =>
+                    context.bottomSheetWith<RestaurantFilterDTO>(
+                      child: RestaurantFiltersView(cubit.filter),
+                      onResult: (result) {
+                        cubit.filter.copyFrom(result);
+                        result.dispose();
+                        cubit.refresh();
+                      },
+                    ),
               ),
               heightSpace(16),
 

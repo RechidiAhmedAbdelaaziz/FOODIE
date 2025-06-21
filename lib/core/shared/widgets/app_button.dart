@@ -92,13 +92,13 @@ class AppButton extends StatelessWidget {
       child: Container(
         padding:
             padding ??
-            EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+            EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: color,
           border: Border.all(
             color: borderColor ?? Colors.transparent,
           ),
-          borderRadius: BorderRadius.circular(24).r,
+          borderRadius: BorderRadius.circular(16).r,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
