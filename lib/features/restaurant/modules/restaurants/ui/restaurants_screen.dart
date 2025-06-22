@@ -1,6 +1,7 @@
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/bottom_extension.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/app_route.dart';
 import 'package:app/core/routing/router.dart';
 import 'package:app/core/routing/routing_extension.dart';
@@ -159,7 +160,39 @@ class RestaurantsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  if (!item.isNightTimeOpen)
+                  if (item.hasDelivery ?? false)
+                    PositionedDirectional(
+                      top: 8.h,
+                      start: 12.w,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 2.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.greenLight,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Row(
+                          spacing: 4.w,
+                          children: [
+                            Icon(
+                              Symbols.delivery_dining,
+                              color: AppColors.blue,
+                              size: 16.sp,
+                            ),
+                            Text(
+                              'Delivery'.tr(context),
+                              style: AppTextStyles.normal.copyWith(
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  if (item.isNightTimeOpen)
                     PositionedDirectional(
                       top: 8.h,
                       end: 12.w,
