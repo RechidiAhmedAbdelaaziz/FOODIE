@@ -71,7 +71,7 @@ class RestaurantsScreen extends StatelessWidget {
                   // ignore: use_build_context_synchronously
                   context.to(
                     AppRoutes.tableFoodMenu,
-                    TableFoodMenuParams(
+                    RestaurantMenuParams(
                       result['tableId'] as String? ?? '',
                     ),
                   );
@@ -127,11 +127,10 @@ class RestaurantsScreen extends StatelessWidget {
   ) {
     return InkWell(
       // when click open the restaurant map link
-      onTap: () {
-        if (item.address?.title != null) {
-          launchUrl(Uri.parse(item.address!.title!));
-        }
-      },
+      onTap: () => context.to(
+        AppRoutes.restaurantFoodMenu,
+        RestaurantMenuParams(item.id!),
+      ),
 
       child: Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -180,7 +179,7 @@ class RestaurantsScreen extends StatelessWidget {
                     bottom: 8.h,
                     start: 8.w,
                     child: Row(
-                      spacing: 4.w,
+                      spacing: 12.w,
                       children: [
                         if (item.facebookLink != null)
                           _buildSocialMediaIcon(
@@ -201,6 +200,38 @@ class RestaurantsScreen extends StatelessWidget {
                             context,
                             item.tiktokLink!,
                             Assets.svg.tiktok,
+                          ),
+
+                        // Phone Icon
+                        if (item.phone != null)
+                          InkWell(
+                            onTap: () => launchUrl(
+                              Uri.parse('tel:${item.phone}'),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: AppColors.greenLight,
+                              radius: 20.r,
+                              child: Icon(
+                                Symbols.phone,
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          ),
+
+                        // location icon
+                        if (item.address?.title != null)
+                          InkWell(
+                            onTap: () => launchUrl(
+                              Uri.parse(item.address!.title!),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: AppColors.greenLight,
+                              radius: 20.r,
+                              child: Icon(
+                                Symbols.location_on,
+                                color: AppColors.blue,
+                              ),
+                            ),
                           ),
                       ],
                     ),

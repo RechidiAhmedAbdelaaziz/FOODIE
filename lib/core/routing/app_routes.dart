@@ -17,7 +17,10 @@ enum AppRoutes<T extends RouteParams?> {
 
   foodMenu<Null>('/food-menu'),
   foodPriceCalculator<Null>('/food-price-calculator'),
-  tableFoodMenu<TableFoodMenuParams>('/table-food-menu/:tableId'),
+  tableFoodMenu<RestaurantMenuParams>('/table-food-menu/:id'),
+  restaurantFoodMenu<RestaurantMenuParams>(
+    '/restaurant-food-menu/:id',
+  ),
 
   staffs<Null>('/staff'),
 

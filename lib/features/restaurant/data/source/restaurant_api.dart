@@ -17,7 +17,12 @@ abstract class RestaurantApi {
   );
 
   @GET('/restaurants/me')
-  Future<DataApiResponse> getRestaurantById();
+  Future<DataApiResponse> getMyRestaurant();
+
+  @GET('/restaurants/{id}')
+  Future<DataApiResponse> getRestaurantById(
+    @Path('id') String id,
+  );
 
   @PATCH('/restaurants')
   Future<DataApiResponse> updateRestaurant(

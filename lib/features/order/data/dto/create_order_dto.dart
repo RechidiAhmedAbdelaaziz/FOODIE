@@ -4,11 +4,13 @@ import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart
 import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
 import 'package:app/core/shared/editioncontollers/number_editingcontroller.dart';
 import 'package:app/features/food/data/model/food_model.dart';
+import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 
 class CreateOrderDTO with FormDTO {
   final menuController = ListEditingController<OrderMenuDTO>();
   final tableController = EditingController<TableModel>();
+  final restaurantController = EditingController<RestaurantModel>();
 
   @override
   void dispose() {
@@ -17,6 +19,7 @@ class CreateOrderDTO with FormDTO {
     }
     menuController.dispose();
     tableController.dispose();
+    restaurantController.dispose();
   }
 
   int get totalPrice {
@@ -34,6 +37,7 @@ class CreateOrderDTO with FormDTO {
           .toList(),
 
       'table': tableController.value?.id,
+      'restaurant': restaurantController.value?.id,
     }.withoutNullsOrEmpty();
   }
 }

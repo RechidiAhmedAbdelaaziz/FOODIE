@@ -18,6 +18,8 @@ import 'package:app/features/order/data/dto/create_order_dto.dart';
 import 'package:app/features/order/modules/order/logic/order_cubit.dart';
 import 'package:app/features/order/modules/order/ui/confirm_order_view.dart';
 import 'package:app/features/order/modules/order/ui/food_order_card.dart';
+import 'package:app/features/restaurant/data/model/restaurant_model.dart';
+import 'package:app/features/restaurant/data/repository/restaurant_repository.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:app/features/table/data/repository/table_repository.dart';
 import 'package:app/features/table/modules/tableheader/table_header.dart';
@@ -27,38 +29,66 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class TableFoodMenuParams extends RouteParams {
+class RestaurantMenuParams extends RouteParams {
   final String tableId;
 
-  TableFoodMenuParams(this.tableId)
-    : super(pathParams: {'tableId': tableId});
+  RestaurantMenuParams(this.tableId)
+    : super(pathParams: {'id': tableId});
 }
 
 class TableFoodMenuScreen extends StatefulWidget {
   final String? tableId;
-  const TableFoodMenuScreen(this.tableId, {super.key});
+  final String? restaurantId;
+  const TableFoodMenuScreen({
+    super.key,
+    this.tableId,
+    this.restaurantId,
+  });
 
-  static RouteBase get route => GoRoute(
-    path: AppRoutes.tableFoodMenu.path,
-    builder: (context, state) => MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => FoodListCubit(
-            FoodFilterDTO(
-              fields: FoodModelFields.client.value,
-              limit: 60,
+  static List<RouteBase> get routes => [
+    GoRoute(
+      path: AppRoutes.tableFoodMenu.path,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => FoodListCubit(
+              FoodFilterDTO(
+                fields: FoodModelFields.client.value,
+                limit: 60,
+              ),
             ),
           ),
+          BlocProvider(
+            create: (context) => OrderCubit(CreateOrderDTO()),
+          ),
+        ],
+        child: TableFoodMenuScreen(
+          tableId: state.pathParameters['id'],
         ),
-        BlocProvider(
-          create: (context) => OrderCubit(CreateOrderDTO()),
-        ),
-      ],
-      child: TableFoodMenuScreen(
-        state.pathParameters['tableId'] ?? '',
       ),
     ),
-  );
+    GoRoute(
+      path: AppRoutes.restaurantFoodMenu.path,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => FoodListCubit(
+              FoodFilterDTO(
+                fields: FoodModelFields.client.value,
+                limit: 60,
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => OrderCubit(CreateOrderDTO()),
+          ),
+        ],
+        child: TableFoodMenuScreen(
+          restaurantId: state.pathParameters['id'],
+        ),
+      ),
+    ),
+  ];
 
   @override
   State<TableFoodMenuScreen> createState() =>
@@ -67,29 +97,71 @@ class TableFoodMenuScreen extends StatefulWidget {
 
 class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
   TableModel? _table;
-  bool? _isLoading = true;
+  RestaurantModel? _restaurant;
+  bool? _isLoading = false;
+  late final bool canOrder;
   final categoryController = EditingController<String>();
 
   @override
   void initState() {
-    locator<TableRepo>().getTableById(widget.tableId!).then((result) {
-      result.when(
-        success: (table) {
-          _table = table;
-          context.read<FoodListCubit>().filter.setId(
-            table.restaurant!.id!,
-          );
-          context.read<FoodListCubit>().fetchFoods();
+    if (widget.restaurantId != null) {
+      setState(() => _isLoading = true);
+      locator<RestaurantRepo>()
+          .getRestaurantById(widget.restaurantId!)
+          .then((result) {
+            result.when(
+              success: (restaurant) {
+                _restaurant = restaurant;
 
-          context.read<OrderCubit>().dto.tableController.setValue(
-            table,
-          );
+                canOrder = restaurant.hasDelivery ?? false;
 
-          setState(() => _isLoading = false);
-        },
-        error: (_) {},
-      );
-    });
+                context.read<FoodListCubit>().filter.setId(
+                  restaurant.id!,
+                );
+                context.read<FoodListCubit>().fetchFoods();
+
+                context
+                    .read<OrderCubit>()
+                    .dto
+                    .restaurantController
+                    .setValue(restaurant);
+
+                setState(() => _isLoading = false);
+              },
+              error: (error) =>
+                  context.showErrorSnackbar(error.message),
+            );
+          });
+    } else if (widget.tableId != null) {
+      setState(() => _isLoading = true);
+
+      locator<TableRepo>().getTableById(widget.tableId!).then((
+        result,
+      ) {
+        result.when(
+          success: (table) {
+            _table = table;
+            context.read<FoodListCubit>().filter.setId(
+              table.restaurant!.id!,
+            );
+            context.read<FoodListCubit>().fetchFoods();
+
+            context.read<OrderCubit>().dto.tableController.setValue(
+              table,
+            );
+            context
+                .read<OrderCubit>()
+                .dto
+                .restaurantController
+                .setValue(table.restaurant!);
+
+            canOrder = true;
+            setState(() => _isLoading = false);
+          },
+          error: (_) => setState(() => _isLoading = false),
+        );
+      });
+    }
 
     super.initState();
   }
@@ -150,7 +222,7 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                 child: Column(
                   children: [
                     heightSpace(8),
-                    TableHeader(_table!),
+                    TableHeader(_table, _restaurant),
                     heightSpace(12),
 
                     Builder(
@@ -219,6 +291,7 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                                             context
                                                 .read<OrderCubit>()
                                                 .dto,
+                                            canOrder: canOrder,
                                           ),
                                         )
                                         .toList(),

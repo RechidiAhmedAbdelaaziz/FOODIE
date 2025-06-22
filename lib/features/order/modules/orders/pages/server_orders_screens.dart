@@ -33,7 +33,7 @@ class ServerOrderScreen extends OrderScreenBase {
           // ignore: use_build_context_synchronously
           context.to(
             AppRoutes.tableFoodMenu,
-            TableFoodMenuParams(result['tableId'] as String? ?? ''),
+            RestaurantMenuParams(result['tableId'] as String? ?? ''),
           );
         }
       },

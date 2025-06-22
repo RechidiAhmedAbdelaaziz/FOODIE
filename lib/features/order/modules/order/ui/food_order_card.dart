@@ -14,7 +14,13 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 class FoodOrderCard extends StatelessWidget {
   final FoodModel food;
   final CreateOrderDTO dto;
-  const FoodOrderCard(this.food, this.dto, {super.key});
+  final bool canOrder;
+  const FoodOrderCard(
+    this.food,
+    this.dto, {
+    super.key,
+    this.canOrder = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,26 +117,27 @@ class FoodOrderCard extends StatelessWidget {
                       ),
                     ),
 
-                    InkWell(
-                      onTap: () => context.dialogWith<OrderMenuDTO>(
-                        child: _FoodAddForm(food),
-                        onResult: dto.menuController.addValue,
+                    if (canOrder)
+                      InkWell(
+                        onTap: () => context.dialogWith<OrderMenuDTO>(
+                          child: _FoodAddForm(food),
+                          onResult: dto.menuController.addValue,
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 12.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.greenLight,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Symbols.add,
+                            color: AppColors.black,
+                          ),
+                        ),
                       ),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 12.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.greenLight,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Symbols.add,
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ],

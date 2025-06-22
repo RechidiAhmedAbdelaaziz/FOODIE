@@ -31,7 +31,15 @@ class RestaurantRepo extends NetworkRepository {
 
   RepoResult<RestaurantModel> getRestaurant() {
     return tryApiCall(
-      apiCall: () async => _restaurantApi.getRestaurantById(),
+      apiCall: () async => _restaurantApi.getMyRestaurant(),
+      onResult: (response) => RestaurantModel.fromJson(response.data),
+    );
+  }
+
+  //get by id
+  RepoResult<RestaurantModel> getRestaurantById(String id) {
+    return tryApiCall(
+      apiCall: () async => _restaurantApi.getRestaurantById(id),
       onResult: (response) => RestaurantModel.fromJson(response.data),
     );
   }
