@@ -1,6 +1,7 @@
 import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/extensions/map_extension.dart';
 import 'package:app/core/shared/dto/pagination_dto.dart';
+import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class RestaurantFilterDTO extends PaginationDto {
   final EditingController<TimeOfDay> openingTimeController;
   final EditingController<TimeOfDay> closingTimeController;
 
+  final BooleanEditingController hasDeliveryController;
+
   RestaurantFilterDTO({
     required this.type,
     super.page,
@@ -20,7 +23,8 @@ class RestaurantFilterDTO extends PaginationDto {
     super.fields,
   }) : workingDaysController = EditingController(),
        openingTimeController = EditingController(),
-       closingTimeController = EditingController();
+       closingTimeController = EditingController(),
+       hasDeliveryController = BooleanEditingController();
 
   @override
   Map<String, dynamic> toMap() {
@@ -30,6 +34,9 @@ class RestaurantFilterDTO extends PaginationDto {
       'day': workingDaysController.value,
       'startTime': openingTimeController.value?.toFormattedTime(),
       'endTime': closingTimeController.value?.toFormattedTime(),
+
+      if (hasDeliveryController.value)
+        'hasDelivery': hasDeliveryController.value,
     }.withoutNullsOrEmpty();
   }
 
@@ -63,5 +70,15 @@ class RestaurantFilterDTO extends PaginationDto {
     workingDaysController.clear();
     openingTimeController.clear();
     closingTimeController.clear();
+    hasDeliveryController.setValue(false);
+  }
+
+  @override
+  void dispose() {
+    workingDaysController.dispose();
+    openingTimeController.dispose();
+    closingTimeController.dispose();
+    hasDeliveryController.dispose();
+    super.dispose();
   }
 }

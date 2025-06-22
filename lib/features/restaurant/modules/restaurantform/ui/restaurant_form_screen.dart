@@ -168,6 +168,28 @@ class RestaurantFormScreen extends StatelessWidget {
                                     );
                                   },
                                 ),
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      dto.hasDeliveryController,
+                                  builder: (context, value, child) {
+                                    return CheckboxListTile(
+                                      title: Text(
+                                        'Has delivery'.tr(context),
+                                        style: AppTextStyles.normal
+                                            .copyWith(
+                                              color: AppColors.white,
+                                            ),
+                                      ),
+                                      value: value,
+                                      onChanged: (value) {
+                                        dto.hasDeliveryController
+                                            .setValue(value ?? false);
+                                      },
+                                      activeColor: AppColors.green,
+                                      checkColor: AppColors.white,
+                                    );
+                                  },
+                                ),
 
                                 AppTextField(
                                   controller: dto.phoneController,

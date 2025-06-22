@@ -23,6 +23,7 @@ class RestaurantDTO with AsyncFormDTO {
   final ListEditingController<WorkingTimeDto> workingTimesController;
 
   final BooleanEditingController isPrePaidController;
+  final BooleanEditingController hasDeliveryController;
 
   final TextEditingController facebookLinkController;
   final TextEditingController instagramLinkController;
@@ -55,6 +56,10 @@ class RestaurantDTO with AsyncFormDTO {
       isPrePaidController = BooleanEditingController(
         _restaurant.isPrePaid ?? false,
       ),
+      hasDeliveryController = BooleanEditingController(
+        _restaurant.hasDelivery ?? false,
+      ),
+
       facebookLinkController = TextEditingController(
         text: _restaurant.facebookLink,
       ),
@@ -81,6 +86,7 @@ class RestaurantDTO with AsyncFormDTO {
     tiktokLinkController.dispose();
     phoneController.dispose();
     workingTimesController.dispose();
+    hasDeliveryController.dispose();
   }
 
   @override
@@ -113,6 +119,9 @@ class RestaurantDTO with AsyncFormDTO {
 
       if (_restaurant.isPrePaid != isPrePaidController.value)
         'isPrePaid': isPrePaidController.value,
+
+      if (_restaurant.hasDelivery != hasDeliveryController.value)
+        'hasDelivery': hasDeliveryController.value,
 
       if (_restaurant.facebookLink != facebookLinkController.text)
         'facebookLink': facebookLinkController.text,
