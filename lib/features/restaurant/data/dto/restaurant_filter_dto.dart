@@ -13,6 +13,7 @@ class RestaurantFilterDTO extends PaginationDto {
   final EditingController<TimeOfDay> closingTimeController;
 
   final BooleanEditingController hasDeliveryController;
+  final BooleanEditingController hasBreakfastController;
 
   RestaurantFilterDTO({
     required this.type,
@@ -24,20 +25,23 @@ class RestaurantFilterDTO extends PaginationDto {
   }) : workingDaysController = EditingController(),
        openingTimeController = EditingController(),
        closingTimeController = EditingController(),
-       hasDeliveryController = BooleanEditingController();
+       hasDeliveryController = BooleanEditingController(),
+       hasBreakfastController = BooleanEditingController();
 
   @override
   Map<String, dynamic> toMap() {
     return {
       ...super.toMap(),
       'category': type,
+
       'day': workingDaysController.value,
       'startTime': openingTimeController.value?.toFormattedTime(),
       'endTime': closingTimeController.value?.toFormattedTime(),
 
-      if (hasDeliveryController.value)
-        'hasDelivery': hasDeliveryController.value,
-    }.withoutNullsOrEmpty();
+      'hasDelivery': hasDeliveryController.value,
+
+      'hasBreakfast': hasBreakfastController.value,
+    }.withoutNullsOrEmpty().withoutFalse();
   }
 
   void copyFrom(RestaurantFilterDTO other) {
@@ -64,6 +68,11 @@ class RestaurantFilterDTO extends PaginationDto {
         other.closingTimeController.value!,
       );
     }
+
+    hasDeliveryController.setValue(other.hasDeliveryController.value);
+    hasBreakfastController.setValue(
+      other.hasBreakfastController.value,
+    );
   }
 
   void clear() {

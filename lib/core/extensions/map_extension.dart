@@ -22,6 +22,10 @@ extension MapExtension<T, V> on Map<T, V> {
           ),
     );
   }
+
+  Map<T, V> withoutFalse() => Map<T, V>.fromEntries(
+    entries.where((element) => element.value != false),
+  );
 }
 
 extension ListExtension<T> on List<T> {

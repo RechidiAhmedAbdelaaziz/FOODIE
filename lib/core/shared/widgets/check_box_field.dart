@@ -1,5 +1,6 @@
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:app/core/shared/widgets/form_field_props.dart';
+import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class AppCheckBoxField extends StatelessWidget {
             builder: (_, value, __) {
               return Checkbox(
                 value: value,
+                checkColor: AppColors.blue,
+                activeColor: AppColors.green,
                 onChanged: (value) {
                   controller.value = value ?? false;
                 },
@@ -60,9 +63,7 @@ class AppCheckBoxField extends StatelessWidget {
                   ),
                 ),
 
-                if (state.hasError) 
-                  FormFieldError(state.errorText!),
-                
+                if (state.hasError) FormFieldError(state.errorText!),
               ],
             ),
           ),
