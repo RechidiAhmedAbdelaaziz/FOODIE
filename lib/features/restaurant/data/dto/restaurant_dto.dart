@@ -24,6 +24,7 @@ class RestaurantDTO with AsyncFormDTO {
 
   final BooleanEditingController isPrePaidController;
   final BooleanEditingController hasDeliveryController;
+  final BooleanEditingController hasBreakfastController;
 
   final TextEditingController facebookLinkController;
   final TextEditingController instagramLinkController;
@@ -58,6 +59,9 @@ class RestaurantDTO with AsyncFormDTO {
       ),
       hasDeliveryController = BooleanEditingController(
         _restaurant.hasDelivery ?? false,
+      ),
+      hasBreakfastController = BooleanEditingController(
+        _restaurant.hasBreakfast ?? false,
       ),
 
       facebookLinkController = TextEditingController(
@@ -119,9 +123,10 @@ class RestaurantDTO with AsyncFormDTO {
 
       if (_restaurant.isPrePaid != isPrePaidController.value)
         'isPrePaid': isPrePaidController.value,
-
       if (_restaurant.hasDelivery != hasDeliveryController.value)
         'hasDelivery': hasDeliveryController.value,
+      if (_restaurant.hasBreakfast != hasBreakfastController.value)
+        'hasBreakfast': hasBreakfastController.value,
 
       if (_restaurant.facebookLink != facebookLinkController.text)
         'facebookLink': facebookLinkController.text,

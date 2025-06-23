@@ -160,48 +160,16 @@ class RestaurantsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  if (item.hasDelivery ?? false)
-                    PositionedDirectional(
-                      top: 8.h,
-                      start: 12.w,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 2.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.greenLight,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Row(
-                          spacing: 4.w,
-                          children: [
-                            Icon(
-                              Symbols.delivery_dining,
-                              color: AppColors.blue,
-                              size: 16.sp,
-                            ),
-                            Text(
-                              'Delivery'.tr(context),
-                              style: AppTextStyles.normal.copyWith(
-                                color: AppColors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
                   if (item.isNightTimeOpen)
                     PositionedDirectional(
                       top: 8.h,
                       end: 12.w,
                       child: CircleAvatar(
-                        backgroundColor: AppColors.greenLight,
+                        backgroundColor: AppColors.black,
                         radius: 16.r,
                         child: Icon(
                           Symbols.nightlight,
-                          color: AppColors.blue,
+                          color: AppColors.greenLight,
                           size: 24.sp,
                         ),
                       ),
@@ -276,7 +244,7 @@ class RestaurantsScreen extends StatelessWidget {
             //title and description
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 4.w,
+                horizontal: 8.w,
                 vertical: 8.h,
               ),
               child: Column(
@@ -287,7 +255,7 @@ class RestaurantsScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           item.name ?? '',
-                          style: AppTextStyles.xLarge.copyWith(
+                          style: AppTextStyles.large.copyWith(
                             color: AppColors.white,
                           ),
                         ),
@@ -327,9 +295,72 @@ class RestaurantsScreen extends StatelessWidget {
                     item.description ?? '',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.medium.copyWith(
+                    style: AppTextStyles.small.copyWith(
                       color: AppColors.white,
                     ),
+                  ),
+
+                  heightSpace(8),
+
+                  Row(
+                    spacing: 4.w,
+                    children: [
+                      if (item.hasDelivery ?? false)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.w,
+                            vertical: 2.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.greenLight,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Row(
+                            spacing: 4.w,
+                            children: [
+                              Icon(
+                                Symbols.delivery_dining,
+                                color: AppColors.blue,
+                                size: 24.sp,
+                              ),
+                              Text(
+                                'Delivery'.tr(context),
+                                style: AppTextStyles.normal.copyWith(
+                                  color: AppColors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      if (item.hasBreakfast ?? false)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.w,
+                            vertical: 2.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.greenLight,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Row(
+                            spacing: 4.w,
+                            children: [
+                              Icon(
+                                Symbols.breakfast_dining,
+                                color: AppColors.blue,
+                                size: 24.sp,
+                              ),
+                              Text(
+                                'Breakfast'.tr(context),
+                                style: AppTextStyles.normal.copyWith(
+                                  color: AppColors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),

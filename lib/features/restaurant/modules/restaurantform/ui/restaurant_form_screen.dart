@@ -168,6 +168,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                     );
                                   },
                                 ),
+
                                 ValueListenableBuilder(
                                   valueListenable:
                                       dto.hasDeliveryController,
@@ -183,6 +184,29 @@ class RestaurantFormScreen extends StatelessWidget {
                                       value: value,
                                       onChanged: (value) {
                                         dto.hasDeliveryController
+                                            .setValue(value ?? false);
+                                      },
+                                      activeColor: AppColors.green,
+                                      checkColor: AppColors.white,
+                                    );
+                                  },
+                                ),
+
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      dto.hasBreakfastController,
+                                  builder: (context, value, child) {
+                                    return CheckboxListTile(
+                                      title: Text(
+                                        'Has breakfast'.tr(context),
+                                        style: AppTextStyles.normal
+                                            .copyWith(
+                                              color: AppColors.white,
+                                            ),
+                                      ),
+                                      value: value,
+                                      onChanged: (value) {
+                                        dto.hasBreakfastController
                                             .setValue(value ?? false);
                                       },
                                       activeColor: AppColors.green,

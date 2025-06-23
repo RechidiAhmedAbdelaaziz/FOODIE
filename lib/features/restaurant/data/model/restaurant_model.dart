@@ -16,6 +16,7 @@ class RestaurantModel extends Equatable {
 
   final bool? isPrePaid;
   final bool? hasDelivery;
+  final bool? hasBreakfast;
 
   final String? facebookLink;
   final String? instagramLink;
@@ -54,6 +55,7 @@ class RestaurantModel extends Equatable {
     this.tiktokLink,
     this.hasDelivery,
     this.phone,
+    this.hasBreakfast,
   });
 
   @override

@@ -15,10 +15,7 @@ class FoodFormCubit extends Cubit<FoodFormState<FoodDTO>> {
   FoodDTO get dto => state._dto!;
 
   void init([String? id]) async {
-    if (id == null) {
-      emit(state._loaded(FoodDTO()));
-      return;
-    }
+    if (id == null) return emit(state._loaded(FoodDTO()));
 
     emit(state._loading());
 
