@@ -38,6 +38,7 @@ class AppRouter {
       FoodMenuScreen.route,
       RestaurantFormScreen.route,
       OrdersScreen.route,
+      OrdersScreen.tablesRoute,
       RestaurantsScreen.route,
       ...TableFoodMenuScreen.routes,
       FoodPriceCalculator.route,

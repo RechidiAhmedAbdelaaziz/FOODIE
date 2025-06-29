@@ -25,6 +25,7 @@ enum AppRoutes<T extends RouteParams?> {
   staffs<Null>('/staff'),
 
   orders<Null>('/orders'),
+  tableOrders<Null>('/table-orders'),
 
   loginLoading<Null>('/login-loading'),
 

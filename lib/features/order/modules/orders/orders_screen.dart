@@ -20,6 +20,15 @@ class OrdersScreen extends FlavorsScreen {
     ),
   );
 
+  static RouteBase get tablesRoute => GoRoute(
+    path: AppRoutes.tableOrders.path,
+    builder: (context, state) => BlocProvider(
+      lazy: false,
+      create: (context) => OrdersCubit()..fetchOrders(),
+      child: ServerOrderScreen(),
+    ),
+  );
+
   @override
   Widget get ownerScreen => const OwnerOrderScreen();
 

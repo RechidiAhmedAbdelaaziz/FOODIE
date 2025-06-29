@@ -140,6 +140,14 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
               'Order Management',
               () => context.to(AppRoutes.orders, null),
             ),
+
+            //Order by Table
+            _buildButton(
+              context,
+              Symbols.table_bar,
+              'Order by Table',
+              () => context.to(AppRoutes.tableOrders, null),
+            ),
           ],
         ),
       ),

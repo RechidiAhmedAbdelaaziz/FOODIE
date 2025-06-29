@@ -97,15 +97,14 @@ extension OrderDataListExtension on List<OrderData> {
 
 @JsonSerializable(createToJson: false)
 class _AddressModel {
-  final double? latitude;
-  final double? longitude;
+  final List<double> coordinates;
   final String? contact;
 
-  _AddressModel({this.contact, List<double>? coordinates})
-    : latitude = coordinates?.isNotEmpty == true
-          ? coordinates![0]
-          : null,
-      longitude = coordinates?.length == 2 ? coordinates![1] : null;
+  double get latitude => coordinates.isNotEmpty ? coordinates[0] : 0;
+  double get longitude =>
+      coordinates.length == 2 ? coordinates[1] : 0;
+
+  _AddressModel({this.contact, this.coordinates = const []});
 
   factory _AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
