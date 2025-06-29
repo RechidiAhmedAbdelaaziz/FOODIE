@@ -75,24 +75,21 @@ class ClientHomeScreen extends StatelessWidget {
     return Wrap(
       spacing: 16.w,
       runSpacing: 16.h,
-      children: [
-        _buildCategoryItem(Assets.images.cafes, 'cafe', context),
-        _buildCategoryItem(
-          Assets.images.restaurants,
-          'restaurant',
-          context,
-        ),
-        _buildCategoryItem(
-          Assets.images.fastFood,
-          'fastFood',
-          context,
-        ),
-        _buildCategoryItem(
-          Assets.images.breakfast,
-          'breakfast',
-          context,
-        ),
-      ],
+      children:
+          {
+                "Cafe": Assets.images.cafes,
+                "Restaurant": Assets.images.restaurants,
+                "Fast Food": Assets.images.fastFood,
+                "Breakfast": Assets.images.breakfast,
+              }.entries
+              .map(
+                (entry) => _buildCategoryItem(
+                  entry.value,
+                  entry.key,
+                  context,
+                ),
+              )
+              .toList(),
     );
   }
 

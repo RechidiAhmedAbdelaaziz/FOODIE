@@ -1,4 +1,6 @@
+import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/map_extension.dart';
+import 'package:app/core/services/geolocator/geo_locator_service.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
@@ -7,7 +9,7 @@ import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/restaurant/data/model/restaurant_model.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 
-class CreateOrderDTO with FormDTO {
+class CreateOrderDTO with AsyncFormDTO {
   final menuController = ListEditingController<OrderMenuDTO>();
   final tableController = EditingController<TableModel>();
   final restaurantController = EditingController<RestaurantModel>();
@@ -30,13 +32,23 @@ class CreateOrderDTO with FormDTO {
   }
 
   @override
-  Map<String, dynamic> toMap() {
+  Future<Map<String, dynamic>> toMap() async {
     return {
       'foods': menuController.value
           .map((menu) => menu.toMap())
           .toList(),
 
-      'table': tableController.value?.id,
+      ...tableController.value != null
+          ? {'table': tableController.value?.id}
+          : {
+              "address": {
+                "coordinates":
+                    (await locator<GeoLocatorService>()
+                            .getCurrentLocation())
+                        .toArray(),
+              },
+            },
+
       'restaurant': restaurantController.value?.id,
     }.withoutNullsOrEmpty();
   }

@@ -192,7 +192,7 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
           listener: (context, state) {
             state.onError(context.showErrorSnackbar);
 
-            // setState(() => _isLoading = state.isLoading);
+            setState(() => _isLoading = state.isLoading);
 
             state.onSuccess((order) {
               // empty the order dto
@@ -307,35 +307,40 @@ class _TableFoodMenuScreenState extends State<TableFoodMenuScreen> {
                 ),
               ),
 
-        bottomNavigationBar: ValueListenableBuilder(
-          valueListenable: context
-              .read<OrderCubit>()
-              .dto
-              .menuController,
-          builder: (context, selectedFoods, child) {
-            if (selectedFoods.isEmpty) {
-              return const SizedBox.shrink();
-            }
+        bottomNavigationBar: _isLoading == true
+            ? const SizedBox.shrink()
+            : ValueListenableBuilder(
+                valueListenable: context
+                    .read<OrderCubit>()
+                    .dto
+                    .menuController,
+                builder: (context, selectedFoods, child) {
+                  if (selectedFoods.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
 
-            return Padding(
-              padding: EdgeInsets.all(8.r),
-              child: AppButton.primary(
-                text:
-                    '${'Confirm'.tr(context)} (${selectedFoods.length})',
-                onPressed: () {
-                  context.bottomSheetWith<bool>(
-                    child: ConfirmOrderView(
-                      context.read<OrderCubit>().dto.menuController,
+                  return Padding(
+                    padding: EdgeInsets.all(8.r),
+                    child: AppButton.primary(
+                      text:
+                          '${'Confirm'.tr(context)} (${selectedFoods.length})',
+                      onPressed: () {
+                        context.bottomSheetWith<bool>(
+                          child: ConfirmOrderView(
+                            context
+                                .read<OrderCubit>()
+                                .dto
+                                .menuController,
+                          ),
+                          onResult: (_) {
+                            context.read<OrderCubit>().saveOrder();
+                          },
+                        );
+                      },
                     ),
-                    onResult: (_) {
-                      context.read<OrderCubit>().saveOrder();
-                    },
                   );
                 },
               ),
-            );
-          },
-        ),
       ),
     );
   }

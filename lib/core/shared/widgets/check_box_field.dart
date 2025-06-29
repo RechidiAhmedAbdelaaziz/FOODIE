@@ -1,3 +1,4 @@
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:app/core/shared/widgets/form_field_props.dart';
 import 'package:app/core/themes/colors.dart';
@@ -49,7 +50,7 @@ class AppCheckBoxField extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: label,
+                    text: label.tr(context),
                     style: AppTextStyles.medium,
                     children: [
                       if (isRequired)

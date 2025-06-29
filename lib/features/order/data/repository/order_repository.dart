@@ -28,7 +28,7 @@ class OrderRepo extends NetworkRepository {
 
   RepoResult<OrderModel> createOrder(CreateOrderDTO dto) =>
       tryApiCall(
-        apiCall: () async => _orderApi.createOrder(dto.toMap()),
+        apiCall: () async => _orderApi.createOrder(await dto.toMap()),
         onResult: (response) => OrderModel.fromJson(response.data),
       );
 

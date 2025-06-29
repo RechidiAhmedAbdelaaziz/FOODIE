@@ -250,6 +250,35 @@ class RestaurantsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Restaurant Categories
+                  Wrap(
+                    spacing: 8.w,
+                    runSpacing: 4.h,
+                    children:
+                        item.categories?.map((category) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.orange,
+                              borderRadius: BorderRadius.circular(
+                                8.r,
+                              ),
+                            ),
+                            child: Text(
+                              category,
+                              style: AppTextStyles.small.copyWith(
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          );
+                        }).toList() ??
+                        [],
+                  ),
+                  heightSpace(8),
+
                   Row(
                     children: [
                       Expanded(
@@ -325,34 +354,6 @@ class RestaurantsScreen extends StatelessWidget {
                               ),
                               Text(
                                 'Delivery'.tr(context),
-                                style: AppTextStyles.normal.copyWith(
-                                  color: AppColors.blue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      if (item.hasBreakfast ?? false)
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.w,
-                            vertical: 2.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.greenLight,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Row(
-                            spacing: 4.w,
-                            children: [
-                              Icon(
-                                Symbols.breakfast_dining,
-                                color: AppColors.blue,
-                                size: 24.sp,
-                              ),
-                              Text(
-                                'Breakfast'.tr(context),
                                 style: AppTextStyles.normal.copyWith(
                                   color: AppColors.blue,
                                 ),

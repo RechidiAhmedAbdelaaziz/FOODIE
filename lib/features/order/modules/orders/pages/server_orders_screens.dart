@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ServerOrderScreen extends OrderScreenBase {
   ServerOrderScreen({super.key});
@@ -45,7 +46,7 @@ class ServerOrderScreen extends OrderScreenBase {
     );
   }
 
-  final tableController = EditingController<String>();
+  final tableController = EditingController<String>("All");
 
   @override
   Widget builder(List<OrderModel> orders, BuildContext context) {
@@ -59,10 +60,12 @@ class ServerOrderScreen extends OrderScreenBase {
     return ValueListenableBuilder(
       valueListenable: tableController,
       builder: (context, value, child) {
-        final filteredOrders = orders.where((order) {
-          if (tableController.value?.isEmpty ?? false) return true;
-          return order.table?.name == tableController.value;
-        }).toList();
+        final filteredOrders = value == "All"
+            ? orders
+            : orders.where((order) {
+                if (value?.isEmpty ?? false) return true;
+                return order.table?.name == tableController.value;
+              }).toList();
 
         return Column(
           children: [
@@ -77,12 +80,15 @@ class ServerOrderScreen extends OrderScreenBase {
                     .toList(),
               ),
             ),
+            heightSpace(12),
 
-            ListView.separated(
-              itemBuilder: (context, i) =>
-                  _buildOrderCard(context, filteredOrders[i]),
-              separatorBuilder: (_, __) => heightSpace(12),
-              itemCount: filteredOrders.length,
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (context, i) =>
+                    _buildOrderCard(context, filteredOrders[i]),
+                separatorBuilder: (_, __) => heightSpace(12),
+                itemCount: filteredOrders.length,
+              ),
             ),
           ],
         );
@@ -95,9 +101,7 @@ class ServerOrderScreen extends OrderScreenBase {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: InkWell(
-        onTap: () => tableName == "All"
-            ? tableController.clear()
-            : tableController.setValue(tableName),
+        onTap: () => tableController.setValue(tableName),
         child: Text(
           tableName.tr(context),
           style: isSelected
@@ -123,14 +127,39 @@ class ServerOrderScreen extends OrderScreenBase {
           Row(
             spacing: 8.w,
             children: [
-              Expanded(
-                child: Text(
-                  order.table?.name ?? 'Unknown Table',
-                  style: AppTextStyles.h3.copyWith(
-                    color: AppColors.white,
+              if (order.address != null)
+                IconButton(
+                  onPressed: () => launchUrl(
+                    Uri.parse(
+                      'https://www.google.com/maps/?q=${order.address?.latitude},${order.address?.longitude}',
+                    ),
+                  ),
+                  icon: Icon(
+                    Symbols.location_on,
+                    color: AppColors.greenLight,
                   ),
                 ),
-              ),
+                
+              if (order.address?.contact != null)
+                IconButton(
+                  onPressed: () => launchUrl(
+                    Uri.parse('tel:${order.address!.contact}'),
+                  ),
+                  icon: Icon(
+                    Symbols.call,
+                    color: AppColors.greenLight,
+                  ),
+                ),
+
+              if (order.table != null)
+                Expanded(
+                  child: Text(
+                    order.table?.name ?? 'Delivery',
+                    style: AppTextStyles.h3.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
               RichText(
                 text: TextSpan(
                   children: [

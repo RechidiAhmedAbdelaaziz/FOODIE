@@ -25,7 +25,7 @@ class ListEditingController<T> extends ValueNotifier<List<T>> {
   }
 
   void clear() {
-    value = [];
+    value.clear();
     notifyListeners();
   }
 

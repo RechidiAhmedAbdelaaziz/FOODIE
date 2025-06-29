@@ -80,6 +80,7 @@ class RestaurantFilterDTO extends PaginationDto {
     openingTimeController.clear();
     closingTimeController.clear();
     hasDeliveryController.setValue(false);
+    hasBreakfastController.setValue(false);
   }
 
   @override
@@ -88,6 +89,7 @@ class RestaurantFilterDTO extends PaginationDto {
     openingTimeController.dispose();
     closingTimeController.dispose();
     hasDeliveryController.dispose();
+    hasBreakfastController.dispose();
     super.dispose();
   }
 }

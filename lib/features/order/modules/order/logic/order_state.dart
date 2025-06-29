@@ -16,7 +16,7 @@ class OrderState with CubitErrorHandling {
   }) {
     return OrderState(
       isLoading: isLoading ?? this.isLoading,
-      order: order ?? this.order,
+      order: order,
       errorMessage: errorMessage,
     );
   }
@@ -26,10 +26,11 @@ class OrderState with CubitErrorHandling {
 
   OrderState _loading() => _copyWith(isLoading: true);
 
-  OrderState _success(OrderModel order) => _copyWith(order: order);
+  OrderState _success(OrderModel order) =>
+      _copyWith(order: order, isLoading: false);
 
   OrderState _error(String message) =>
-      _copyWith(errorMessage: message);
+      _copyWith(errorMessage: message, isLoading: false);
 
   void onSuccess(ValueChanged<OrderModel> onSuccess) {
     if (order != null) onSuccess(order!);

@@ -6,12 +6,12 @@ import 'package:app/core/routing/router.dart';
 import 'package:app/core/services/filepicker/file_picker_service.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
+import 'package:app/core/shared/widgets/check_box_field.dart';
 import 'package:app/core/shared/widgets/image_field.dart';
 import 'package:app/core/shared/widgets/multi_dropdown_field.dart';
 import 'package:app/core/shared/widgets/work_time_picker.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/dimensions.dart';
-import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/restaurant/modules/restaurantform/logic/restaurant_form_cubit.dart';
 import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -145,74 +145,15 @@ class RestaurantFormScreen extends StatelessWidget {
                                       : 'Invalid google map link',
                                 ),
 
-                                //check box for prepaid
-                                ValueListenableBuilder(
-                                  valueListenable:
-                                      dto.isPrePaidController,
-                                  builder: (context, value, child) {
-                                    return CheckboxListTile(
-                                      title: Text(
-                                        'Is Prepaid'.tr(context),
-                                        style: AppTextStyles.normal
-                                            .copyWith(
-                                              color: AppColors.white,
-                                            ),
-                                      ),
-                                      value: value,
-                                      onChanged: (value) {
-                                        dto.isPrePaidController
-                                            .setValue(value ?? false);
-                                      },
-                                      activeColor: AppColors.green,
-                                      checkColor: AppColors.white,
-                                    );
-                                  },
+                                AppCheckBoxField(
+                                  controller: dto.isPrePaidController,
+                                  label: 'Is Prepaid',
                                 ),
 
-                                ValueListenableBuilder(
-                                  valueListenable:
+                                AppCheckBoxField(
+                                  controller:
                                       dto.hasDeliveryController,
-                                  builder: (context, value, child) {
-                                    return CheckboxListTile(
-                                      title: Text(
-                                        'Has delivery'.tr(context),
-                                        style: AppTextStyles.normal
-                                            .copyWith(
-                                              color: AppColors.white,
-                                            ),
-                                      ),
-                                      value: value,
-                                      onChanged: (value) {
-                                        dto.hasDeliveryController
-                                            .setValue(value ?? false);
-                                      },
-                                      activeColor: AppColors.green,
-                                      checkColor: AppColors.white,
-                                    );
-                                  },
-                                ),
-
-                                ValueListenableBuilder(
-                                  valueListenable:
-                                      dto.hasBreakfastController,
-                                  builder: (context, value, child) {
-                                    return CheckboxListTile(
-                                      title: Text(
-                                        'Has breakfast'.tr(context),
-                                        style: AppTextStyles.normal
-                                            .copyWith(
-                                              color: AppColors.white,
-                                            ),
-                                      ),
-                                      value: value,
-                                      onChanged: (value) {
-                                        dto.hasBreakfastController
-                                            .setValue(value ?? false);
-                                      },
-                                      activeColor: AppColors.green,
-                                      checkColor: AppColors.white,
-                                    );
-                                  },
+                                  label: 'Has Delivery',
                                 ),
 
                                 AppTextField(

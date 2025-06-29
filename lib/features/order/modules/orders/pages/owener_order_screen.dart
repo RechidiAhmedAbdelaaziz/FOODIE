@@ -1,5 +1,6 @@
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,9 +27,14 @@ class OwnerOrderScreen extends OrderScreenBase {
   }
 
   Widget _buildOrderCard(BuildContext context, OrderData order) {
-    final food = order.food!;
+    final food = order.food ?? FoodModel();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        color: AppColors.blue,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
       child: Row(
         spacing: 8.w,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,4 +105,3 @@ class OwnerOrderScreen extends OrderScreenBase {
     );
   }
 }
-

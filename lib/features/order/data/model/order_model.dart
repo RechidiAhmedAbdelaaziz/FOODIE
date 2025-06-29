@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:app/features/food/data/model/food_model.dart';
 import 'package:app/features/table/data/model/table_model.dart';
 import 'package:equatable/equatable.dart';
@@ -12,6 +14,7 @@ class OrderModel extends Equatable {
   final String? id;
   final TableModel? table;
   final List<OrderData>? foods;
+  final _AddressModel? address;
 
   final bool? isDelivered;
   final bool? isPaid;
@@ -22,6 +25,7 @@ class OrderModel extends Equatable {
   const OrderModel({
     this.id,
     this.table,
+    this.address,
     this.isDelivered,
     this.isPaid,
     this.foods,
@@ -89,4 +93,20 @@ extension OrderDataListExtension on List<OrderData> {
     }
     return result;
   }
+}
+
+@JsonSerializable(createToJson: false)
+class _AddressModel {
+  final double? latitude;
+  final double? longitude;
+  final String? contact;
+
+  _AddressModel({this.contact, List<double>? coordinates})
+    : latitude = coordinates?.isNotEmpty == true
+          ? coordinates![0]
+          : null,
+      longitude = coordinates?.length == 2 ? coordinates![1] : null;
+
+  factory _AddressModel.fromJson(Map<String, dynamic> json) =>
+      _$AddressModelFromJson(json);
 }

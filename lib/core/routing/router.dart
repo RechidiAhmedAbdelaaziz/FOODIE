@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/themes/colors.dart';
 import 'package:app/features/auth/configs/auth_routes.dart';
 import 'package:app/features/auth/logic/auth_cubit.dart';
 import 'package:app/features/auth/modules/verifycode/ui/verify_code_screen.dart';

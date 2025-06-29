@@ -13,8 +13,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-class OwnerHomeScreen extends StatelessWidget {
+class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({super.key});
+
+  @override
+  State<OwnerHomeScreen> createState() => _OwnerHomeScreenState();
+}
+
+class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
+  TodayHistory? _todayHistory;
+  StaffTotalMoney? _staffTodayEarn;
+
+  @override
+  void initState() {
+    _todayHistory = const TodayHistory();
+    _staffTodayEarn = const StaffTotalMoney();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +40,16 @@ class OwnerHomeScreen extends StatelessWidget {
         actions: [
           //refrech button
           IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const OwnerHomeScreen(),
-                ),
-              );
+            onPressed: () async {
+              setState(() {
+                _todayHistory = null;
+                _staffTodayEarn = null;
+              });
+              await Future.delayed(const Duration(milliseconds: 500));
+              setState(() {
+                _todayHistory = TodayHistory();
+                _staffTodayEarn = StaffTotalMoney();
+              });
             },
             icon: const Icon(Symbols.refresh),
           ),
@@ -71,10 +90,12 @@ class OwnerHomeScreen extends StatelessWidget {
 
                 Row(
                   spacing: 12.w,
-                  children: [
-                    TodayHistory(),
-                    StaffTotalMoney(),
-                  ].map((widget) => Expanded(child: widget)).toList(),
+                  children: [_todayHistory, _staffTodayEarn]
+                      .map(
+                        (widget) =>
+                            Expanded(child: widget ?? SizedBox()),
+                      )
+                      .toList(),
                 ),
               ],
             ),

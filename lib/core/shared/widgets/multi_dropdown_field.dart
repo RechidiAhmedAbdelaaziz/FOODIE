@@ -80,7 +80,14 @@ class AppMultiDropDownField<T> extends StatelessWidget {
 
                 itemAsString: itemToString,
                 compareFn: (item1, item2) => item1 == item2,
-                onChanged: controller.setList,
+                onChanged: (list) {
+                  
+                  list = list.where((item) {
+                    return items.contains(item);
+                  }).toList();
+
+                  controller.setList(list);
+                },
 
                 popupProps: PopupPropsMultiSelection.modalBottomSheet(
                   cacheItems: true,

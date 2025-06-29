@@ -119,12 +119,10 @@ class _RestaurantFiltersViewState
               label: 'Has Delivery'.tr(context),
             ),
 
-            // Has Breakfast
-            AppCheckBoxField(
-              controller: widget._dto.hasBreakfastController,
-              label: 'Has Breakfast'.tr(context),
-            ),
-
+            // AppCheckBoxField(
+            //   controller: widget._dto.hasBreakfastController,
+            //   label: 'Has Breakfast'.tr(context),
+            // ),
             const Divider(color: AppColors.white, height: 12),
             Row(
               spacing: 16.w,

@@ -1,9 +1,9 @@
 abstract class AppData {
   static const List<String> restaurantTypes = [
-    'cafe',
-    'restaurant',
-    'fastFood',
-    'breakfast',
+    'Cafe',
+    'Restaurant',
+    'Fast Food',
+    'Breakfast',
   ];
 
   static const List<String> weekDays = [

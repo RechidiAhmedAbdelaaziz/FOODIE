@@ -36,10 +36,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   // init listen to socket
   void _initSocketListeners() {
     _repo.connectSocket();
-    _repo.onNewOrder((order) {
-      
-      emit(state._add(order));
-    });
+    _repo.onNewOrder((order) => emit(state._add(order)));
     _repo.onOrderUpdated((order) => emit(state._update(order)));
     _repo.onOrderDeleted((order) => emit(state._remove(order)));
   }
