@@ -282,17 +282,16 @@ class _FoodAddFormState extends State<_FoodAddForm> {
                     //addons
                     if (widget.food.addOns != null &&
                         widget.food.addOns!.isNotEmpty)
-                      ...widget.food.addOns!.map((addOn) {
-                        return Column(
-                          children: [
-                            Text(
-                              'Add Ons'.tr(context),
-                              style: AppTextStyles.large.copyWith(
-                                color: AppColors.greenLight,
-                              ),
+                      Column(
+                        children: [
+                          Text(
+                            'Add Ons'.tr(context),
+                            style: AppTextStyles.large.copyWith(
+                              color: AppColors.greenLight,
                             ),
-
-                            Row(
+                          ),
+                          ...widget.food.addOns!.map((addOn) {
+                            return Row(
                               children: [
                                 Checkbox(
                                   activeColor: AppColors.greenLight,
@@ -328,10 +327,10 @@ class _FoodAddFormState extends State<_FoodAddForm> {
                                       ),
                                 ),
                               ],
-                            ),
-                          ],
-                        );
-                      }),
+                            );
+                          }),
+                        ],
+                      ),
                   ],
                 ),
               ),

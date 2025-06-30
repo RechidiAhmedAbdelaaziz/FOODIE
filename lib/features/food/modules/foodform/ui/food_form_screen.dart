@@ -14,6 +14,7 @@ import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/food/data/dto/food_dto.dart';
 import 'package:app/features/food/data/model/food_model.dart';
+import 'package:app/features/food/modules/foodcategory/ui/food_category_field.dart';
 import 'package:app/features/food/modules/foodform/logic/food_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -150,13 +151,8 @@ class FoodFormScreen extends StatelessWidget {
                                   },
                                 ),
 
-                                AppTextField(
-                                  controller: dto.categoryController,
-                                  isRequired: true,
-                                  label: 'Category'.tr(context),
-                                  hintText: 'Select a category'.tr(
-                                    context,
-                                  ),
+                                FoodCategoryField(
+                                  dto.categoryController,
                                 ),
 
                                 ValueListenableBuilder(
@@ -166,34 +162,19 @@ class FoodFormScreen extends StatelessWidget {
                                     return Column(
                                       spacing: 4.h,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Add-ons'.tr(context),
-                                                style: AppTextStyles
-                                                    .xLarge
-                                                    .copyWith(
-                                                      color: AppColors
-                                                          .white,
-                                                    ),
-                                              ),
-                                            ),
-
-                                            IconButton(
-                                              onPressed: () {
-                                                dto.addOnsController
-                                                    .addValue(
-                                                      AddOnsDTO(),
-                                                    );
-                                              },
-                                              icon: const Icon(
-                                                Symbols
-                                                    .add_circle_outline,
-                                              ),
-                                              color: AppColors.green,
-                                            ),
-                                          ],
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional
+                                                  .centerStart,
+                                          child: Text(
+                                            'Add-Ons'.tr(context),
+                                            style: AppTextStyles
+                                                .medium
+                                                .copyWith(
+                                                  color:
+                                                      AppColors.white,
+                                                ),
+                                          ),
                                         ),
 
                                         ListView.separated(
@@ -214,10 +195,25 @@ class FoodFormScreen extends StatelessWidget {
                                               (context, index) =>
                                                   heightSpace(8.h),
                                         ),
+
+                                        IconButton(
+                                          onPressed: () {
+                                            dto.addOnsController
+                                                .addValue(
+                                                  AddOnsDTO(),
+                                                );
+                                          },
+                                          icon: const Icon(
+                                            Symbols
+                                                .add_circle_outline,
+                                          ),
+                                          color: AppColors.green,
+                                        ),
                                       ],
                                     );
                                   },
                                 ),
+                                heightSpace(24),
 
                                 AppButton.primary(
                                   text: 'Save',

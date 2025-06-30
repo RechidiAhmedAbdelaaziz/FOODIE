@@ -6,6 +6,8 @@ abstract class AppData {
     'Breakfast',
   ];
 
+  static const List<String> foodCategories = [];
+
   static const List<String> weekDays = [
     'Monday',
     'Tuesday',

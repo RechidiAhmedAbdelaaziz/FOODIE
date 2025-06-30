@@ -1,3 +1,4 @@
+import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/shared/editioncontollers/generic_editingcontroller.dart';
 import 'package:app/core/shared/widgets/form_field_props.dart';
 import 'package:app/core/themes/font_styles.dart';
@@ -18,7 +19,9 @@ class AppDropDownField<T> extends StatelessWidget {
 
   final String Function(T) itemToString;
   final String? Function(T?)? validator;
+
   final VoidCallback? onAdd;
+  final IconData? onAddIcon;
 
   final bool isRequired;
 
@@ -31,6 +34,8 @@ class AppDropDownField<T> extends StatelessWidget {
     this.hintText,
     this.validator,
     this.onAdd,
+    this.onAddIcon,
+
     this.isRequired = false,
     required this.itemsBuilder,
     required this.itemToString,
@@ -68,8 +73,8 @@ class AppDropDownField<T> extends StatelessWidget {
                         // Add button
                         onTap: onAdd,
                         child: Icon(
-                          Symbols.add_circle_outline,
-                          color: AppColors.black,
+                          onAddIcon ?? Symbols.add_circle_outline,
+                          color: AppColors.greenLight,
                         ),
                       ),
                     ],
@@ -85,9 +90,11 @@ class AppDropDownField<T> extends StatelessWidget {
 
                   items: (filter, loadProps) => items,
 
-                  onChanged: (value) => value != null
-                      ? controller.setValue(value)
-                      : controller.clear(),
+                  onChanged: (value) {
+                    value != null
+                        ? controller.setValue(value)
+                        : controller.clear();
+                  },
 
                   popupProps: PopupProps.menu(
                     cacheItems: true,
@@ -95,9 +102,32 @@ class AppDropDownField<T> extends StatelessWidget {
                       backgroundColor: AppColors.black,
                     ),
 
+                    showSearchBox: true,
+                    searchFieldProps: TextFieldProps(
+                      style: AppTextStyles.normal.copyWith(
+                        color: AppColors.white,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Search'.tr(context),
+                        hintStyle: AppTextStyles.small.copyWith(
+                          color: AppColors.grey,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: AppColors.green,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 8.h,
+                        ),
+                      ),
+                    ),
+
                     showSelectedItems: false,
                     constraints: BoxConstraints(
-                      maxHeight: 200.h,
+                      maxHeight: 250.h,
                       maxWidth: double.infinity,
                     ),
 
@@ -121,33 +151,32 @@ class AppDropDownField<T> extends StatelessWidget {
                         child: popupWidget,
                       );
                     },
-
                     itemBuilder:
                         (context, item, isDisabled, isSelected) {
-                          return itemToWidget != null
-                              ? itemToWidget!(item)
-                              : Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w,
-                                    vertical: 8.h,
-                                  ),
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: 4.w,
-                                    vertical: 8.h,
-                                  ),
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.blue,
-                                  ),
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 8.h,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 8.h,
+                            ),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              color: AppColors.blue,
+                            ),
 
-                                  child: Text(
+                            child: itemToWidget != null
+                                ? itemToWidget!(item)
+                                : Text(
                                     itemToString(item),
                                     style: AppTextStyles.normal
                                         .copyWith(
                                           color: AppColors.white,
                                         ),
                                   ),
-                                );
+                          );
                         },
                   ),
 
@@ -191,7 +220,9 @@ class AppDropDownField<T> extends StatelessWidget {
                       isDense: true,
 
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(12.r),
+                        ),
                         borderSide: state.hasError
                             ? BorderSide(
                                 color: AppColors.red,
