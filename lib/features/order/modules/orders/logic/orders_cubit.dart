@@ -23,7 +23,12 @@ class OrdersCubit extends Cubit<OrdersState> {
 
     result.when(
       success: (result) {
-        final orders = result.data;
+        final orders = result.data
+            .where(
+              (order) =>
+                  order.isDelivered == false || order.isPaid == false,
+            )
+            .toList();
 
         emit(state._loaded(orders));
 
@@ -37,7 +42,11 @@ class OrdersCubit extends Cubit<OrdersState> {
   void _initSocketListeners() {
     _repo.connectSocket();
     _repo.onNewOrder((order) => emit(state._add(order)));
-    _repo.onOrderUpdated((order) => emit(state._update(order)));
+    _repo.onOrderUpdated((order) {
+      order.isDelivered == true && order.isPaid == true
+          ? emit(state._remove(order))
+          : emit(state._update(order));
+    });
     _repo.onOrderDeleted((order) => emit(state._remove(order)));
   }
 
