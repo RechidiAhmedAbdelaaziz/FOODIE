@@ -139,12 +139,23 @@ class ServerOrderScreen extends OrderScreenBase {
                     color: AppColors.greenLight,
                   ),
                 ),
-                
+
               if (order.address?.contact != null)
                 IconButton(
-                  onPressed: () => launchUrl(
-                    Uri.parse('tel:${order.address!.contact}'),
-                  ),
+                  onPressed: () {
+                    final isEmail = order.address!.contact!.contains(
+                      '@',
+                    );
+                    launchUrl(
+                      isEmail
+                          ? Uri.parse(
+                              'mailto:${order.address!.contact}',
+                            )
+                          : Uri.parse(
+                              'tel:${order.address!.contact}',
+                            ),
+                    );
+                  },
                   icon: Icon(
                     Symbols.call,
                     color: AppColors.greenLight,
@@ -155,7 +166,7 @@ class ServerOrderScreen extends OrderScreenBase {
                 Expanded(
                   child: Text(
                     order.table?.name ?? 'Delivery',
-                    style: AppTextStyles.h3.copyWith(
+                    style: AppTextStyles.h4.copyWith(
                       color: AppColors.white,
                     ),
                   ),
