@@ -304,46 +304,45 @@ class _FoodItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () => context
-                          .read<FoodListCubit>()
-                          .updateAvailability(food),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 4.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: food.isAvailable ?? false
-                              ? AppColors.green
-                              : AppColors.red,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Text(
-                          food.isAvailable ?? false
-                              ? 'Available'.tr(context)
-                              : 'Unavailable'.tr(context),
-                          style: AppTextStyles.normal.copyWith(
-                            color: AppColors.white,
+                    food.quantity != null
+                        ? Text(
+                            '${'Quantity'.tr(context)}: ${food.quantity}',
+                            style: AppTextStyles.normal.copyWith(
+                              color: food.quantity == 0
+                                  ? AppColors.red
+                                  : AppColors.green,
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () => context
+                                .read<FoodListCubit>()
+                                .updateAvailability(food),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: food.isAvailable ?? false
+                                    ? AppColors.green
+                                    : AppColors.red,
+                                borderRadius: BorderRadius.circular(
+                                  12.r,
+                                ),
+                              ),
+                              child: Text(
+                                food.isAvailable ?? false
+                                    ? 'Available'.tr(context)
+                                    : 'Unavailable'.tr(context),
+                                style: AppTextStyles.normal.copyWith(
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
-                if (food.quantity != null)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Quantity: ${food.quantity}',
-                          style: AppTextStyles.normal.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+
                 if (isLoading)
                   LinearProgressIndicator(color: AppColors.green),
               ],
