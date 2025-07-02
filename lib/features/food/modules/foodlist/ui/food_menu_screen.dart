@@ -16,7 +16,6 @@ import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class FoodMenuScreen extends StatefulWidget {
-
   const FoodMenuScreen({super.key});
 
   static RouteBase get route => GoRoute(
@@ -36,7 +35,6 @@ class FoodMenuScreen extends StatefulWidget {
 
 class _FoodMenuScreenState extends State<FoodMenuScreen> {
   final categoryController = EditingController<String>();
-
 
   @override
   void dispose() {
@@ -199,7 +197,6 @@ class _FoodItem extends StatelessWidget {
           top: BorderSide(color: AppColors.green, width: 1.w),
         ),
       ),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +213,6 @@ class _FoodItem extends StatelessWidget {
               ),
             ),
           ),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -256,7 +252,6 @@ class _FoodItem extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     InkWell(
                       onTap: () => context.toWith(
                         AppRoutes.updateFood,
@@ -265,13 +260,11 @@ class _FoodItem extends StatelessWidget {
                             .read<FoodListCubit>()
                             .replaceFood,
                       ),
-
                       child: const Icon(
                         Symbols.edit,
                         color: AppColors.white,
                       ),
                     ),
-
                     InkWell(
                       onTap: () => context.alertDialog(
                         title: 'Delete Food'.tr(context),
@@ -289,7 +282,6 @@ class _FoodItem extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 Row(
                   children: [
                     Expanded(
@@ -339,7 +331,19 @@ class _FoodItem extends StatelessWidget {
                     ),
                   ],
                 ),
-
+                if (food.quantity != null)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Quantity: ${food.quantity}',
+                          style: AppTextStyles.normal.copyWith(
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 if (isLoading)
                   LinearProgressIndicator(color: AppColors.green),
               ],

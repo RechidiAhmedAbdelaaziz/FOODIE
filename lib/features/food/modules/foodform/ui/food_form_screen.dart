@@ -151,6 +151,25 @@ class FoodFormScreen extends StatelessWidget {
                                   },
                                 ),
 
+                                AppTextField(
+                                  controller: dto.priceController,
+                                  hintText: 'Quantity'.tr(context),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    //quantity is optional, but if provided, it must be a positive number
+                                    if (value?.isEmpty == true) return null;
+                                    final quantity = int.tryParse(value ?? '');
+                                    return quantity == null || quantity <= 0
+                                        ? 'Quantity must be a positive number'
+                                              .tr(context)
+                                        : null;
+                                  },
+                                ),
+
                                 FoodCategoryField(
                                   dto.categoryController,
                                 ),

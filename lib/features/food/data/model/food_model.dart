@@ -5,7 +5,9 @@ part 'food_model.g.dart';
 
 enum FoodModelFields {
   client('name addOns category image price description'),
-  owner('name addOns category image price isAvailable description');
+  owner(
+    'name addOns category image price isAvailable description quantity',
+  );
 
   final String value;
   const FoodModelFields(this.value);
@@ -21,6 +23,7 @@ class FoodModel extends Equatable {
   final int? price;
   final String? category;
   final bool? isAvailable;
+  final int? quantity;
   final List<AddOnsModel>? addOns;
 
   const FoodModel({
@@ -31,10 +34,11 @@ class FoodModel extends Equatable {
     this.category,
     this.addOns,
     this.isAvailable,
+    this.quantity,
     this.image,
   });
 
-  int totalPrice(List<AddOnsModel> addOns , int quantity) {
+  int totalPrice(List<AddOnsModel> addOns, int quantity) {
     int total = price ?? 0;
 
     for (final addOn in addOns) {

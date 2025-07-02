@@ -28,6 +28,7 @@ class FoodDTO with AsyncFormDTO {
   final TextEditingController nameController;
   final TextEditingController descriptionController;
   final TextEditingController priceController;
+  final TextEditingController quantityController;
   final EditingController<String> categoryController;
   final ListEditingController<AddOnsDTO> addOnsController;
 
@@ -41,6 +42,9 @@ class FoodDTO with AsyncFormDTO {
       ),
       priceController = TextEditingController(
         text: _food?.price?.toString(),
+      ),
+      quantityController = TextEditingController(
+        text: _food?.quantity?.toString() ?? '1',
       ),
       categoryController = EditingController(_food?.category),
       addOnsController = ListEditingController<AddOnsDTO>(
@@ -57,6 +61,7 @@ class FoodDTO with AsyncFormDTO {
     priceController.dispose();
     categoryController.dispose();
     addOnsController.dispose();
+    quantityController.dispose();
   }
 
   @override
@@ -85,6 +90,9 @@ class FoodDTO with AsyncFormDTO {
         'addOns': addOnsController.value
             .map((e) => e.toMap())
             .toList(),
+
+      if (_food?.price?.toString() != quantityController.text)
+        'quantity': int.tryParse(quantityController.text) ?? 1,
     };
   }
 }
