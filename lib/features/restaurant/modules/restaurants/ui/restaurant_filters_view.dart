@@ -1,10 +1,7 @@
-import 'package:app/core/constants/data.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/check_box_field.dart';
-import 'package:app/core/shared/widgets/dropdown_field.dart';
-import 'package:app/core/shared/widgets/time_picker.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/restaurant/data/dto/restaurant_filter_dto.dart';
@@ -77,40 +74,10 @@ class _RestaurantFiltersViewState
             ),
             const Divider(color: AppColors.green, height: 12),
 
-            // Working Days
-            AppDropDownField(
-              controller: widget._dto.workingDaysController,
-              itemsBuilder: (_) => AppData.weekDays,
-              itemToString: (weekDay) => weekDay.tr(context),
-              label: 'Working Days'.tr(context),
-              hintText: 'Select a Days'.tr(context),
-            ),
-
-            // Opening and Closing Time
-            Row(
-              spacing: 8.w,
-              children: [
-                Expanded(
-                  child: AppTimePicker(
-                    controller: widget._dto.openingTimeController,
-                    hintText: 'Opening Time'.tr(context),
-                  ),
-                ),
-
-                Text(
-                  'to'.tr(context),
-                  style: AppTextStyles.medium.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-
-                Expanded(
-                  child: AppTimePicker(
-                    controller: widget._dto.closingTimeController,
-                    hintText: 'Closing Time'.tr(context),
-                  ),
-                ),
-              ],
+            // Isopen now
+            AppCheckBoxField(
+              controller: widget._dto.isOpenController,
+              label: 'Is Open Now'.tr(context),
             ),
 
             // Has Delivery
@@ -119,10 +86,7 @@ class _RestaurantFiltersViewState
               label: 'Has Delivery'.tr(context),
             ),
 
-            // AppCheckBoxField(
-            //   controller: widget._dto.hasBreakfastController,
-            //   label: 'Has Breakfast'.tr(context),
-            // ),
+           
             const Divider(color: AppColors.white, height: 12),
             Row(
               spacing: 16.w,

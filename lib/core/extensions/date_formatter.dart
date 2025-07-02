@@ -21,8 +21,28 @@ extension DateFormatter on DateTime {
     ][month - 1];
     return '$day $monthName $year';
   }
-}
 
+  // * Firday, Saturday, Sunday ...
+  String toFormattedDay() {
+    final weekday = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ][this.weekday - 1];
+    return weekday;
+  }
+
+  // * ##:##
+  String toFormattedTime() {
+    final hour = this.hour.toString().padLeft(2, '0');
+    final minute = this.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+}
 
 extension TimeFormatter on TimeOfDay {
   // * ##:##
