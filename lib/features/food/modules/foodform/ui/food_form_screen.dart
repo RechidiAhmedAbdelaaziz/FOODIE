@@ -152,8 +152,8 @@ class FoodFormScreen extends StatelessWidget {
                                 ),
 
                                 AppTextField(
-                                  controller: dto.priceController,
-                                  hintText: 'Quantity'.tr(context),
+                                  controller: dto.quantityController,
+                                  label: 'Quantity'.tr(context),
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter
@@ -161,9 +161,13 @@ class FoodFormScreen extends StatelessWidget {
                                   ],
                                   validator: (value) {
                                     //quantity is optional, but if provided, it must be a positive number
-                                    if (value?.isEmpty == true) return null;
-                                    final quantity = int.tryParse(value ?? '');
-                                    return quantity == null || quantity <= 0
+                                    if (value?.isEmpty == true)
+                                      return null;
+                                    final quantity = int.tryParse(
+                                      value ?? '',
+                                    );
+                                    return quantity == null ||
+                                            quantity <= 0
                                         ? 'Quantity must be a positive number'
                                               .tr(context)
                                         : null;

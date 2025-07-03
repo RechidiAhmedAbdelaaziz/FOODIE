@@ -21,7 +21,7 @@ class _LoginForm extends StatelessWidget {
             ),
             heightSpace(32),
 
-            AuthActionButtons(),
+            if (F.appFlavor != Flavor.client) AuthActionButtons(),
 
             Padding(
               padding: EdgeInsets.symmetric(

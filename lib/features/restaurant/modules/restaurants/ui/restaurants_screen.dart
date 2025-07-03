@@ -309,7 +309,7 @@ class RestaurantsScreen extends StatelessWidget {
                                 size: 16.sp,
                               ),
                               Text(
-                                'Pre-Paid',
+                                'Pre-Paid'.tr(context),
                                 style: AppTextStyles.normal.copyWith(
                                   color: AppColors.blue,
                                 ),

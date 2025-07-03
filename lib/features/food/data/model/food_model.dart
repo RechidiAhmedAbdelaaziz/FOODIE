@@ -6,7 +6,7 @@ part 'food_model.g.dart';
 enum FoodModelFields {
   client('name addOns category image price description'),
   owner(
-    'name addOns category image price isAvailable description quantity',
+    'name addOns category image price isAvailable description stock',
   );
 
   final String value;
@@ -23,6 +23,7 @@ class FoodModel extends Equatable {
   final int? price;
   final String? category;
   final bool? isAvailable;
+  @JsonKey(name: 'stock')
   final int? quantity;
   final List<AddOnsModel>? addOns;
 

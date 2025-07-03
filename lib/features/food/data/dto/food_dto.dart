@@ -92,7 +92,7 @@ class FoodDTO with AsyncFormDTO {
             .toList(),
 
       if (_food?.price?.toString() != quantityController.text)
-        'quantity': int.tryParse(quantityController.text) ?? 1,
+        'stock': int.tryParse(quantityController.text),
     };
   }
 }
