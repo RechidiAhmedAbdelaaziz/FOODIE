@@ -14,10 +14,16 @@ class _LoginForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             heightSpace(100),
-            SvgPicture.asset(
-              Assets.svg.logo,
+            Assets.logo.logo.image(
               width: 190.w,
               height: 235.h,
+              fit: BoxFit.cover,
+            ),
+
+            SvgPicture.asset(
+              Assets.svg.logoTitle,
+              height: 32.h,
+              fit: BoxFit.cover,
             ),
             heightSpace(32),
 

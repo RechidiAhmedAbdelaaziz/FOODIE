@@ -107,6 +107,7 @@ flutter:
         - assets/svg/
         - assets/images/
         - assets/sounds/
+        - assets/logo/logo.png
         - .env
         - .env.dev
 
