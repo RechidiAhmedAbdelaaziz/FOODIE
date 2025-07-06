@@ -49,7 +49,11 @@ class ServerOrderScreen extends OrderScreenBase {
   final tableController = EditingController<String>("All");
 
   @override
-  Widget builder(List<OrderModel> orders, BuildContext context) {
+  Widget builder(List<OrderModel> ordersList, BuildContext context) {
+    final orders = ordersList
+        .where((order) => order.isDelivered != true)
+        .toList();
+
     final tables = orders
         .map((order) => order.table)
         .whereType<TableModel>()

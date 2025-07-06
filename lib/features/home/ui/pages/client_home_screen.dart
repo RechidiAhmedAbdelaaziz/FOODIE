@@ -1,3 +1,4 @@
+import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
 import 'package:app/core/localization/localization_button.dart';
 import 'package:app/core/localization/localization_extension.dart';
@@ -11,9 +12,10 @@ import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/banners/modules/banners/ui/home_banners.dart';
 import 'package:app/features/food/modules/foodlist/ui/client_food_menu_screen.dart';
 import 'package:app/features/restaurant/modules/restaurants/ui/restaurants_screen.dart';
-import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ClientHomeScreen extends StatelessWidget {
@@ -54,6 +56,7 @@ class ClientHomeScreen extends StatelessWidget {
         ),
         child: Column(
           spacing: 16.h,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             HomeBanners(),
             heightSpace(16),
@@ -64,7 +67,8 @@ class ClientHomeScreen extends StatelessWidget {
                 color: AppColors.white,
               ),
             ),
-            _buildCategoryList(context),
+
+            Expanded(child: _buildCategoryList(context)),
           ],
         ),
       ),
@@ -72,29 +76,23 @@ class ClientHomeScreen extends StatelessWidget {
   }
 
   Widget _buildCategoryList(BuildContext context) {
-    return Wrap(
-      spacing: 16.w,
-      runSpacing: 16.h,
-      children:
-          {
-                "Cafe": Assets.images.cafes,
-                "Restaurant": Assets.images.restaurants,
-                "Fast Food": Assets.images.fastFood,
-                "Breakfast": Assets.images.breakfast,
-              }.entries
-              .map(
-                (entry) => _buildCategoryItem(
-                  entry.value,
-                  entry.key,
-                  context,
-                ),
-              )
-              .toList(),
+    return SingleChildScrollView(
+      child: StaggeredGrid.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12.h,
+        crossAxisSpacing: 8.w,
+        children: AppData.restaurantTypes.map((type) {
+          final image =
+              'assets/svg/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.svg';
+
+          return _buildCategoryItem(image, type, context);
+        }).toList(),
+      ),
     );
   }
 
   Widget _buildCategoryItem(
-    AssetGenImage image,
+    String svgPath,
     String type,
     BuildContext coontet,
   ) {
@@ -103,46 +101,26 @@ class ClientHomeScreen extends StatelessWidget {
         AppRoutes.restaurants,
         RestaurantFilterParams(type: type),
       ),
-      child: SizedBox(
-        width: 170.w,
-        height: 167.h,
-        child: Stack(
-          alignment: Alignment.center,
+      child: Container(
+        width: 150.w,
+        padding: EdgeInsets.symmetric(
+          vertical: 16.h,
+          horizontal: 4.w,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.greenLight.withAlpha(200),
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Column(
           children: [
-            Positioned.fill(
-              child: image.image(
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-                errorBuilder: (context, error, stackTrace) =>
-                    Container(
-                      color: Colors.grey[300],
-                      child: Center(
-                        child: Text(
-                          'Image not found',
-                          style: AppTextStyles.small,
-                        ),
-                      ),
-                    ),
+            SvgPicture.asset(svgPath, width: 64.w, height: 64.h),
+            heightSpace(8),
+            Text(
+              type.tr(coontet),
+              style: AppTextStyles.large.copyWith(
+                color: AppColors.blue,
               ),
-            ),
-
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 4.h,
-                horizontal: 16.w,
-              ),
-              decoration: BoxDecoration(
-                // color: AppColors.blue,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              // alignment: Alignment.center,
-              child: Text(
-                type.tr(coontet),
-                style: AppTextStyles.normal.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

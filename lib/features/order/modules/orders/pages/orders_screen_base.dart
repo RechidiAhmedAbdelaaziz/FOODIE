@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class OrderScreenBase extends StatelessWidget {
   Widget builder(List<OrderModel> orders, BuildContext context);
+  
   Widget floatingActionButton(BuildContext context) =>
       const SizedBox.shrink();
 
