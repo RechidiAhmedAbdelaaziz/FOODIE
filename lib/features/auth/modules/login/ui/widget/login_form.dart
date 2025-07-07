@@ -46,50 +46,73 @@ class _LoginForm extends StatelessWidget {
                             child: child,
                           );
                         },
-                    child: isEmail
-                        ? AppTextField(
-                            key: const ValueKey('email_field'),
-                            controller: dto.emailController,
-                            label: 'Email',
-                            hintText: 'Enter your email',
-                            keyboardType: TextInputType.emailAddress,
-                            prefixIcon: Symbols.email,
+                    child: Column(
+                      children: [
+                        if (F.appFlavor == Flavor.client)
+                          AppTextField(
+                            controller: dto.nameController,
+                            label: 'Name',
+                            hintText: 'Enter your name',
+                            prefixIcon: Symbols.person,
                             isRequired: true,
-                            validator: (email) {
-                              if (email == null || email.isEmpty) {
-                                return 'Email is required';
-                              }
-                              final emailRegex = RegExp(
-                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                              );
-                              if (!emailRegex.hasMatch(email)) {
-                                return 'Invalid email format';
-                              }
-                              return null;
-                            },
-                          )
-                        : AppTextField(
-                            key: const ValueKey('phone_field'),
-                            controller: dto.phoneController,
-                            label: 'Phone',
-                            hintText: 'Enter your phone number',
-                            prefixIcon: Symbols.phone,
-                            keyboardType: TextInputType.phone,
-                            isRequired: true,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(10),
-                            ],
-                            validator: (phone) {
-                              if (phone == null || phone.isEmpty) {
-                                return 'Phone number is required';
-                              }
-                              if (phone.length != 10) {
-                                return 'Phone number must be 10 digits';
+                            validator: (name) {
+                              if (name == null || name.isEmpty) {
+                                return 'Name is required';
                               }
                               return null;
                             },
                           ),
+
+                        isEmail
+                            ? AppTextField(
+                                controller: dto.emailController,
+                                label: 'Email',
+                                hintText: 'Enter your email',
+                                keyboardType:
+                                    TextInputType.emailAddress,
+                                prefixIcon: Symbols.email,
+                                isRequired: true,
+                                validator: (email) {
+                                  if (email == null ||
+                                      email.isEmpty) {
+                                    return 'Email is required';
+                                  }
+                                  final emailRegex = RegExp(
+                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                                  );
+                                  if (!emailRegex.hasMatch(email)) {
+                                    return 'Invalid email format';
+                                  }
+                                  return null;
+                                },
+                              )
+                            : AppTextField(
+                                controller: dto.phoneController,
+                                label: 'Phone',
+                                hintText: 'Enter your phone number',
+                                prefixIcon: Symbols.phone,
+                                keyboardType: TextInputType.phone,
+                                isRequired: true,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter
+                                      .digitsOnly,
+                                  LengthLimitingTextInputFormatter(
+                                    10,
+                                  ),
+                                ],
+                                validator: (phone) {
+                                  if (phone == null ||
+                                      phone.isEmpty) {
+                                    return 'Phone number is required';
+                                  }
+                                  if (phone.length != 10) {
+                                    return 'Phone number must be 10 digits';
+                                  }
+                                  return null;
+                                },
+                              ),
+                      ],
+                    ),
                   );
                 },
               ),
