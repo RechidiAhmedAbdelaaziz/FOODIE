@@ -168,11 +168,22 @@ class ServerOrderScreen extends OrderScreenBase {
 
               if (order.table != null)
                 Expanded(
-                  child: Text(
-                    order.table?.name ?? 'Delivery',
-                    style: AppTextStyles.h4.copyWith(
-                      color: AppColors.white,
-                    ),
+                  child: Column(
+                    children: [
+                      Text(
+                        order.table?.name ?? 'Delivery',
+                        style: AppTextStyles.h4.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                      if (order.clientName != null)
+                        Text(
+                          order.clientName!,
+                          style: AppTextStyles.small.copyWith(
+                            color: AppColors.white,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               RichText(

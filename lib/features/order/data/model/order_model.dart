@@ -15,6 +15,7 @@ class OrderModel extends Equatable {
   final TableModel? table;
   final List<OrderData>? foods;
   final _AddressModel? address;
+  final String? clientName;
 
   final bool? isDelivered;
   final bool? isPaid;
@@ -29,6 +30,7 @@ class OrderModel extends Equatable {
     this.isDelivered,
     this.isPaid,
     this.foods,
+    this.clientName,
     required this.totalPrice,
   });
 
