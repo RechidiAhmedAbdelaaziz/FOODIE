@@ -36,7 +36,7 @@ class VerifyCodeScreen extends StatelessWidget {
     return BlocListener<VerifyCodeCubit, VerifyCodeState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
-        state.onSuccess(() => context.to(AppRoutes.home, null));
+        state.onSuccess(() => context.offAll(AppRoutes.home, null));
       },
       child: Scaffold(
         body: isLoading

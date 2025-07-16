@@ -11,12 +11,15 @@ import '../themes/colors.dart';
 extension DialogExtension on BuildContext {
   /// Show a dialog with the given [child] widget.
   /// [T] is the type of the result that will be returned when the dialog is closed.
-  Future<T?> dialog<T>({required Widget child}) {
+  Future<T?> dialog<T>({required Widget child, 
+    bool canPop = true,
+  }) {
     return showDialog<T>(
       context: this,
+      barrierDismissible: canPop,
       builder: (_) => Stack(
-        alignment: Alignment.center,
-        children: [Material(color: Colors.transparent, child: child)],
+      alignment: Alignment.center,
+      children: [Material(color: Colors.transparent, child: child)],
       ),
     );
   }
@@ -29,8 +32,9 @@ extension DialogExtension on BuildContext {
     required Widget child,
     required void Function(T) onResult,
     VoidCallback? onError,
+    bool canPop = true,
   }) async {
-    final result = await dialog<T>(child: child);
+    final result = await dialog<T>(child: child, canPop: canPop);
     result != null ? onResult(result) : onError?.call();
   }
 
@@ -43,12 +47,14 @@ extension DialogExtension on BuildContext {
     required String title,
     required String? content,
     required VoidCallback onConfirm,
+    bool canPop = false,
     VoidCallback? onCancel,
     String okText = 'Ok',
     String cancelText = 'Cancel',
   }) async {
     return showDialog(
       context: this,
+      barrierDismissible: canPop,
       builder: (context) => Material(
         color: Colors.transparent,
         child: Center(
@@ -117,9 +123,12 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  void showErrorDialog(String message) {
+  void showErrorDialog(String message, {
+    bool canPop = true,
+  }) {
     showDialog(
       context: this,
+      barrierDismissible: canPop,
       builder: (_) => AlertDialog(
         backgroundColor: AppColors.black,
 
@@ -148,4 +157,41 @@ extension DialogExtension on BuildContext {
       ),
     );
   }
+
+  void showSuccessDialog(String message, {
+    bool canPop = true,
+  }) {
+    showDialog(
+      context: this,
+      barrierDismissible: canPop,
+      builder: (_) => AlertDialog(
+        backgroundColor: AppColors.black,
+        title: Row(
+          spacing: 8.w,
+          children: [
+            Icon(Symbols.check_circle, color: AppColors.greenLight, size: 32.r),
+            Text(
+              'Success'.tr(this),
+              style: AppTextStyles.h3.copyWith(color: AppColors.greenLight),
+            ),
+          ],
+        ),
+        content: Text(
+          message.tr(this),
+          style: AppTextStyles.medium.copyWith(
+            color: AppColors.white,
+          ),
+        ),
+        actions: [
+          AppButton.primary(
+            text: 'Ok'.tr(this),
+            onPressed: () => back(),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  
 }
