@@ -161,8 +161,9 @@ class FoodFormScreen extends StatelessWidget {
                                   ],
                                   validator: (value) {
                                     //quantity is optional, but if provided, it must be a positive number
-                                    if (value?.isEmpty == true)
+                                    if (value?.isEmpty == true) {
                                       return null;
+                                    }
                                     final quantity = int.tryParse(
                                       value ?? '',
                                     );
