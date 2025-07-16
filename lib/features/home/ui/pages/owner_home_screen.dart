@@ -9,6 +9,7 @@ import 'package:app/core/themes/dimensions.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/history/modules/todayhistory/ui/today_history.dart';
 import 'package:app/features/staff/modules/todayearn/ui/today_earn.dart';
+import 'package:app/features/subscription/modules/subscriptioncard/ui/subscription_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -65,11 +66,13 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
           children: [
             Column(
               children: [
+                SubscriptionCard(),
+
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        DateTime.now().toLocal().toFormattedDate(),
+                        DateTime.now().toLocal().toDdMmYyyy(),
                         style: AppTextStyles.normal.copyWith(
                           color: AppColors.white,
                         ),

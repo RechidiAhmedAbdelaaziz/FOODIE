@@ -80,7 +80,7 @@ class HistoryScreen extends StatelessWidget {
           widthSpace(4),
           Expanded(
             child: Text(
-              item.date?.toFormattedDate() ?? 'Unknown Date',
+              item.date?.toDdMmYyyy() ?? 'Unknown Date',
               style: AppTextStyles.medium.copyWith(
                 color: AppColors.white,
               ),

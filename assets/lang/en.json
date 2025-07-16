@@ -34,6 +34,10 @@
     "Restaurant": "Restaurant",
     "Fast Food": "Fast Food",
     "Friday": "Friday",
+    
+    "Your subscription expires on :": "Your subscription expires on :",
+    "Expired": "Expired",
+
     "Saturday": "Saturday",
     "Sunday": "Sunday",
     "Mark Order as Paid": "Mark Order as Paid",
