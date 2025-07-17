@@ -81,6 +81,7 @@ class AppButton extends StatelessWidget {
     isLoading: isLoading,
     textStyle: AppTextStyles.link,
     padding: padding,
+    
   );
 
   @override

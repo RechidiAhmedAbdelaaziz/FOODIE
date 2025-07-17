@@ -69,7 +69,7 @@ abstract class AppTextStyles {
   static TextStyle link = TextStyle(
     fontSize: 16.spMin,
     fontWeight: FontWeight.w400,
-    color: AppColors.white,
+    color: AppColors.greenLight,
     decoration: TextDecoration.underline,
   );
 

@@ -2,6 +2,8 @@ import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/shared/widgets/app_button.dart';
+import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/subscription/data/models/subscription_model.dart';
 import 'package:app/features/subscription/data/repository/subscription_repository.dart';
@@ -36,7 +38,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
   Widget build(BuildContext context) {
     final isActive = (subscription != null && subscription!.isActive);
     return Column(
-      spacing: 8.w,
+      spacing: 8.h,
       children: [
         Text(
           'Your subscription expires on :'.tr(context),
@@ -73,6 +75,29 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
             ],
           ),
         ),
+
+        if (!isActive)
+          InkWell(
+            onTap: () {}, //TODO: Implement renew subscription logic
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8.w,
+              children: [
+                Icon(
+                  Symbols.refresh,
+                  color: Colors.green,
+                  size: 24.sp,
+                ),
+                Text(
+                  'Renew Subscription'.tr(context),
+                  style: AppTextStyles.normal.copyWith(
+                    color: AppColors.greenLight,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
