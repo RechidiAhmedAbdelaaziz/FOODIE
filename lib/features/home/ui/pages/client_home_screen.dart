@@ -15,7 +15,6 @@ import 'package:app/features/restaurant/modules/restaurants/ui/restaurants_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ClientHomeScreen extends StatelessWidget {
@@ -81,7 +80,7 @@ class ClientHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(String svgPath, String type, BuildContext coontet) {
+  Widget _buildCategoryItem(String path, String type, BuildContext coontet) {
     return GestureDetector(
       onTap: () =>
           coontet.to(AppRoutes.restaurants, RestaurantFilterParams(type: type)),
@@ -94,7 +93,18 @@ class ClientHomeScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            SvgPicture.asset(svgPath, width: 64.w, height: 64.h),
+            Container(
+              width: 100.w,
+              height: 100.h,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12.r),
+                image: DecorationImage(
+                  image: AssetImage(path),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             heightSpace(8),
             Text(
               type.tr(coontet),
