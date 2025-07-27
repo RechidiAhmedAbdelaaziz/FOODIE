@@ -2,7 +2,6 @@ import 'package:app/core/di/locator.dart';
 import 'package:app/core/extensions/date_formatter.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
-import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/themes/colors.dart';
 import 'package:app/core/themes/font_styles.dart';
 import 'package:app/features/subscription/data/models/subscription_model.dart';
