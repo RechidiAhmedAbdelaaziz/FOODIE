@@ -1,17 +1,26 @@
 abstract class AppData {
-  static const List<String> restaurantTypes = [
+  static const List<String> serviceTypes = [
     'Restaurant', // restaurant
-    'Bakery 24/7', // bakery
-    'Breakfast', // breakfast
-    'Cafe', // cafe
-    'Cosmetics Shop 24/7', // cosmetics_shop
-    'Emergency Clinic 24/7', // emergency_clinic
+    'Cafeteria', // cafeteria
     'Fast Food', // fast_food
-    'Gas Station 24/7', // gas_station
+    'Dairy Shop', // dairy_shop
     'Hotels', // hotels
-    'Location Apartments', // location_apartments
+    'Apartment', // apartment
+    'Cosmetics Shop 24/7', // cosmetics_shop
+    'Gas Station 24/7', // gas_station
     'Pharmacy 24/7', // pharmacy
-    'Plumbing 24/7', // plumbing
+    'Emergency Clinic 24/7', // emergency_clinic
+    'Car Rental', // car_rental
+  ];
+
+  static const privateServiceTypes = [
+    'Hotels', // hotels
+    'Apartment', // apartment
+    'Cosmetics Shop 24/7', // cosmetics_shop
+    'Gas Station 24/7', // gas_station
+    'Pharmacy 24/7', // pharmacy
+    'Emergency Clinic 24/7', // emergency_clinic
+    'Car Rental', // car_rental
   ];
 
   static const List<String> foodCategories = [];

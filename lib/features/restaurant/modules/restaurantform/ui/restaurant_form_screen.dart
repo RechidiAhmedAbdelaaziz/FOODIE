@@ -1,5 +1,6 @@
 import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/list_extenstion.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
@@ -57,15 +58,11 @@ class RestaurantFormScreen extends StatelessWidget {
             );
             return isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.green,
-                    ),
+                    child: CircularProgressIndicator(color: AppColors.green),
                   )
                 : Builder(
                     builder: (context) {
-                      final dto = context
-                          .read<RestaurantFormCubit>()
-                          .dto;
+                      final dto = context.read<RestaurantFormCubit>().dto;
                       return SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -82,9 +79,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                   height: 180.h,
                                   width: double.infinity - 40.w,
                                   borderRadius: 12.r,
-                                  errorText: 'Image is required'.tr(
-                                    context,
-                                  ),
+                                  errorText: 'Image is required'.tr(context),
                                   picker: locator<ImageFilePicker>(),
                                   isRequired: true,
                                 ),
@@ -93,37 +88,30 @@ class RestaurantFormScreen extends StatelessWidget {
                                   controller: dto.nameController,
                                   hintText: 'Enter restaurant name',
                                   keyboardType: TextInputType.text,
-                                  validator: (value) =>
-                                      value?.isEmpty == true
+                                  validator: (value) => value?.isEmpty == true
                                       ? 'Name is required'
                                       : null,
                                 ),
 
                                 AppTextField(
-                                  controller:
-                                      dto.descriptionController,
-                                  hintText:
-                                      'Enter restaurant description',
-                                  keyboardType:
-                                      TextInputType.multiline,
-                                  validator: (value) =>
-                                      value?.isEmpty == true
+                                  controller: dto.descriptionController,
+                                  hintText: 'Enter restaurant description',
+                                  keyboardType: TextInputType.multiline,
+                                  validator: (value) => value?.isEmpty == true
                                       ? 'Description is required'
                                       : null,
                                 ),
 
                                 AppMultiDropDownField(
                                   controller: dto.categoryController,
-                                  itemsBuilder: (_) =>
-                                      AppData.restaurantTypes,
+                                  itemsBuilder: (_) => AppData.serviceTypes
+                                      .withoutAll(AppData.privateServiceTypes),
                                   hintText: 'Select restaurant type',
-                                  itemToString: (value) =>
-                                      value.tr(context),
+                                  itemToString: (value) => value.tr(context),
                                 ),
 
                                 WorkTimeField(
-                                  controller:
-                                      dto.workingTimesController,
+                                  controller: dto.workingTimesController,
                                   label: 'Working times'.tr(context),
                                   isRequired: true,
                                 ),
@@ -131,12 +119,10 @@ class RestaurantFormScreen extends StatelessWidget {
                                 // GOOGLE map link like this https://maps.app.goo.gl/H38MqmYr61rkgMsC6
                                 AppTextField(
                                   controller: dto.addressController,
-                                  hintText:
-                                      'Enter restaurant address link',
+                                  hintText: 'Enter restaurant address link',
                                   keyboardType: TextInputType.text,
                                   suffixIcon: Symbols.location_on,
-                                  validator: (value) =>
-                                      value?.isEmpty == true
+                                  validator: (value) => value?.isEmpty == true
                                       ? 'Address is required'
                                       : value!.startsWith(
                                           'https://maps.app.goo.gl/',
@@ -151,8 +137,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                 ),
 
                                 AppCheckBoxField(
-                                  controller:
-                                      dto.hasDeliveryController,
+                                  controller: dto.hasDeliveryController,
                                   label: 'Has Delivery',
                                 ),
 
@@ -161,15 +146,13 @@ class RestaurantFormScreen extends StatelessWidget {
                                   hintText: 'Enter phone number',
                                   keyboardType: TextInputType.phone,
                                   suffixIcon: Symbols.phone,
-                                  validator: (value) =>
-                                      value?.isEmpty == true
+                                  validator: (value) => value?.isEmpty == true
                                       ? 'Phone number is required'
                                       : null,
                                 ),
 
                                 AppTextField(
-                                  controller:
-                                      dto.facebookLinkController,
+                                  controller: dto.facebookLinkController,
                                   hintText: 'Enter Facebook link',
                                   keyboardType: TextInputType.url,
                                   suffixWidget: SvgPicture.asset(
@@ -180,8 +163,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                 ),
 
                                 AppTextField(
-                                  controller:
-                                      dto.instagramLinkController,
+                                  controller: dto.instagramLinkController,
                                   hintText: 'Enter Instagram link',
                                   keyboardType: TextInputType.url,
                                   suffixWidget: SvgPicture.asset(
@@ -192,8 +174,7 @@ class RestaurantFormScreen extends StatelessWidget {
                                 ),
 
                                 AppTextField(
-                                  controller:
-                                      dto.tiktokLinkController,
+                                  controller: dto.tiktokLinkController,
                                   hintText: 'Enter TikTok link',
                                   keyboardType: TextInputType.url,
                                   suffixWidget: SvgPicture.asset(

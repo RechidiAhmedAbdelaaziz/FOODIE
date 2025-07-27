@@ -32,13 +32,11 @@ class RestaurantDTO with AsyncFormDTO {
 
   RestaurantDTO(this._restaurant)
     : imageController = EditingController<ImageDTO>(
-        _restaurant.image != null
-            ? RemoteImageDto(_restaurant.image!)
-            : null,
+        _restaurant.image != null ? RemoteImageDto(_restaurant.image!) : null,
       ),
       nameController = TextEditingController(text: _restaurant.name),
       categoryController = ListEditingController(
-        _restaurant.categories ?? [AppData.restaurantTypes.first],
+        _restaurant.categories ?? [AppData.serviceTypes.first],
       ),
       descriptionController = TextEditingController(
         text: _restaurant.description,
@@ -47,10 +45,7 @@ class RestaurantDTO with AsyncFormDTO {
         text: _restaurant.address?.title,
       ),
       workingTimesController = ListEditingController<WorkingTimeDto>(
-        _restaurant.workingTimes
-                ?.map((e) => WorkingTimeDto(e))
-                .toList() ??
-            [],
+        _restaurant.workingTimes?.map((e) => WorkingTimeDto(e)).toList() ?? [],
       ),
 
       isPrePaidController = BooleanEditingController(
@@ -69,9 +64,7 @@ class RestaurantDTO with AsyncFormDTO {
       tiktokLinkController = TextEditingController(
         text: _restaurant.tiktokLink,
       ),
-      phoneController = TextEditingController(
-        text: _restaurant.phone,
-      );
+      phoneController = TextEditingController(text: _restaurant.phone);
 
   @override
   void dispose() {
@@ -93,8 +86,7 @@ class RestaurantDTO with AsyncFormDTO {
   Future<Map<String, dynamic>> toMap() async {
     final imageUrl = await imageController.value?.url;
     return {
-      if (_restaurant.name != nameController.text)
-        'name': nameController.text,
+      if (_restaurant.name != nameController.text) 'name': nameController.text,
 
       if (_restaurant.categories != categoryController.value)
         'categories': categoryController.value,
@@ -107,9 +99,9 @@ class RestaurantDTO with AsyncFormDTO {
           "title": addressController.text,
           // Fetching the coordinates from the short URL
           "coordinates":
-              (await locator<GeoLocatorService>()
-                      .getLangLatFromShortUrl(addressController.text))
-                  .toArray(), // {latitude: ..., longitude: ...}
+              (await locator<GeoLocatorService>().getLangLatFromShortUrl(
+                addressController.text,
+              )).toArray(), // {latitude: ..., longitude: ...}
         },
 
       if (workingTimesController.value.any((e) => e.isModified))

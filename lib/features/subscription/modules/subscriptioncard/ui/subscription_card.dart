@@ -9,6 +9,7 @@ import 'package:app/features/subscription/data/repository/subscription_repositor
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubscriptionCard extends StatefulWidget {
   const SubscriptionCard({super.key});
@@ -45,10 +46,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
         ),
 
         Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 4.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
           decoration: BoxDecoration(
             color: isActive ? Colors.green : Colors.red,
             borderRadius: BorderRadius.circular(12.r),
@@ -57,19 +55,13 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
             mainAxisSize: MainAxisSize.min,
             spacing: 12.w,
             children: [
-              Icon(
-                Symbols.calendar_today,
-                color: Colors.white,
-                size: 24.sp,
-              ),
+              Icon(Symbols.calendar_today, color: Colors.white, size: 24.sp),
               Text(
                 isActive
                     ? subscription!.expirationDate.toDdMmYyyy()
                     : 'Expired'.tr(context),
 
-                style: AppTextStyles.large.copyWith(
-                  color: Colors.white,
-                ),
+                style: AppTextStyles.large.copyWith(color: Colors.white),
               ),
             ],
           ),
@@ -77,16 +69,17 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
 
         if (!isActive)
           InkWell(
-            onTap: () {}, //TODO: Implement renew subscription logic
+            onTap: () {
+              final phoneNumber = '+213663760461';
+              final message = 'Je souhaite renouveler mon abonnement';
+              final url = 'https://wa.me/$phoneNumber?text=$message';
+              launchUrl(Uri.parse(url));
+            },
             child: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: 8.w,
               children: [
-                Icon(
-                  Symbols.refresh,
-                  color: Colors.green,
-                  size: 24.sp,
-                ),
+                Icon(Symbols.refresh, color: Colors.green, size: 24.sp),
                 Text(
                   'Renew Subscription'.tr(context),
                   style: AppTextStyles.normal.copyWith(
