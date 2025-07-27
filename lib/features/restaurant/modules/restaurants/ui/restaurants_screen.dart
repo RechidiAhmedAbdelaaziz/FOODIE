@@ -41,6 +41,7 @@ class RestaurantsScreen extends StatelessWidget {
       final type = state.uri.queryParameters['type'] ?? '';
 
       return BlocProvider(
+        lazy: false,
         create: (context) =>
             RestaurantsCubit(filter: RestaurantFilterDTO(type: type))
               ..fetchRestaurants(),

@@ -86,7 +86,7 @@ class ClientHomeScreen extends StatelessWidget {
           coontet.to(AppRoutes.restaurants, RestaurantFilterParams(type: type)),
       child: Container(
         width: 150.w,
-        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 4.w),
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         decoration: BoxDecoration(
           color: AppColors.greenLight.withAlpha(200),
           borderRadius: BorderRadius.circular(20.r),
@@ -94,8 +94,8 @@ class ClientHomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 100.w,
-              height: 100.h,
+              width: double.infinity,
+              height: 140.h,
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(12.r),
@@ -108,7 +108,7 @@ class ClientHomeScreen extends StatelessWidget {
             heightSpace(8),
             Text(
               type.tr(coontet),
-              style: AppTextStyles.large.copyWith(color: AppColors.blue),
+              style: AppTextStyles.medium.copyWith(color: AppColors.blue),
               textAlign: TextAlign.center,
             ),
           ],
