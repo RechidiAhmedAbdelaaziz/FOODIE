@@ -3,7 +3,8 @@ abstract class AppData {
     'Restaurant', // restaurant
     'Cafeteria', // cafeteria
     'Fast Food', // fast_food
-    'Dairy Shop', // dairy_shop
+    'Creamery', // creamery
+    'Fishery', // fishery
     'Hotels', // hotels
     'Apartment', // apartment
     'Cosmetics Shop 24/7', // cosmetics_shop
@@ -20,7 +21,6 @@ abstract class AppData {
     'Gas Station 24/7', // gas_station
     'Pharmacy 24/7', // pharmacy
     'Emergency Clinic 24/7', // emergency_clinic
-    'Car Rental', // car_rental
   ];
 
   static const List<String> foodCategories = [];

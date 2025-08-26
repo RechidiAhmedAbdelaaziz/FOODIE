@@ -46,7 +46,7 @@ class FoodFormState<TDto> with CubitErrorHandling {
   }
 
   FoodFormState<TDto> _success(FoodModel food) {
-    return _SuccessState(food, this._dto);
+    return _SuccessState(food, _dto);
   }
 
   FoodFormState<TDto> _error(String message) {

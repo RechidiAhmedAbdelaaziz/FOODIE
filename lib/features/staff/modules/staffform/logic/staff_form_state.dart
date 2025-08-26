@@ -46,7 +46,7 @@ class StaffFormState<TDto extends FormDTO> with CubitErrorHandling {
   }
 
   StaffFormState<TDto> _success(StaffModel staff) {
-    return _SuccessState(staff, this._dto);
+    return _SuccessState(staff, _dto);
   }
 
   StaffFormState<TDto> _error(String message) {
