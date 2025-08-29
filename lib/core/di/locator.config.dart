@@ -71,55 +71,55 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final flavorConfigModule = _$FlavorConfigModule();
-    final filePickersModule = _$FilePickersModule();
     final dioModule = _$DioModule();
-    gh.lazySingleton<_i883.HistoryRepo>(() => _i883.HistoryRepo());
-    gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
-    gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
-    gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
-    gh.lazySingleton<_i811.FoodRepo>(() => _i811.FoodRepo());
-    gh.lazySingleton<_i226.FoodCategoryRepository>(
-      () => _i226.FoodCategoryRepository(),
-    );
-    gh.lazySingleton<_i729.TableRepo>(() => _i729.TableRepo());
-    gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
-    gh.lazySingleton<_i798.StaffRepo>(() => _i798.StaffRepo());
-    gh.lazySingleton<_i399.SubscriptionRepo>(() => _i399.SubscriptionRepo());
+    final filePickersModule = _$FilePickersModule();
     gh.lazySingleton<_i935.FlavorConfig>(() => flavorConfigModule.config);
-    gh.lazySingleton<_i99.SoundService>(() => _i99.SoundService());
+    gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
+    gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
+    gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
     gh.lazySingleton<_i962.CacheService>(() => _i962.CacheService());
-    gh.lazySingleton<_i735.GeoLocatorService>(() => _i735.GeoLocatorService());
-    gh.lazySingleton<_i425.QrService>(() => _i425.QrService());
-    gh.lazySingleton<_i117.SocketIoService>(() => _i117.SocketIoService());
     gh.lazySingleton<_i183.ImagePicker>(() => filePickersModule.imagePicker);
     gh.lazySingleton<_i388.FilePicker>(() => filePickersModule.filePicker);
     gh.lazySingleton<_i133.ImageFilePicker>(() => _i133.ImageFilePicker());
     gh.lazySingleton<_i133.VideoFilePicker>(() => _i133.VideoFilePicker());
-    gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
-    gh.lazySingleton<_i421.AppRouter>(() => _i421.AppRouter());
-    gh.lazySingleton<_i224.LocalizationCubit>(() => _i224.LocalizationCubit());
+    gh.lazySingleton<_i735.GeoLocatorService>(() => _i735.GeoLocatorService());
+    gh.lazySingleton<_i425.QrService>(() => _i425.QrService());
+    gh.lazySingleton<_i117.SocketIoService>(() => _i117.SocketIoService());
+    gh.lazySingleton<_i99.SoundService>(() => _i99.SoundService());
+    gh.lazySingleton<_i719.AuthRepo>(() => _i719.AuthRepo());
+    gh.lazySingleton<_i288.BannersRepo>(() => _i288.BannersRepo());
+    gh.lazySingleton<_i226.FoodCategoryRepository>(
+      () => _i226.FoodCategoryRepository(),
+    );
+    gh.lazySingleton<_i811.FoodRepo>(() => _i811.FoodRepo());
+    gh.lazySingleton<_i883.HistoryRepo>(() => _i883.HistoryRepo());
+    gh.lazySingleton<_i913.OrderRepo>(() => _i913.OrderRepo());
+    gh.lazySingleton<_i275.RestaurantRepo>(() => _i275.RestaurantRepo());
+    gh.lazySingleton<_i798.StaffRepo>(() => _i798.StaffRepo());
+    gh.lazySingleton<_i399.SubscriptionRepo>(() => _i399.SubscriptionRepo());
+    gh.lazySingleton<_i729.TableRepo>(() => _i729.TableRepo());
     gh.lazySingleton<_i489.VideoCloudStorageService>(
       () => _i87.VideoCloudinaryService(),
     );
     gh.lazySingleton<_i489.PdfCloudStorageService>(
       () => _i87.PdfCloudinaryService(),
     );
-    gh.lazySingleton<_i892.HistoryApi>(() => _i892.HistoryApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i728.RestaurantApi>(
-      () => _i728.RestaurantApi(gh<_i361.Dio>()),
-    );
     gh.lazySingleton<_i530.AuthApi>(() => _i530.AuthApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i4.BannersApi>(() => _i4.BannersApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i531.FoodApi>(() => _i531.FoodApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i350.FoodCategoryApi>(
       () => _i350.FoodCategoryApi(gh<_i361.Dio>()),
     );
-    gh.lazySingleton<_i531.FoodApi>(() => _i531.FoodApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i892.HistoryApi>(() => _i892.HistoryApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i46.OrderApi>(() => _i46.OrderApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i728.RestaurantApi>(
+      () => _i728.RestaurantApi(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i850.StaffApi>(() => _i850.StaffApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i989.SubscriptionApi>(
       () => _i989.SubscriptionApi(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i611.TableApi>(() => _i611.TableApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i489.ImageCloudStorageService>(
       () => _i87.ImageCloudinaryService(),
     );
@@ -136,6 +136,6 @@ extension GetItInjectableX on _i174.GetIt {
 
 class _$FlavorConfigModule extends _i600.FlavorConfigModule {}
 
-class _$FilePickersModule extends _i133.FilePickersModule {}
-
 class _$DioModule extends _i634.DioModule {}
+
+class _$FilePickersModule extends _i133.FilePickersModule {}
