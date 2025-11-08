@@ -16,10 +16,10 @@ abstract class AuthApi {
 
   @GET('/auth/refresh-token')
   Future<DataApiResponse> refreshToken({
-    @Query('refresh_token') required String refreshToken,
+    @Query('refreshToken') required String refreshToken,
   });
 
-  @POST('/auth/verify-code')
+  @POST('/auth/verify-otp')
   Future<DataApiResponse> verifyCode({
     @Body() required Map<String, dynamic> body,
   });

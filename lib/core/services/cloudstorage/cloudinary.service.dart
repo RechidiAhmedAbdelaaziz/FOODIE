@@ -1,41 +1,44 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:http/http.dart' as http;
+import 'package:app/core/networking/dio/interceptors/dio_interceptors.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'cloud_storage.service.dart';
 
 mixin CloudinaryConfig {
-  //TODO : use dotenv package to load these values
-  final String cloudName = "deljic9sr";
-  final String uploadPreset = 'learn_flutter';
+  final String cloudName = dotenv.env['CLOUDINARY_CLOUD_NAME'] ?? '';
+  final String uploadPreset =
+      dotenv.env['CLOUDINARY_UPLOAD_PRESET'] ?? '';
 
   Uri get uploadUrl;
 
-  Future<String> upload(Uint8List fileBytes, [String? fileName]) async {
+  Future<String> upload(
+    Uint8List fileBytes, [
+    String? fileName,
+  ]) async {
     // Prepare the data for the request
-    final request = http.MultipartRequest("POST", uploadUrl)
-      ..fields['upload_preset'] = uploadPreset;
+    final formData = FormData.fromMap({
+      'upload_preset': uploadPreset,
+      'file': MultipartFile.fromBytes(fileBytes, filename: fileName),
+    });
 
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        'file',
-        fileBytes.toList(),
-        filename: fileName,
-      ),
-    );
+    final dio = Dio()..addLogger();
 
     // Send the request
-    final response = await http.Response.fromStream(
-      await request.send(),
+    final response = await dio.post(
+      uploadUrl.toString(),
+      data: formData,
     );
 
+    dio.close();
+
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['secure_url']; // The URL of the uploaded image
+      return response
+          .data['secure_url']; // The URL of the uploaded file
     } else {
-      throw Exception("Failed to upload image: ${response.body}");
+      throw Exception("Failed to upload file: ${response.data}");
     }
   }
 }

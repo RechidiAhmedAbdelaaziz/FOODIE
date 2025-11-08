@@ -1,5 +1,8 @@
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/routing/app_route.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
 import 'package:app/core/shared/widgets/app_button.dart';
 import 'package:app/core/shared/widgets/app_loading_widget.dart';
 import 'package:app/core/shared/widgets/app_text_field.dart';
@@ -14,6 +17,13 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 part 'widget/verify_code_form.dart';
 
+class VerifyCodeParams extends RouteParams {
+  final String login;
+
+  VerifyCodeParams({required this.login})
+    : super(queryParams: {"login": login});
+}
+
 class VerifyCodeScreen extends StatelessWidget {
   const VerifyCodeScreen({super.key});
 
@@ -26,7 +36,7 @@ class VerifyCodeScreen extends StatelessWidget {
     return BlocListener<VerifyCodeCubit, VerifyCodeState>(
       listener: (context, state) {
         state.onError(context.showErrorSnackbar);
-        //TODO onSuccess go to next screen
+        state.onSuccess(() => context.offAll(AppRoutes.home, null));
       },
       child: Scaffold(
         body: isLoading

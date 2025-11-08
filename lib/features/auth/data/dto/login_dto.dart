@@ -1,3 +1,5 @@
+import 'package:app/core/extensions/map_extension.dart';
+import 'package:app/core/flavors/flavors.dart';
 import 'package:app/core/shared/dto/form_dto.dart';
 import 'package:app/core/shared/editioncontollers/boolean_editigcontroller.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +10,9 @@ class LoginDTO with FormDTO {
   final TextEditingController phoneController =
       TextEditingController();
 
+  final TextEditingController nameController =
+      TextEditingController();
+
   final BooleanEditingController loginWithEmailController =
       BooleanEditingController(false);
 
@@ -15,6 +20,7 @@ class LoginDTO with FormDTO {
   void dispose() {
     emailController.dispose();
     phoneController.dispose();
+    nameController.dispose();
   }
 
   String get login => loginWithEmailController.value
@@ -24,11 +30,15 @@ class LoginDTO with FormDTO {
   @override
   Map<String, dynamic> toMap() {
     return {
+      // Send only one
       if (loginWithEmailController.value)
-        'email': emailController.text,
+        'login': emailController.text,
 
       if (!loginWithEmailController.value)
-        'phone': phoneController.text,
-    };
+        'login': phoneController.text,
+
+      'role': F.appFlavor.role,
+      'name': nameController.text,
+    }.withoutNullsOrEmpty();
   }
 }

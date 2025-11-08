@@ -1,0 +1,317 @@
+import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/snackbar.extension.dart';
+import 'package:app/core/localization/localization_extension.dart';
+import 'package:app/core/routing/app_route.dart';
+import 'package:app/core/routing/router.dart';
+import 'package:app/core/routing/routing_extension.dart';
+import 'package:app/core/services/filepicker/file_picker_service.dart';
+import 'package:app/core/shared/editioncontollers/list_generic_editingcontroller.dart';
+import 'package:app/core/shared/widgets/app_button.dart';
+import 'package:app/core/shared/widgets/app_text_field.dart';
+import 'package:app/core/shared/widgets/image_field.dart';
+import 'package:app/core/themes/colors.dart';
+import 'package:app/core/themes/dimensions.dart';
+import 'package:app/core/themes/font_styles.dart';
+import 'package:app/features/food/data/dto/food_dto.dart';
+import 'package:app/features/food/data/model/food_model.dart';
+import 'package:app/features/food/modules/foodcategory/ui/food_category_field.dart';
+import 'package:app/features/food/modules/foodform/logic/food_form_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
+
+class UpdateFoodFormParams extends RouteParams {
+  UpdateFoodFormParams(FoodModel food)
+    : super(pathParams: {'id': food.id!});
+}
+
+class FoodFormScreen extends StatelessWidget {
+  const FoodFormScreen({super.key});
+
+  static List<RouteBase> get routes => [
+    GoRoute(
+      path: AppRoutes.createFood.path,
+      builder: (context, state) => BlocProvider(
+        create: (context) => FoodFormCubit()..init(),
+        child: const FoodFormScreen(),
+      ),
+    ),
+
+    GoRoute(
+      path: AppRoutes.updateFood.path,
+      builder: (context, state) {
+        final foodId = state.pathParameters['id']!;
+        return BlocProvider(
+          create: (context) => FoodFormCubit()..init(foodId),
+          child: const FoodFormScreen(),
+        );
+      },
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<FoodFormCubit, FoodFormState>(
+      listener: (context, state) {
+        state.onError(context.showErrorSnackbar);
+        state.onSuccess(context.back);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Menu management'.tr(context)),
+          leading: IconButton(
+            onPressed: context.back,
+            icon: const Icon(Symbols.arrow_back),
+          ),
+        ),
+
+        body: Builder(
+          builder: (context) {
+            final isLoading = context.select(
+              (FoodFormCubit cubit) => cubit.state.isLoading,
+            );
+
+            return isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.green,
+                    ),
+                  )
+                : Builder(
+                    builder: (context) {
+                      final dto = context.read<FoodFormCubit>().dto;
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                          ),
+                          child: Form(
+                            key: dto.formKey,
+                            child: Column(
+                              spacing: 12.h,
+                              children: [
+                                AppFileField(
+                                  controller: dto.imageController,
+                                  height: 100.h,
+                                  width: 100.w,
+                                  borderRadius: 12.r,
+                                  isRequired: true,
+                                  errorText: 'Image is required'.tr(
+                                    context,
+                                  ),
+                                  picker: locator<ImageFilePicker>(),
+                                ),
+
+                                AppTextField(
+                                  controller: dto.nameController,
+                                  label: 'Product name'.tr(context),
+                                  isRequired: true,
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Name is required'.tr(context)
+                                      : null,
+                                ),
+
+                                AppTextField(
+                                  controller:
+                                      dto.descriptionController,
+                                  label: 'Description'.tr(context),
+                                  isRequired: true,
+                                  keyboardType:
+                                      TextInputType.multiline,
+                                  validator: (value) =>
+                                      value?.isEmpty == true
+                                      ? 'Description is required'.tr(
+                                          context,
+                                        )
+                                      : null,
+                                ),
+
+                                AppTextField(
+                                  controller: dto.priceController,
+                                  label: 'Price'.tr(context),
+                                  isRequired: true,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    final price = int.tryParse(
+                                      value ?? '',
+                                    );
+                                    return price == null || price <= 0
+                                        ? 'Price must be a positive number'
+                                              .tr(context)
+                                        : null;
+                                  },
+                                ),
+
+                                AppTextField(
+                                  controller: dto.quantityController,
+                                  label: 'Quantity'.tr(context),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    //quantity is optional, but if provided, it must be a positive number
+                                    if (value?.isEmpty == true) {
+                                      return null;
+                                    }
+                                    final quantity = int.tryParse(
+                                      value ?? '',
+                                    );
+                                    return quantity == null ||
+                                            quantity <= 0
+                                        ? 'Quantity must be a positive number'
+                                              .tr(context)
+                                        : null;
+                                  },
+                                ),
+
+                                FoodCategoryField(
+                                  dto.categoryController,
+                                ),
+
+                                ValueListenableBuilder(
+                                  valueListenable:
+                                      dto.addOnsController,
+                                  builder: (context, addOnsDto, child) {
+                                    return Column(
+                                      spacing: 4.h,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional
+                                                  .centerStart,
+                                          child: Text(
+                                            'Add-Ons'.tr(context),
+                                            style: AppTextStyles
+                                                .medium
+                                                .copyWith(
+                                                  color:
+                                                      AppColors.white,
+                                                ),
+                                          ),
+                                        ),
+
+                                        ListView.separated(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: addOnsDto.length,
+                                          itemBuilder:
+                                              (context, index) {
+                                                final addOn =
+                                                    addOnsDto[index];
+                                                return _AddOnsField(
+                                                  addOn,
+                                                  dto.addOnsController,
+                                                );
+                                              },
+                                          separatorBuilder:
+                                              (context, index) =>
+                                                  heightSpace(8.h),
+                                        ),
+
+                                        IconButton(
+                                          onPressed: () {
+                                            dto.addOnsController
+                                                .addValue(
+                                                  AddOnsDTO(),
+                                                );
+                                          },
+                                          icon: const Icon(
+                                            Symbols
+                                                .add_circle_outline,
+                                          ),
+                                          color: AppColors.green,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                                heightSpace(24),
+
+                                AppButton.primary(
+                                  text: 'Save',
+                                  onPressed: context
+                                      .read<FoodFormCubit>()
+                                      .save,
+                                ),
+
+                                heightSpace(
+                                  MediaQuery.of(
+                                        context,
+                                      ).viewInsets.bottom +
+                                      16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _AddOnsField extends StatelessWidget {
+  final AddOnsDTO dto;
+  final ListEditingController<AddOnsDTO> addOnsController;
+
+  const _AddOnsField(this.dto, this.addOnsController);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 4.w,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 2,
+          child: AppTextField(
+            controller: dto.nameController,
+            hintText: 'Add-on name'.tr(context),
+            isRequired: true,
+            keyboardType: TextInputType.text,
+            validator: (value) => value?.isEmpty == true
+                ? 'Name is required'.tr(context)
+                : null,
+          ),
+        ),
+
+        Expanded(
+          child: AppTextField(
+            controller: dto.priceController,
+            hintText: 'Price'.tr(context),
+            isRequired: true,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            validator: (value) {
+              final price = int.tryParse(value ?? '');
+              return price == null || price < 0
+                  ? 'Price must be a positive number'.tr(context)
+                  : null;
+            },
+          ),
+        ),
+
+        InkWell(
+          onTap: () => addOnsController.removeValue(dto),
+          child: const Icon(Symbols.delete, color: AppColors.red),
+        ),
+      ],
+    );
+  }
+}

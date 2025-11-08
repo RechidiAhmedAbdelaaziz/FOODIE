@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -18,6 +20,8 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => sharedpref);
   locator.registerLazySingleton(() => FlutterSecureStorage());
 
+  //DOTENV
+  await dotenv.load(fileName: kDebugMode ?  ".env.dev":".env" );
 
   locator.allowReassignment = true;
 }

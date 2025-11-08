@@ -1,15 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-extension RoutingExtension on BuildContext {
-  void pushWith<TResult>(
-    String route, {
-    required void Function(TResult result) onResult,
-    void Function()? onError,
-  }) async {
-    final result = await push<TResult>(route);
+import 'app_route.dart';
+import 'router.dart';
 
+extension RoutingExtension on BuildContext {
+  String _getPath(AppRoutes route, RouteParams? params) {
+    return params == null ? route.path : params.getPath(route.path);
+  }
+
+  void toWidget<T extends Widget>(T widget) {
+    Navigator.of(
+      this,
+    ).push(MaterialPageRoute<T>(builder: (context) => widget));
+  }
+
+  void toWidgetWith<T extends Widget, TResutl>(
+    T widget, {
+    required ValueChanged<TResutl> onResult,
+    VoidCallback? onError,
+  }) async {
+    final result = await Navigator.of(
+      this,
+    ).push<TResutl>(MaterialPageRoute<TResutl>(builder: (context) => widget));
     result != null ? onResult(result) : onError?.call();
+  }
+
+  void to<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
+    T route,
+    D params,
+  ) => push<TResutl>(_getPath(route, params));
+
+  void
+  toWith<D extends RouteParams?, T extends AppRoutes<D>, TResutl>(
+    T route,
+    D params, {
+    required ValueChanged<TResutl> onResult,
+    VoidCallback? onError,
+  }) async {
+    final result = await push<TResutl>(_getPath(route, params));
+    result != null ? onResult(result) : onError?.call();
+  }
+
+  void off<D extends RouteParams?, T extends AppRoutes<D>>(
+    T route,
+    D params,
+  ) {
+    pushReplacement(_getPath(route, params));
+  }
+
+  void offAll<D extends RouteParams?, T extends AppRoutes<D>>(
+    T route,
+    D params,
+  ) {
+    go(_getPath(route, params));
   }
 
   void back<T>([T? result]) => Navigator.of(this).pop(result);

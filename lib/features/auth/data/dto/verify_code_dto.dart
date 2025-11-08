@@ -14,6 +14,6 @@ class VerifyCodeDTO with FormDTO {
   @override
   Map<String, dynamic> toMap() => {
     'login': login,
-    'code': codeController.text,
+    'otp': codeController.text,
   };
 }

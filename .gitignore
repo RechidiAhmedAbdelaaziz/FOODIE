@@ -49,3 +49,7 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 gen/
+
+# ENV files
+# .env
+# .env.dev

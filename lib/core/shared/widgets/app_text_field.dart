@@ -16,6 +16,8 @@ class AppTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final IconData? suffixIcon;
 
+  final Widget? suffixWidget;
+
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter> inputFormatters;
@@ -33,8 +35,10 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.keyboardType,
     this.textInputAction,
+    this.suffixWidget,
     this.validator,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +60,17 @@ class AppTextField extends StatelessWidget {
               textInputAction: textInputAction,
               inputFormatters: inputFormatters,
 
+              maxLines: keyboardType == TextInputType.multiline
+                  ? null
+                  : 1,
+
               style: AppTextStyles.normal.copyWith(
                 color: AppColors.white,
               ),
 
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                  // horizontal: 4.w,
+                  horizontal: 12.w,
                   vertical: 16.h,
                 ),
 
@@ -87,7 +95,7 @@ class AppTextField extends StatelessWidget {
                     : null,
                 suffixIcon: suffixIcon != null
                     ? Icon(suffixIcon, color: AppColors.white)
-                    : null,
+                    : suffixWidget,
 
                 error: state.hasError
                     ? FormFieldError(state.errorText!.tr(context))

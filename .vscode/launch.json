@@ -2,25 +2,51 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "CLIENT",
+			"name": "CLIENT DEV",
 			"request": "launch",
 			"type": "dart",
 			"program": "lib/main.dart",
 			"args": ["--flavor", "client"]
 		},
 		{
-			"name": "OWNER",
+			"name": "CLIENT PROD",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "client", "--release"]
+			// flutter build apk --flavor client --release
+		},
+
+		{
+			"name": "OWNER DEV",
 			"request": "launch",
 			"type": "dart",
 			"program": "lib/main.dart",
 			"args": ["--flavor", "owner"]
 		},
 		{
-			"name": "SERVER",
+			"name": "OWNER PROD",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "owner", "--release"]
+			// flutter build apk --flavor owner --release
+		},
+
+		{
+			"name": "SERVER DEV",
 			"request": "launch",
 			"type": "dart",
 			"program": "lib/main.dart",
 			"args": ["--flavor", "server"]
+		},
+		{
+			"name": "SERVER PROD",
+			"request": "launch",
+			"type": "dart",
+			"program": "lib/main.dart",
+			"args": ["--flavor", "server", "--release"]
+			// flutter build apk --flavor server --release
 		}
 	]
 }

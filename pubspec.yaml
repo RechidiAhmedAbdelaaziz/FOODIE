@@ -54,10 +54,22 @@ dependencies:
     image_picker: ^1.1.2
     video_player: ^2.9.5
     http: ^1.4.0
-    file_picker: ^10.1.9
+    file_picker: ^10.2.0
     material_symbols_icons: ^4.2815.1
     retrofit: ^4.4.2
     flutter_svg: ^2.1.0
+    flutter_dotenv: ^5.2.1
+    dropdown_search: ^6.0.2
+    socket_io_client: ^3.1.2
+    url_launcher: ^6.3.1
+    qr_flutter: ^4.1.0
+    pdf: ^3.11.3
+    path_provider: ^2.1.5
+    qr_code_scanner_plus: ^2.0.10+1
+    geolocator: ^14.0.1
+    audioplayers: ^6.5.0
+    flutter_staggered_grid_view: ^0.7.0
+    window_size: ^0.1.0
 
 dev_dependencies:
     flutter_test:
@@ -78,7 +90,14 @@ dev_dependencies:
     flutter_gen_runner: ^5.10.0
     change_app_package_name: ^1.5.0
     retrofit_generator: ^9.2.0
-    
+    go_router_builder: ^2.9.0
+
+
+flutter_launcher_icons:
+    windows:
+      generate: true
+      image_path: "assets/logo/logo-owner.png"
+      icon_size: 48 # min:48, max:256, default: 48
 
 
 # For information on the generic Dart part of this file, see the
@@ -95,6 +114,11 @@ flutter:
     assets:
         - assets/lang/
         - assets/svg/
+        - assets/images/
+        - assets/sounds/
+        - assets/logo/logo.png
+        - .env
+        - .env.dev
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/to/resolution-aware-images
@@ -111,6 +135,7 @@ flutter:
         - family: IconsFont
           fonts:
               - asset: assets/fonts/Icons.ttf
+
         - family: Poppins
           fonts:
               - asset: assets/fonts/Poppins/Poppins-Light.ttf
@@ -125,6 +150,10 @@ flutter:
                 weight: 700
               - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
                 weight: 800
+
+        - family: NotoSansArabic
+          fonts:
+              - asset: assets/fonts/NotoSansArabic-VariableFont_wdth,wght.ttf
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/to/font-from-package

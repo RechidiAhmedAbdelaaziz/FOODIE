@@ -57,6 +57,9 @@ class _HomeBannersState extends State<HomeBanners> {
       child: Builder(
         builder: (context) {
           final banners = context.watch<BannersCubit>().state.banners;
+
+          if (banners.isEmpty) return SizedBox.shrink();
+
           return Stack(
             alignment: Alignment.bottomCenter,
             children: [

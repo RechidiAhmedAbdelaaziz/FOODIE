@@ -12,7 +12,7 @@ mixin FormDTO {
   Map<String, dynamic> toMap();
 }
 
-mixin AsyncFormDto {
+mixin AsyncFormDTO {
   final formKey = GlobalKey<FormState>();
 
   bool get isValid => formKey.currentState?.validate() ?? false;

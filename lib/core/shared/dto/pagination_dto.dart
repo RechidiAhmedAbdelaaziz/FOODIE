@@ -31,6 +31,10 @@ class PaginationDto with FormDTO {
     sortController.dispose();
   }
 
+  void nextPage() => pageController.value++;
+
+  void firstPage() => pageController.value = 1;
+
   @override
   Map<String, dynamic> toMap() => {
     'page': pageController.value,
