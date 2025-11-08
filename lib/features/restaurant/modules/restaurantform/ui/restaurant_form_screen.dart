@@ -1,5 +1,6 @@
 import 'package:app/core/constants/data.dart';
 import 'package:app/core/di/locator.dart';
+import 'package:app/core/extensions/list_extenstion.dart';
 import 'package:app/core/extensions/snackbar.extension.dart';
 import 'package:app/core/localization/localization_extension.dart';
 import 'package:app/core/routing/router.dart';
@@ -115,7 +116,9 @@ class RestaurantFormScreen extends StatelessWidget {
                                 AppMultiDropDownField(
                                   controller: dto.categoryController,
                                   itemsBuilder: (_) =>
-                                      AppData.restaurantTypes,
+                                      AppData.serviceTypes.withoutAll(
+                                        AppData.privateServiceTypes,
+                                      ),
                                   hintText: 'Select restaurant type',
                                   itemToString: (value) =>
                                       value.tr(context),

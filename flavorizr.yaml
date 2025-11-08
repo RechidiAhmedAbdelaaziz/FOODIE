@@ -1,7 +1,7 @@
 flavors:
     client:
         app:
-            name: "DZ-net"
+            name: "DZ-NAT"
             icon: "assets/logo/logo.png"
 
         android:
@@ -9,7 +9,7 @@ flavors:
 
     owner:
         app:
-            name: "DZ-net OWNER"
+            name: "DZ-NAT OWNER"
             icon: "assets/logo/logo-owner.png"
 
         android:
@@ -17,7 +17,7 @@ flavors:
 
     server:
         app:
-            name: "DZ-net SERVER"
+            name: "DZ-NAT SERVER"
             icon: "assets/logo/logo-server.png"
 
         android:

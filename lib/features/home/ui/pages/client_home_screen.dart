@@ -15,7 +15,6 @@ import 'package:app/features/restaurant/modules/restaurants/ui/restaurants_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ClientHomeScreen extends StatelessWidget {
@@ -81,9 +80,9 @@ class ClientHomeScreen extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 12.h,
         crossAxisSpacing: 8.w,
-        children: AppData.restaurantTypes.map((type) {
+        children: AppData.serviceTypes.map((type) {
           final image =
-              'assets/svg/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.svg';
+              'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
 
           return _buildCategoryItem(image, type, context);
         }).toList(),
@@ -92,7 +91,7 @@ class ClientHomeScreen extends StatelessWidget {
   }
 
   Widget _buildCategoryItem(
-    String svgPath,
+    String path,
     String type,
     BuildContext coontet,
   ) {
@@ -103,17 +102,20 @@ class ClientHomeScreen extends StatelessWidget {
       ),
       child: Container(
         width: 150.w,
-        padding: EdgeInsets.symmetric(
-          vertical: 16.h,
-          horizontal: 4.w,
-        ),
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         decoration: BoxDecoration(
-          color: AppColors.greenLight.withAlpha(200),
+          color: AppColors.greenLight.withAlpha(150),
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
           children: [
-            SvgPicture.asset(svgPath, width: 64.w, height: 64.h),
+            Image.asset(
+              path,
+
+              // width: 120.w,
+              // height: 64.h,
+              fit: BoxFit.cover,
+            ),
             heightSpace(8),
             Text(
               type.tr(coontet),

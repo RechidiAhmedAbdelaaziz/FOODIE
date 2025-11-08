@@ -38,7 +38,7 @@ class RestaurantDTO with AsyncFormDTO {
       ),
       nameController = TextEditingController(text: _restaurant.name),
       categoryController = ListEditingController(
-        _restaurant.categories ?? [AppData.restaurantTypes.first],
+        _restaurant.categories ?? [AppData.serviceTypes.first],
       ),
       descriptionController = TextEditingController(
         text: _restaurant.description,

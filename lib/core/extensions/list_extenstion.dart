@@ -44,4 +44,14 @@ extension ListExtension<T> on List<T> {
   }
 
   List<T> without(T item) => where((e) => e != item).toList();
+
+  List<T> withoutAll(List<T> items) {
+    final list = List<T>.from(this);
+
+    for (var item in items) {
+      list.remove(item);
+    }
+
+    return list;
+  }
 }
