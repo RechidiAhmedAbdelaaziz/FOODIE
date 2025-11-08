@@ -9,7 +9,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_thermal_printer
   geolocator_windows
   url_launcher_windows
-  window_size
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

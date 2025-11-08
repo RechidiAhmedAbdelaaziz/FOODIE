@@ -1490,14 +1490,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  universal_ble:
-    dependency: transitive
-    description:
-      name: universal_ble
-      sha256: "6a5c6c1fb295015934a5aef3dc751ae7e00721535275f8478bfe74db77b238c5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.21.1"
   universal_io:
     dependency: transitive
     description:
