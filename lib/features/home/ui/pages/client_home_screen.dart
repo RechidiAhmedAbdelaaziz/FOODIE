@@ -71,7 +71,6 @@ class ClientHomeScreen extends StatelessWidget {
         mainAxisSpacing: 12.h,
         crossAxisSpacing: 8.w,
         children: AppData.serviceTypes.map((type) {
-        children: AppData.serviceTypes.map((type) {
           final image =
               'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
               'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
@@ -92,7 +91,6 @@ class ClientHomeScreen extends StatelessWidget {
           coontet.to(AppRoutes.restaurants, RestaurantFilterParams(type: type)),
       child: Container(
         width: 150.w,
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         decoration: BoxDecoration(
           color: AppColors.greenLight.withAlpha(150),
