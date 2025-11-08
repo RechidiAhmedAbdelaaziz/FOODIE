@@ -57,10 +57,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 20.w,
-          vertical: 8.h,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         child: Column(
           spacing: 8.h,
           children: [
@@ -79,8 +76,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () =>
-                          context.to(AppRoutes.history, null),
+                      onPressed: () => context.to(AppRoutes.history, null),
                       child: Text(
                         'See History'.tr(context),
                         style: AppTextStyles.normal.copyWith(
@@ -94,10 +90,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                 Row(
                   spacing: 12.w,
                   children: [_todayHistory, _staffTodayEarn]
-                      .map(
-                        (widget) =>
-                            Expanded(child: widget ?? SizedBox()),
-                      )
+                      .map((widget) => Expanded(child: widget ?? SizedBox()))
                       .toList(),
                 ),
               ],
@@ -108,7 +101,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             _buildButton(
               context,
               Symbols.restaurant,
-              'Restaurant Management',
+              'Store Management',
               () => context.to(AppRoutes.updateRestaurant, null),
             ),
 
@@ -157,12 +150,8 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.green,
-        onPressed: () =>
-            context.to(AppRoutes.foodPriceCalculator, null),
-        child: const Icon(
-          Symbols.receipt_long,
-          color: AppColors.blue,
-        ),
+        onPressed: () => context.to(AppRoutes.foodPriceCalculator, null),
+        child: const Icon(Symbols.receipt_long, color: AppColors.blue),
       ),
     );
   }
@@ -189,17 +178,11 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             Expanded(
               child: Text(
                 title.tr(context),
-                style: AppTextStyles.medium.copyWith(
-                  color: AppColors.white,
-                ),
+                style: AppTextStyles.medium.copyWith(color: AppColors.white),
               ),
             ),
 
-            Icon(
-              Symbols.arrow_forward_ios,
-              color: AppColors.white,
-              size: 20.r,
-            ),
+            Icon(Symbols.arrow_forward_ios, color: AppColors.white, size: 20.r),
           ],
         ),
       ),

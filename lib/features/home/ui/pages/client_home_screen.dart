@@ -28,10 +28,7 @@ class ClientHomeScreen extends StatelessWidget {
         title: AppLogo(),
         actions: [
           IconButton(
-            icon: const Icon(
-              Symbols.qr_code_scanner,
-              color: AppColors.green,
-            ),
+            icon: const Icon(Symbols.qr_code_scanner, color: AppColors.green),
             onPressed: () async {
               final qrService = locator<QrService>();
               final result = await qrService.scanQrCode(context);
@@ -39,9 +36,7 @@ class ClientHomeScreen extends StatelessWidget {
                 // ignore: use_build_context_synchronously
                 context.to(
                   AppRoutes.tableFoodMenu,
-                  RestaurantMenuParams(
-                    result['tableId'] as String? ?? '',
-                  ),
+                  RestaurantMenuParams(result['tableId'] as String? ?? ''),
                 );
               }
             },
@@ -49,10 +44,7 @@ class ClientHomeScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 8.h,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Column(
           spacing: 16.h,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,9 +54,7 @@ class ClientHomeScreen extends StatelessWidget {
 
             Text(
               'Categories'.tr(context),
-              style: AppTextStyles.medium.copyWith(
-                color: AppColors.white,
-              ),
+              style: AppTextStyles.medium.copyWith(color: AppColors.white),
             ),
 
             Expanded(child: _buildCategoryList(context)),
@@ -81,7 +71,9 @@ class ClientHomeScreen extends StatelessWidget {
         mainAxisSpacing: 12.h,
         crossAxisSpacing: 8.w,
         children: AppData.serviceTypes.map((type) {
+        children: AppData.serviceTypes.map((type) {
           final image =
+              'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
               'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
 
           return _buildCategoryItem(image, type, context);
@@ -96,12 +88,11 @@ class ClientHomeScreen extends StatelessWidget {
     BuildContext coontet,
   ) {
     return GestureDetector(
-      onTap: () => coontet.to(
-        AppRoutes.restaurants,
-        RestaurantFilterParams(type: type),
-      ),
+      onTap: () =>
+          coontet.to(AppRoutes.restaurants, RestaurantFilterParams(type: type)),
       child: Container(
         width: 150.w,
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         decoration: BoxDecoration(
           color: AppColors.greenLight.withAlpha(150),
@@ -119,9 +110,7 @@ class ClientHomeScreen extends StatelessWidget {
             heightSpace(8),
             Text(
               type.tr(coontet),
-              style: AppTextStyles.large.copyWith(
-                color: AppColors.blue,
-              ),
+              style: AppTextStyles.medium.copyWith(color: AppColors.blue),
               textAlign: TextAlign.center,
             ),
           ],

@@ -46,7 +46,7 @@ class TableFormState<TDto extends FormDTO> with CubitErrorHandling {
   }
 
   TableFormState<TDto> _success(TableModel table) {
-    return _SuccessState(table, this._dto);
+    return _SuccessState(table, _dto);
   }
 
   TableFormState<TDto> _error(String message) {
