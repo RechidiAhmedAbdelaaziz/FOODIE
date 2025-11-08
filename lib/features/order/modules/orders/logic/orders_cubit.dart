@@ -4,6 +4,7 @@ import 'package:app/core/shared/types/cubit_error_state.dart';
 import 'package:app/features/order/data/dto/update_order_dto.dart';
 import 'package:app/features/order/data/model/order_model.dart';
 import 'package:app/features/order/data/repository/order_repository.dart';
+import 'package:app/features/order/helpers/order_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +42,10 @@ class OrdersCubit extends Cubit<OrdersState> {
   // init listen to socket
   void _initSocketListeners() {
     _repo.connectSocket();
-    _repo.onNewOrder((order) => emit(state._add(order)));
+    _repo.onNewOrder((order) {
+      emit(state._add(order));
+      locator<OrderPrinter>().printOrder(order);
+    });
     _repo.onOrderUpdated((order) {
       order.isDelivered == true && order.isPaid == true
           ? emit(state._remove(order))

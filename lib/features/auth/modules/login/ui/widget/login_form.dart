@@ -17,7 +17,10 @@ class _LoginForm extends StatelessWidget {
             Assets.logo.logo.image(
               width: 190.w,
               height: 235.h,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
+
+              //backgroundColor
+              // color: AppColors.blue,
             ),
 
             SvgPicture.asset(

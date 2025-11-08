@@ -73,6 +73,7 @@ class ClientHomeScreen extends StatelessWidget {
         children: AppData.serviceTypes.map((type) {
           final image =
               'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
+              'assets/images/${type.toLowerCase().replaceAll('24/7', '').trim().replaceAll(' ', '_')}.png';
 
           return _buildCategoryItem(image, type, context);
         }).toList(),
@@ -80,7 +81,11 @@ class ClientHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(String path, String type, BuildContext coontet) {
+  Widget _buildCategoryItem(
+    String path,
+    String type,
+    BuildContext coontet,
+  ) {
     return GestureDetector(
       onTap: () =>
           coontet.to(AppRoutes.restaurants, RestaurantFilterParams(type: type)),
@@ -88,22 +93,17 @@ class ClientHomeScreen extends StatelessWidget {
         width: 150.w,
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 4.w),
         decoration: BoxDecoration(
-          color: AppColors.greenLight.withAlpha(200),
+          color: AppColors.greenLight.withAlpha(150),
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 140.h,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12.r),
-                image: DecorationImage(
-                  image: AssetImage(path),
-                  fit: BoxFit.cover,
-                ),
-              ),
+            Image.asset(
+              path,
+
+              // width: 120.w,
+              // height: 64.h,
+              fit: BoxFit.cover,
             ),
             heightSpace(8),
             Text(

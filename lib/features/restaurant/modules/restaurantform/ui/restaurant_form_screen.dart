@@ -104,8 +104,10 @@ class RestaurantFormScreen extends StatelessWidget {
 
                                 AppMultiDropDownField(
                                   controller: dto.categoryController,
-                                  itemsBuilder: (_) => AppData.serviceTypes
-                                      .withoutAll(AppData.privateServiceTypes),
+                                  itemsBuilder: (_) =>
+                                      AppData.serviceTypes.withoutAll(
+                                        AppData.privateServiceTypes,
+                                      ),
                                   hintText: 'Select restaurant type',
                                   itemToString: (value) => value.tr(context),
                                 ),
